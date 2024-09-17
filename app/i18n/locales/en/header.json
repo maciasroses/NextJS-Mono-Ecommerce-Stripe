@@ -1,0 +1,5 @@
+{
+  "themeSelector": "{\"light\":\"Light\",\"dark\":\"Dark\",\"system\":\"System\"}",
+  "languageSelector": "{\"en\":\"English\",\"es\":\"Spanish\"}",
+  "profileMenu": "{\"dashboard\":\"Dashboard\",\"products\":\"Products\",\"orders\":\"Orders\",\"profile\":\"Profile\",\"settings\":\"Settings\",\"logout\":\"Logout\"}"
+}

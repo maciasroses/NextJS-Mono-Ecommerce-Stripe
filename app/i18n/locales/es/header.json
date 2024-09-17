@@ -1,0 +1,5 @@
+{
+  "themeSelector": "{\"light\":\"Claro\",\"dark\":\"Oscuro\",\"system\":\"Sistema\"}",
+  "languageSelector": "{\"en\":\"Inglés\",\"es\":\"Español\"}",
+  "profileMenu": "{\"dashboard\":\"Tablero\",\"products\":\"Productos\",\"orders\":\"Pedidos\",\"profile\":\"Perfil\",\"settings\":\"Configuración\",\"logout\":\"Cerrar sesión\"}"
+}
