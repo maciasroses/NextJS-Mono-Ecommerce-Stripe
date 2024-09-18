@@ -20,7 +20,7 @@ const MainSearch = ({ id, lng }: IMainSearch) => {
 
   const handleSearch = () => {
     if (query) {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams();
       params.set("q", query);
       push(`/${lng}/search?${params.toString()}`);
     } else {

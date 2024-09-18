@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import CartMenu from "./CartMenu";
+import { cn } from "@/app/utils/cn";
 import MainSearch from "./MainSearch";
 import ProfileMenu from "./ProfileMenu";
+import FiltersMenu from "./FiltersMenu";
 import LangSelector from "./LangSelector";
 import ThemeSelector from "./ThemeSelector";
 import { usePathname } from "next/navigation";
@@ -18,8 +20,8 @@ interface IHeader {
 const Header = ({ lng, user, products }: IHeader) => {
   const pathname = usePathname();
   return (
-    <header className="fixed z-30 top-0 w-full sm:h-20 bg-gray-50 dark:bg-gray-800">
-      <div className="h-full flex flex-col sm:flex-row items-center p-4 gap-4 max-w-[1440px] mx-auto">
+    <header className="fixed z-30 top-0 w-full md:h-20 bg-gray-50 dark:bg-gray-800">
+      <div className="h-full flex flex-col md:flex-row items-center p-4 gap-4 max-w-[1440px] mx-auto">
         <div className="w-full flex justify-between items-center gap-4">
           <Link href={`/${lng}`} className="text-4xl dark:text-white">
             LOGO
@@ -27,7 +29,7 @@ const Header = ({ lng, user, products }: IHeader) => {
           {pathname !== `/${lng}/login` &&
             pathname !== `/${lng}/signup` &&
             pathname !== `/${lng}/checkout` && (
-              <div className="w-full max-w-2xl hidden sm:block">
+              <div className="w-full max-w-2xl hidden md:block">
                 <MainSearch id="search-bar" lng={lng} />
               </div>
             )}
@@ -48,7 +50,7 @@ const Header = ({ lng, user, products }: IHeader) => {
                   pathname !== `/${lng}/checkout` && (
                     <Link
                       href={`/${lng}/login`}
-                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600 flex items-center"
+                      className="px-4 py-2 text-sm text-white bg-blue-700 rounded-md hover:bg-blue-800 flex items-center"
                     >
                       Ingresa
                     </Link>
@@ -60,8 +62,22 @@ const Header = ({ lng, user, products }: IHeader) => {
         {pathname !== `/${lng}/login` &&
           pathname !== `/${lng}/signup` &&
           pathname !== `/${lng}/checkout` && (
-            <div className="w-full block sm:hidden">
-              <MainSearch id="mobile-search-bar" lng={lng} />
+            <div
+              className={cn(
+                "w-full md:hidden",
+                pathname === `/${lng}/search` && "flex gap-2"
+              )}
+            >
+              <div
+                className={pathname !== `/${lng}/search` ? "w-full" : "w-[90%]"}
+              >
+                <MainSearch id="mobile-search-bar" lng={lng} />
+              </div>
+              {pathname === `/${lng}/search` && (
+                <div className="w-[10%]">
+                  <FiltersMenu />
+                </div>
+              )}
             </div>
           )}
       </div>

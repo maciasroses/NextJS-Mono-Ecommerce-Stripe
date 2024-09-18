@@ -2,6 +2,7 @@ import Hero from "./Hero";
 import Modal from "./Modal";
 import Action from "./Action";
 import Loading from "./Loading";
+import Filters from "./Filters";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Sidebar } from "./Sidebar";
@@ -18,6 +19,7 @@ import {
   CardSkeleton,
   ErrorCard,
   ProductCardSkeleton,
+  ProductSlugCard,
   ProductCard,
 } from "./Card";
 import { DatatableSkeleton, Datatable } from "./Datatable";
@@ -32,6 +34,7 @@ export {
   Sidebar,
   Card404,
   Loading,
+  Filters,
   ErrorCard,
   Datatable,
   Pagination,
@@ -47,6 +50,7 @@ export {
   AuthComponent,
   CartComponent,
   ThemeComponent,
+  ProductSlugCard,
   DatatableSkeleton,
   GenericSearchInput,
   ProductCardSkeleton,

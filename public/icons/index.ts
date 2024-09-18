@@ -9,6 +9,7 @@ import HomeIcon from "./Home";
 import DarkIcon from "./Dark";
 import UserIcon from "./User";
 import Search from "./Search";
+import Filters from "./Filters";
 import SadFace from "./SadFace";
 import TrashIcon from "./Trash";
 import LightIcon from "./Light";
@@ -29,6 +30,7 @@ export {
   Dollar,
   Search,
   SadFace,
+  Filters,
   HomeIcon,
   DarkIcon,
   UserIcon,

@@ -31,6 +31,7 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
   return (
     <>
       <button
+        aria-label="Cart"
         onClick={toggleCart}
         className={cn("relative", cart.length > 0 && "mr-2")}
       >
@@ -58,7 +59,9 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
           {cart.length === 0 ? (
             <div>
               <h2 className="text-xl font-semibold">Mi Carrito</h2>
-              <p className="text-gray-500">Tu carrito está vacío</p>
+              <p className="text-gray-500 dark:text-gray-200">
+                Tu carrito está vacío
+              </p>
             </div>
           ) : (
             <>

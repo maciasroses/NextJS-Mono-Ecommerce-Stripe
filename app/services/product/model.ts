@@ -70,20 +70,20 @@ export async function read({
     }
 
     if (category) {
-      where.category = { equals: category, mode: "insensitive" };
+      where.category = { equals: category };
     }
 
     if (priceFrom || priceTo) {
       where.priceInCents = {
-        gte: priceFrom,
-        lte: priceTo,
+        gte: priceFrom ? Number((priceFrom as number) * 100) : undefined,
+        lte: priceTo ? Number((priceTo as number) * 100) : undefined,
       };
     }
 
     if (quantityFrom || quantityTo) {
       where.quantity = {
-        gte: quantityFrom,
-        lte: quantityTo,
+        gte: quantityFrom ? Number(quantityFrom) : undefined,
+        lte: quantityTo ? Number(quantityTo) : undefined,
       };
     }
 
