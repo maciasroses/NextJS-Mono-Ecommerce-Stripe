@@ -19,10 +19,38 @@ model User {
   username String   @unique
   role     UserRole @default(USER)
 
-  orders Order[]
+  orders      Order[]
+  customLists CustomList[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model CustomList {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  user     User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  products CustomProductsList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, name])
+}
+
+model CustomProductsList {
+  customList   CustomList @relation(fields: [customListId], references: [id], onDelete: Cascade)
+  customListId String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([customListId, productId])
 }
 
 enum ProductCategory {
@@ -45,6 +73,7 @@ model Product {
 
   files                 ProductFile[]
   orders                ProductOnOrder[]
+  customProductsList    CustomProductsList[]
   inventoryTransactions InventoryTransaction[]
 
   createdAt DateTime @default(now())

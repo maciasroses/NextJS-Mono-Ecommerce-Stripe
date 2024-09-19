@@ -29,8 +29,11 @@ export async function read({
 }: IProductSearchParams) {
   const globalInclude = {
     files: true,
+    customProductsList: true,
     orders: isAdminRequest ? true : false,
+    inventoryTransactions: isAdminRequest ? true : false,
   };
+
   if (allData) {
     return await prisma.product.findMany({
       include: globalInclude,

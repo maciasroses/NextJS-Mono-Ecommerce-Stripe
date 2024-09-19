@@ -16,13 +16,28 @@ export async function create({
 }
 
 export async function read({ id, email }: { id?: string; email?: string }) {
+  const globalInclude = {
+    orders: true,
+    customLists: true,
+  };
+
   if (id) {
-    return await prisma.user.findUnique({ where: { id } });
+    return await prisma.user.findUnique({
+      where: { id },
+      include: globalInclude,
+    });
   }
+
   if (email) {
-    return await prisma.user.findUnique({ where: { email } });
+    return await prisma.user.findUnique({
+      where: { email },
+      include: globalInclude,
+    });
   }
-  return await prisma.user.findMany();
+
+  return await prisma.user.findMany({
+    include: globalInclude,
+  });
 }
 
 export async function update({

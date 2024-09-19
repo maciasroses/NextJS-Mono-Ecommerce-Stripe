@@ -12,11 +12,11 @@ const FiltersMenu = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <>
+    <div>
       <button
         aria-label="Filters"
         onClick={toggleMenu}
-        className="h-full flex justify-end items-center"
+        className="h-full flex items-center"
       >
         <FiltersIcon />
       </button>
@@ -43,7 +43,7 @@ const FiltersMenu = () => {
           onClick={toggleMenu}
         ></div>
       )}
-    </>
+    </div>
   );
 };
 

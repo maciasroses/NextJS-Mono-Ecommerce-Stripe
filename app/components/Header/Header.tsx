@@ -68,16 +68,10 @@ const Header = ({ lng, user, products }: IHeader) => {
                 pathname === `/${lng}/search` && "flex gap-2"
               )}
             >
-              <div
-                className={pathname !== `/${lng}/search` ? "w-full" : "w-[90%]"}
-              >
+              <div className="w-full">
                 <MainSearch id="mobile-search-bar" lng={lng} />
               </div>
-              {pathname === `/${lng}/search` && (
-                <div className="w-[10%]">
-                  <FiltersMenu />
-                </div>
-              )}
+              {pathname === `/${lng}/search` && <FiltersMenu />}
             </div>
           )}
       </div>

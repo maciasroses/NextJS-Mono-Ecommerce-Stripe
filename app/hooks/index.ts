@@ -1,3 +1,5 @@
+import useModal from "./useModal";
+import { useCart } from "./useCart";
 import { useAuth } from "./useAuth";
 import { useTheme } from "./useTheme";
 import { useRowSelection } from "./useRowSelection";
@@ -6,6 +8,8 @@ import { useResolvedTheme } from "./useResolvedTheme";
 
 export {
   useAuth,
+  useCart,
+  useModal,
   useTheme,
   useRowSelection,
   useSearchFilter,

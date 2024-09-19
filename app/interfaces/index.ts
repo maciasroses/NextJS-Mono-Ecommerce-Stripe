@@ -1,4 +1,6 @@
 import type {
+  CustomList,
+  CustomProductsList,
   InventoryTransaction,
   Order,
   Product,
@@ -9,11 +11,23 @@ import type {
 
 export interface IUser extends User {
   orders: IOrder[];
+  customLists: ICustomList[];
+}
+
+export interface ICustomList extends CustomList {
+  user: IUser;
+  products: ICustomProductsList[];
+}
+
+export interface ICustomProductsList extends CustomProductsList {
+  product: IProduct;
+  customList: ICustomList;
 }
 
 export interface IProduct extends Product {
   files: IProductFile[];
   orders: IProductOnOrder[];
+  customProductsList: ICustomProductsList[];
   inventoryTransactions: IInventoryTransaction[];
 }
 
