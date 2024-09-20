@@ -5,6 +5,7 @@ import Loading from "./Loading";
 import Filters from "./Filters";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import AddToCart from "./AddToCart";
 import { Sidebar } from "./Sidebar";
 import Pagination from "./Pagination";
 import RecentList from "./RecentList";
@@ -13,6 +14,7 @@ import AuthComponent from "./AuthComponent";
 import CartComponent from "./CartComponent";
 import MainSearch from "./Header/MainSearch";
 import ThemeComponent from "./ThemeComponent";
+import { AddCustomList } from "./CustomList";
 import { PieSkeleton, BarSkeleton } from "./Chart";
 import {
   Card404,
@@ -35,6 +37,7 @@ export {
   Card404,
   Loading,
   Filters,
+  AddToCart,
   ErrorCard,
   Datatable,
   Pagination,
@@ -48,6 +51,7 @@ export {
   GenericInput,
   SubmitButton,
   AuthComponent,
+  AddCustomList,
   CartComponent,
   ThemeComponent,
   ProductSlugCard,

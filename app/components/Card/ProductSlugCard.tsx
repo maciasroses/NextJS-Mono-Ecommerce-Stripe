@@ -2,22 +2,32 @@
 
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
+import AddCustomList from "../CustomList/AddCustomList";
 import { useCart, useModal } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Heart, LeftChevron, RightChevron, XMark } from "@/public/icons";
-import type { IProduct } from "@/app/interfaces";
+import { LeftChevron, RightChevron, XMark } from "@/public/icons";
+import type { ICustomList, IProduct } from "@/app/interfaces";
+import AddToCart from "../AddToCart";
 
 interface IProductSlugCard {
+  lng: string;
+  userId: string;
+  myLists: ICustomList[];
   product: IProduct;
   isFavorite: boolean;
 }
 
-const ProductSlugCard = ({ product, isFavorite }: IProductSlugCard) => {
+const ProductSlugCard = ({
+  lng,
+  userId,
+  product,
+  myLists,
+  isFavorite,
+}: IProductSlugCard) => {
   const zoomRef = useRef(null);
   const leftArrowRef = useRef(null);
   const rightArrowRef = useRef(null);
-  const { cart, addToCart } = useCart();
   const { isOpen, onOpen, onClose } = useModal();
   const [selectedImage, setSelectedImage] = useState("");
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
@@ -45,16 +55,6 @@ const ProductSlugCard = ({ product, isFavorite }: IProductSlugCard) => {
 
   const handleMouseLeave = () => {
     setZoomPosition({ x: 0, y: 0 });
-  };
-
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.slug,
-      name: product.name,
-      file: product.files[0].url,
-      price: product.priceInCents,
-      quantity: 1,
-    });
   };
 
   const handleNextImage = () => {
@@ -101,9 +101,6 @@ const ProductSlugCard = ({ product, isFavorite }: IProductSlugCard) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-
-  const currentQuantityProduct =
-    cart.find((item) => item.id === product.slug)?.quantity ?? 0;
 
   return (
     <>
@@ -174,14 +171,14 @@ const ProductSlugCard = ({ product, isFavorite }: IProductSlugCard) => {
               </div>
             ))}
           </div>
-          {selectedImage && (
-            <div
-              ref={zoomRef}
-              onClick={onOpen}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              className="w-full h-96 flex justify-center border border-gray-300 cursor-pointer md:cursor-zoom-in relative"
-            >
+          <div
+            ref={zoomRef}
+            onClick={onOpen}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="w-full h-96 flex justify-center border border-gray-300 cursor-pointer md:cursor-zoom-in relative"
+          >
+            {selectedImage && (
               <Image
                 priority
                 width={100}
@@ -190,24 +187,24 @@ const ProductSlugCard = ({ product, isFavorite }: IProductSlugCard) => {
                 src={selectedImage}
                 className="size-auto object-contain"
               />
-              <div
-                className="hidden md:block absolute border border-black bg-black opacity-40"
-                style={{
-                  width: "150px",
-                  height: "150px",
-                  left: `${zoomBoxPosition.x}px`,
-                  top: `${zoomBoxPosition.y}px`,
-                  visibility:
-                    zoomPosition.x === 0 && zoomPosition.y === 0
-                      ? "hidden"
-                      : "visible",
-                }}
-              ></div>
-            </div>
-          )}
+            )}
+            <div
+              className="hidden md:block absolute border border-black bg-black opacity-40"
+              style={{
+                width: "150px",
+                height: "150px",
+                left: `${zoomBoxPosition.x}px`,
+                top: `${zoomBoxPosition.y}px`,
+                visibility:
+                  zoomPosition.x === 0 && zoomPosition.y === 0
+                    ? "hidden"
+                    : "visible",
+              }}
+            ></div>
+          </div>
         </div>
         <div className="relative w-full md:w-2/3">
-          <div className="flex flex-col md:flex-row gap-2 justify-between">
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between items-start gap-2">
               <div className="flex flex-col md:gap-4">
                 <h1 className="text-2xl md:text-5xl lg:text-9xl font-bold">
@@ -220,34 +217,15 @@ const ProductSlugCard = ({ product, isFavorite }: IProductSlugCard) => {
                   {product.description}
                 </p>
               </div>
-              <button aria-label="Favorite button">
-                {isFavorite ? (
-                  <Heart isFilled size="size-10" />
-                ) : (
-                  <Heart size="size-10" />
-                )}
-              </button>
+              <AddCustomList
+                lng={lng}
+                userId={userId}
+                myLists={myLists}
+                productId={product.id}
+                isFavorite={isFavorite}
+              />
             </div>
-            <button
-              onClick={
-                currentQuantityProduct < product.maximumQuantityPerOrder &&
-                currentQuantityProduct < product.quantity
-                  ? handleAddToCart
-                  : () => {}
-              }
-              className={cn(
-                "text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:outline-none h-full",
-                currentQuantityProduct < product.maximumQuantityPerOrder &&
-                  currentQuantityProduct < product.quantity
-                  ? "bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
-                  : "bg-gray-300 cursor-not-allowed text-gray-600 dark:bg-gray-700 dark:text-gray-200"
-              )}
-            >
-              {currentQuantityProduct < product.maximumQuantityPerOrder &&
-              currentQuantityProduct < product.quantity
-                ? "Add to cart"
-                : "Max quantity reached"}
-            </button>
+            <AddToCart product={product} />
           </div>
           <div
             className="hidden md:block absolute top-0 right-0 size-full max-h-[600px] pointer-events-none"

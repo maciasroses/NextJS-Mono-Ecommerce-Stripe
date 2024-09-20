@@ -1,13 +1,21 @@
-import { IProduct } from "../interfaces";
 import { ProductCard } from "./Card";
+import type { ICustomList, IProduct } from "@/app/interfaces";
 
 interface IRecentList {
   lng: string;
+  userId: string;
+  myLists: ICustomList[];
   category: string;
   products: IProduct[];
 }
 
-const RecentList = ({ lng, category, products }: IRecentList) => {
+const RecentList = ({
+  lng,
+  userId,
+  myLists,
+  category,
+  products,
+}: IRecentList) => {
   const productsFilteredByCategory = products.filter(
     (product) => product.category === category.toUpperCase()
   );
@@ -20,6 +28,8 @@ const RecentList = ({ lng, category, products }: IRecentList) => {
           <ProductCard
             lng={lng}
             key={index}
+            userId={userId}
+            myLists={myLists}
             product={productsFilteredByCategory[index]}
           />
         ))}
