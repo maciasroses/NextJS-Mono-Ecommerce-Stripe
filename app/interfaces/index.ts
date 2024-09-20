@@ -83,6 +83,21 @@ export interface ILoginState {
   };
 }
 
+export interface ICustomListState {
+  message: string;
+  errors?: {
+    name?: string;
+  };
+}
+
+export interface IAddProductToCustomList {
+  message: string;
+  errors?: {
+    productId?: string;
+    customListId?: string;
+  }[];
+}
+
 export interface IProductSearchParams {
   q?: string;
   id?: string;

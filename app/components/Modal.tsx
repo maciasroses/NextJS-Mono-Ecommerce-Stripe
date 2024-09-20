@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "../utils/cn";
 import { XMark } from "@/public/icons";
 import { useCallback, useEffect, useRef } from "react";
 
@@ -7,9 +8,15 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  isForSideBar?: boolean;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  isForSideBar = true,
+}: ModalProps) => {
   const menuRef = useRef(null);
 
   const handleClickOutside = useCallback(
@@ -35,7 +42,13 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-75 sm:ml-48 mt-20 inset-0 z-50">
+    // <div className="fixed flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-75 sm:ml-48 mt-20 inset-0 z-50">
+    <div
+      className={cn(
+        "fixed flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-75 inset-0 z-50",
+        isForSideBar && "sm:ml-48"
+      )}
+    >
       <div
         className="relative bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg dark:shadow-gray-900 w-[80%] md:w-1/2 h-auto max-h-[80%] overflow-y-auto overflow-x-hidden"
         ref={menuRef}

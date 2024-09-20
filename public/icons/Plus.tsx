@@ -1,11 +1,11 @@
 import { cn } from "@/app/utils/cn";
 
-interface IPlusCircle {
+interface IPlus {
   size?: string;
   customClass?: string;
 }
 
-const PlusCircle = ({ size = "size-6", customClass = "" }: IPlusCircle) => {
+const Plus = ({ size = "size-6", customClass = "" }: IPlus) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,10 +18,10 @@ const PlusCircle = ({ size = "size-6", customClass = "" }: IPlusCircle) => {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        d="M12 4.5v15m7.5-7.5h-15"
       />
     </svg>
   );
 };
 
-export default PlusCircle;
+export default Plus;

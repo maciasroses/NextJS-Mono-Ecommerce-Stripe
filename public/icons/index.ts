@@ -1,4 +1,5 @@
 import XBox from "./XBox";
+import Plus from "./Plus";
 import XMark from "./XMark";
 import Heart from "./Heart";
 import MXFlag from "./MXFlag";
@@ -17,6 +18,8 @@ import LightIcon from "./Light";
 import SystemIcon from "./System";
 import PencilIcon from "./Pencil";
 import SmileFace from "./SmileFace";
+import LeftArrow from "./LeftArrow";
+import RightArrow from "./RightArrow";
 import PlusCircle from "./PlusCircle";
 import MinusCircle from "./MinusCircle";
 import ShoppingBag from "./ShoppingBag";
@@ -25,6 +28,7 @@ import RightChevron from "./RightChevron";
 
 export {
   XBox,
+  Plus,
   XMark,
   Heart,
   MXFlag,
@@ -41,6 +45,8 @@ export {
   SmileFace,
   TrashIcon,
   LightIcon,
+  LeftArrow,
+  RightArrow,
   SystemIcon,
   PencilIcon,
   PlusCircle,

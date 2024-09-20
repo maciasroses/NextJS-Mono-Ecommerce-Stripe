@@ -29,6 +29,7 @@ interface IReadNDeleteCustomList {
 }
 
 interface IReadNDeleteCustomProductsList {
+  userId?: string;
   productId?: string;
   customListId?: string;
 }
@@ -39,7 +40,16 @@ export async function readCustomList({
   userId,
 }: IReadNDeleteCustomList) {
   const globalInclude = {
-    products: true,
+    // products: true,
+    products: {
+      include: {
+        product: {
+          include: {
+            files: true,
+          },
+        },
+      },
+    },
   };
 
   if (id) {
@@ -150,9 +160,21 @@ export async function deleteCustomList({
 }
 
 export async function deleteCustomProductList({
+  userId,
   productId,
   customListId,
 }: IReadNDeleteCustomProductsList) {
+  if (userId && productId) {
+    return await prisma.customProductsList.deleteMany({
+      where: {
+        productId,
+        customList: {
+          userId,
+        },
+      },
+    });
+  }
+
   return await prisma.customProductsList.deleteMany({
     where: {
       productId,
