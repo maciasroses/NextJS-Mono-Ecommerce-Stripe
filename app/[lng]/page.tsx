@@ -16,22 +16,26 @@ export default async function Home({ params: { lng } }: IBaseLangPage) {
   const products = (await getAllProducts()) as IProduct[];
 
   return (
-    <div className="pt-40 sm:pt-24 px-4 pb-4 flex flex-col gap-4">
+    <section className="pt-40 md:pt-24 px-4 pb-4 flex flex-col gap-8">
       <Hero lng={lng} />
-      <RecentList
-        lng={lng}
-        userId={session?.userId as string}
-        myLists={myLists}
-        category="Electronics"
-        products={products}
-      />
-      <RecentList
-        lng={lng}
-        userId={session?.userId as string}
-        myLists={myLists}
-        category="Toys"
-        products={products}
-      />
-    </div>
+      <article>
+        <RecentList
+          lng={lng}
+          userId={session?.userId as string}
+          myLists={myLists}
+          category="Electronics"
+          products={products}
+        />
+      </article>
+      <article>
+        <RecentList
+          lng={lng}
+          userId={session?.userId as string}
+          myLists={myLists}
+          category="Toys"
+          products={products}
+        />
+      </article>
+    </section>
   );
 }

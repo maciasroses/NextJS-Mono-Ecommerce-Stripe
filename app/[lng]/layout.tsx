@@ -1,5 +1,7 @@
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import { dir } from "i18next";
+import { ToastContainer } from "react-toastify";
 import { languages } from "@/app/i18n/settings";
 import { getAllProducts } from "../services/product/controller";
 import { getSession, getUserById } from "@/app/services/user/controller";
@@ -50,6 +52,7 @@ export default async function RootLayout({
         <ThemeComponent>
           <CartComponent>
             <AuthComponent>
+              <ToastContainer />
               <Header user={user} lng={lng} products={products} />
               <main className="w-full min-h-screen max-w-[1440px] mx-auto">
                 {children}

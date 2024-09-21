@@ -38,7 +38,7 @@ const SearchPage = async ({ searchParams, params: { lng } }: ISearchPage) => {
   )) as IProductList;
 
   return (
-    <div className="pt-40 sm:pt-24 px-4 pb-4 flex md:gap-4">
+    <div className="pt-40 md:pt-24 px-4 pb-4 flex md:gap-4">
       <aside className="hidden md:block md:w-1/4 lg:w-1/5 z-20">
         <Filters />
       </aside>

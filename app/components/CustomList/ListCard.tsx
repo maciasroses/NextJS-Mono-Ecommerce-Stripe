@@ -6,6 +6,7 @@ interface IListCard {
 }
 
 const ListCard = ({ lng, customList }: IListCard) => {
+  console.log(lng, customList);
   return <div>ListCard</div>;
 };
 

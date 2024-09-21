@@ -1,7 +1,13 @@
 "use client";
 
+import Image from "next/image";
+import { Slide, toast } from "react-toastify";
+import { useResolvedTheme } from "@/app/hooks";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
+import DefaultPhoto from "@/public/photo.webp";
+import { Heart, LeftArrow, Plus } from "@/public/icons";
+import { GenericInput, SubmitButton } from "../Form";
 import {
   addProductToManyCustomLists,
   createNewCustomList,
@@ -11,19 +17,17 @@ import type {
   ICustomList,
   ICustomListState,
 } from "@/app/interfaces";
-import { LeftArrow, Plus } from "@/public/icons";
-import { GenericInput, SubmitButton } from "../Form";
-import Image from "next/image";
-import DefaultPhoto from "@/public/photo.webp";
 
 interface IForm {
   myLists: ICustomList[];
   productId: string;
+  handleClose: () => void;
 }
 
-const Form = ({ myLists, productId }: IForm) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const Form = ({ myLists, productId, handleClose }: IForm) => {
+  const theme = useResolvedTheme();
   const [newListForm, setNewListForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialState: ICustomListState = {
     message: "",
@@ -45,12 +49,26 @@ const Form = ({ myLists, productId }: IForm) => {
 
   useEffect(() => {
     if (error && error.message === "OK") {
-      window.location.reload();
+      toast.success("List created and product added to it successfully", {
+        transition: Slide,
+        hideProgressBar: true,
+        closeOnClick: true,
+        position: "bottom-right",
+        theme: theme === "dark" ? "dark" : "light",
+      });
+      handleClose();
     }
     if (addProductError && addProductError.message === "OK") {
-      window.location.reload();
+      toast.success("Product added to list(s)", {
+        transition: Slide,
+        hideProgressBar: true,
+        closeOnClick: true,
+        position: "bottom-right",
+        theme: theme === "dark" ? "dark" : "light",
+      });
+      handleClose();
     }
-  }, [error, addProductError]);
+  }, [error, addProductError, handleClose, theme]);
 
   const handleChageView = () => {
     setNewListForm(!newListForm);
@@ -80,17 +98,17 @@ const Form = ({ myLists, productId }: IForm) => {
           </div>
           <form action={action} className="px-4">
             <fieldset disabled={isSubmitting}>
-              <div className="flex flex-col md:flex-row gap-2">
+              <div className="flex flex-col gap-2">
                 <GenericInput
                   id="name"
-                  ariaLabel="List name"
+                  ariaLabel="Name"
                   type="text"
                   placeholder="Favorites"
                   error={errors?.name}
                 />
                 <GenericInput
                   id="description"
-                  ariaLabel="List description"
+                  ariaLabel="Description (Optional)"
                   type="text"
                   placeholder="This is my favorite list"
                 />
@@ -118,10 +136,10 @@ const Form = ({ myLists, productId }: IForm) => {
               </p>
             )}
           </div>
-          <div className="flex flex-col px-4 max-h-[200px] overflow-y-auto">
+          <div className="flex flex-col px-4">
             <button
               onClick={handleChageView}
-              className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
+              className="flex items-center gap-2 text-blue-500 hover:text-blue-600 mb-2"
             >
               <Plus
                 size="size-10"
@@ -131,44 +149,49 @@ const Form = ({ myLists, productId }: IForm) => {
             </button>
             <form action={addProductAction}>
               <fieldset disabled={isSubmitting}>
-                {myLists.map((list) => (
-                  <label
-                    key={list.id}
-                    htmlFor={list.id}
-                    className="flex justify-between items-center gap-2 cursor-pointer mt-2"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="size-10 border border-gray-200 p-1 rounded-md">
-                        <Image
-                          src={
-                            list.products[0]?.product.files[0].url ??
-                            DefaultPhoto
-                          }
-                          alt="Main list image"
-                          width={50}
-                          height={50}
-                          className="size-full object-contain"
-                        />
+                <div className="max-h-[169px] overflow-y-auto">
+                  {myLists.map((list) => (
+                    <label
+                      key={list.id}
+                      htmlFor={list.id}
+                      className="flex justify-between items-center gap-2 cursor-pointer mb-2"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="size-10 border border-gray-200 p-1 rounded-md">
+                          {list.name.toLowerCase() === "favorites" ||
+                          list.name.toLowerCase() === "favorite" ||
+                          list.name.toLowerCase() === "favourites" ||
+                          list.name.toLowerCase() === "favourite" ? (
+                            <div className="size-full flex items-center justify-center">
+                              <Heart isFilled />
+                            </div>
+                          ) : (
+                            <Image
+                              src={
+                                list.products[0]?.product.files[0].url ??
+                                DefaultPhoto
+                              }
+                              alt="Main list image"
+                              width={50}
+                              height={50}
+                              className="size-full object-contain"
+                            />
+                          )}
+                        </div>
+                        {list.name}
                       </div>
-                      {list.name}
-                    </div>
-                    <input
-                      id={list.id}
-                      type="checkbox"
-                      name="customListId"
-                      value={list.id}
-                      aria-label={list.name}
-                      className="size-4"
-                    />
-                  </label>
-                ))}
+                      <input
+                        id={list.id}
+                        type="checkbox"
+                        name="customListId"
+                        value={list.id}
+                        aria-label={list.name}
+                        className="size-4"
+                      />
+                    </label>
+                  ))}
+                </div>
                 <input hidden name="productId" defaultValue={productId} />
-                {/* <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md w-full mt-4"
-              >
-                Add
-              </button> */}
                 <div className="text-center mt-4 w-full">
                   <SubmitButton
                     title="Add"

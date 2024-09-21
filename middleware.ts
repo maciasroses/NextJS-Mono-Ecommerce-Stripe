@@ -46,13 +46,7 @@ export function middleware(request: NextRequest) {
     !languages.some((loc) => pathname.startsWith(`/${loc}`)) &&
     !pathname.startsWith("/_next")
   ) {
-    // console.log("pathname", pathname);
-    // const splitPath = pathname.split("/");
-    // const pathWithoutUnkownLang = `/${splitPath.slice(2).join("/")}`;
-    // console.log("pathWithoutUnkownLang", pathWithoutUnkownLang);
-    return NextResponse.redirect(
-      new URL(`/${lng}${pathname}`, request.url) // BEFORE WAS pathname INSTEAD OF pathWithoutUnkownLang
-    );
+    return NextResponse.redirect(new URL(`/${lng}${pathname}`, request.url));
   }
 
   if (request.headers.has("referer")) {

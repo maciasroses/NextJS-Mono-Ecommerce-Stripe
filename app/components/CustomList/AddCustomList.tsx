@@ -3,9 +3,10 @@
 import Form from "./Form";
 import Modal from "../Modal";
 import { Heart } from "@/public/icons";
-import { useModal } from "@/app/hooks";
+import { Slide, toast } from "react-toastify";
+import { useModal, useResolvedTheme } from "@/app/hooks";
 import { deleteProductFromAllCustomLists } from "@/app/services/customList/controller";
-import { ICustomList } from "@/app/interfaces";
+import type { ICustomList } from "@/app/interfaces";
 
 interface IAddCustomList {
   lng: string;
@@ -22,11 +23,23 @@ const AddCustomList = ({
   isFavorite,
   myLists,
 }: IAddCustomList) => {
+  const theme = useResolvedTheme();
   const { isOpen, onOpen, onClose } = useModal();
 
   const handleFavorite = () => {
     if (userId) {
-      isFavorite ? deleteProductFromAllCustomLists(productId) : onOpen();
+      if (isFavorite) {
+        deleteProductFromAllCustomLists(productId);
+        toast.success("Product removed from all lists", {
+          transition: Slide,
+          hideProgressBar: true,
+          closeOnClick: true,
+          position: "bottom-right",
+          theme: theme === "dark" ? "dark" : "light",
+        });
+      } else {
+        onOpen();
+      }
     } else {
       window.location.href = `/${lng}/login`;
     }
@@ -42,7 +55,7 @@ const AddCustomList = ({
         )}
       </button>
       <Modal isOpen={isOpen} onClose={onClose} isForSideBar={false}>
-        <Form myLists={myLists} productId={productId} />
+        <Form myLists={myLists} productId={productId} handleClose={onClose} />
       </Modal>
     </>
   );
