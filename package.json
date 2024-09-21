@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
+    "@stripe/react-stripe-js": "^2.8.0",
+    "@stripe/stripe-js": "^4.5.0",
     "accept-language": "3.0.18",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.4",
@@ -35,6 +37,8 @@
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18",
     "react-i18next": "15.0.0",
+    "react-toastify": "^10.0.5",
+    "stripe": "^16.12.0",
     "tailwind-merge": "^2.2.1",
     "use-debounce": "^10.0.3",
     "zod": "^3.23.8"

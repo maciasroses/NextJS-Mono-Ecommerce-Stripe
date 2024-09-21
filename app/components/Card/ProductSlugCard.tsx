@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
+import { useModal } from "@/app/hooks";
 import AddCustomList from "../CustomList/AddCustomList";
-import { useCart, useModal } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftChevron, RightChevron, XMark } from "@/public/icons";
@@ -181,8 +181,8 @@ const ProductSlugCard = ({
             {selectedImage && (
               <Image
                 priority
-                width={100}
-                height={100}
+                width={500}
+                height={300}
                 alt={product.name}
                 src={selectedImage}
                 className="size-auto object-contain"

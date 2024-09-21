@@ -23,9 +23,12 @@ const ProductCard = ({ lng, userId, myLists, product }: IProductCard) => {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link href={`/${lng}/${product.slug}`} className="flex justify-center">
+      <Link
+        href={`/${lng}/${product.slug}`}
+        className="flex justify-center p-8"
+      >
         <Image
-          className="rounded-t-lg p-8"
+          className="size-auto"
           alt={product.name}
           src={product.files[0].url}
           width={500}

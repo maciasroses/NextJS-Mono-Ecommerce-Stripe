@@ -22,7 +22,9 @@ const RecentList = ({
 
   return (
     <>
-      <h1 className="text-xl sm:text-3xl md:text-6xl">{category}</h1>
+      <h1 className="text-2xl sm:text-4xl md:text-6xl text-center lg:text-left mb-2 md:mb-4">
+        {category}
+      </h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
         {Array.from({ length: 4 }).map((_, index) => (
           <ProductCard
