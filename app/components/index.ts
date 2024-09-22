@@ -12,9 +12,11 @@ import RecentList from "./RecentList";
 import ListSkeleton from "./ListSkeleton";
 import AuthComponent from "./AuthComponent";
 import CartComponent from "./CartComponent";
+import ErrorBoundary from "./ErrorBoundary";
 import MainSearch from "./Header/MainSearch";
-import ThemeComponent from "./ThemeComponent";
 import { AddCustomList } from "./CustomList";
+import ThemeComponent from "./ThemeComponent";
+import GenericBackToPage from "./GenericBackToPage";
 import { PieSkeleton, BarSkeleton } from "./Chart";
 import {
   Card404,
@@ -50,11 +52,13 @@ export {
   ListSkeleton,
   GenericInput,
   SubmitButton,
+  ErrorBoundary,
   AuthComponent,
   AddCustomList,
   CartComponent,
   ThemeComponent,
   ProductSlugCard,
+  GenericBackToPage,
   DatatableSkeleton,
   GenericSearchInput,
   ProductCardSkeleton,

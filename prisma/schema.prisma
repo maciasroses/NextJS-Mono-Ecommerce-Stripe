@@ -8,8 +8,8 @@ datasource db {
 }
 
 enum UserRole {
-  ADMIN
   USER
+  ADMIN
 }
 
 model User {
@@ -19,8 +19,9 @@ model User {
   username String   @unique
   role     UserRole @default(USER)
 
-  orders      Order[]
-  customLists CustomList[]
+  orders            Order[]
+  customLists       CustomList[]
+  stockReservations StockReservation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,10 +43,10 @@ model CustomList {
 }
 
 model CustomProductsList {
-  customList   CustomList @relation(fields: [customListId], references: [id], onDelete: Cascade)
-  customListId String
   product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId    String
+  customList   CustomList @relation(fields: [customListId], references: [id], onDelete: Cascade)
+  customListId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -54,30 +55,45 @@ model CustomProductsList {
 }
 
 enum ProductCategory {
-  ELECTRONICS
-  CLOTHING
-  BOOKS
   TOYS
+  BOOKS
+  CLOTHING
+  ELECTRONICS
 }
 
 model Product {
   id                      String          @id @default(uuid())
   name                    String
   slug                    String          @unique
+  quantity                Int
+  category                ProductCategory
   description             String
   priceInCents            Int
-  category                ProductCategory
-  quantity                Int
   maximumQuantityPerOrder Int
-  reservedStock           Int             @default(0)
 
   files                 ProductFile[]
   orders                ProductOnOrder[]
+  stockReservations     StockReservation[]
   customProductsList    CustomProductsList[]
   inventoryTransactions InventoryTransaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model StockReservation {
+  id       String @id @default(uuid())
+  quantity Int
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@unique([userId, productId])
 }
 
 model ProductFile {
@@ -95,10 +111,10 @@ model ProductOnOrder {
   quantity         Int
   unitPriceInCents Int
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -115,13 +131,12 @@ enum OrderStatus {
 
 model Order {
   id           String      @id @default(uuid())
+  status       OrderStatus @default(PENDING)
   totalInCents Int
-  status       OrderStatus
-  invoiceUrl   String
 
-  products ProductOnOrder[]
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
+  products ProductOnOrder[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -129,8 +144,8 @@ model Order {
 
 model InventoryTransaction {
   id          String @id @default(uuid())
-  quantity    Int
   type        String
+  quantity    Int
   description String
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)

@@ -69,9 +69,9 @@ export const config = {
     "/search",
     "/signup",
     "/login",
-    "/checkout",
+    "/checkout/:path*",
     "/admin/:path*",
     "/profile/:path*",
-    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|sw.js|site.webmanifest|fonts|images|assets|invoices|products|icons).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|sw.js|site.webmanifest|fonts|images|assets|invoices|products|icons|webhooks/stripe).*)",
   ],
 };
