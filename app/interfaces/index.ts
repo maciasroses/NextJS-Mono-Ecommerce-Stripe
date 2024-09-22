@@ -6,12 +6,14 @@ import type {
   Product,
   ProductFile,
   ProductOnOrder,
+  StockReservation,
   User,
 } from "@prisma/client";
 
 export interface IUser extends User {
   orders: IOrder[];
   customLists: ICustomList[];
+  stockReservations: IStockReservation[];
 }
 
 export interface ICustomList extends CustomList {
@@ -24,9 +26,15 @@ export interface ICustomProductsList extends CustomProductsList {
   customList: ICustomList;
 }
 
+export interface IStockReservation extends StockReservation {
+  user: IUser;
+  product: IProduct;
+}
+
 export interface IProduct extends Product {
   files: IProductFile[];
   orders: IProductOnOrder[];
+  stockReservations: IStockReservation[];
   customProductsList: ICustomProductsList[];
   inventoryTransactions: IInventoryTransaction[];
 }
