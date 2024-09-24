@@ -1,14 +1,15 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
 import Loading from "../Loading";
-import { cn } from "@/app/utils/cn";
 import { useEffect } from "react";
+import { cn } from "@/app/utils/cn";
+import { useFormStatus } from "react-dom";
 
 const colorMap: { [key: string]: string } = {
-  red: "bg-red-500 hover:bg-red-600 focus:ring-red-500",
-  blue: "bg-blue-500 hover:bg-blue-600 focus:ring-blue-500",
-  green: "bg-green-500 hover:bg-green-600 focus:ring-green-500",
+  red: "text-white dark:tex-red-300 bg-red-600 dark:bg-red-950 hover:bg-red-700 dark:hover:bg-red-900 focus:ring-red-600 dark:focus:ring-red-300 dark:border-red-300 dark:border-2",
+  blue: "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 focus:ring-blue-600 dark:focus:ring-blue-950 dark:border-blue-300 dark:border-2",
+  green:
+    "text-white dark:text-green-300 bg-green-600 dark:bg-green-950 hover:bg-green-700 dark:hover:bg-green-900 focus:ring-green-600 dark:focus:ring-green-950 dark:border-green-300 dark:border-2",
 };
 
 interface ISubmitButton {
@@ -32,7 +33,7 @@ const SubmitButton: React.FC<ISubmitButton> = ({
       type="submit"
       disabled={pending}
       className={cn(
-        "px-4 py-2 text-white rounded-md w-auto transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 border borde-white",
+        "px-4 py-2 rounded-md w-auto transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2",
         pending ? `${colorMap[color]}/50` : colorMap[color]
       )}
     >

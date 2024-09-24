@@ -5,9 +5,9 @@ import Link from "next/link";
 import {
   HomeIcon,
   Dollar,
-  ShoppingBag,
+  // ShoppingBag,
   Puzzle,
-  UserIcon,
+  // UserIcon,
 } from "@/public/icons";
 import { usePathname } from "next/navigation";
 
@@ -33,13 +33,13 @@ const LinkComp = ({ to, span, icon }: ILinkComp) => {
         <HomeIcon isActive={isActive} />
       ) : icon === "sales" ? (
         <Dollar isActive={isActive} />
-      ) : icon === "orders" ? (
-        <ShoppingBag isActive={isActive} />
-      ) : icon === "products" ? (
+      ) : icon === "orders" ? // <ShoppingBag isActive={isActive} />
+      null : icon === "products" ? (
         <Puzzle isActive={isActive} />
-      ) : (
-        icon === "providers" && <UserIcon isActive={isActive} />
-      )}
+      ) : null}
+      {/* ) : (
+         icon === "providers" && <UserIcon isActive={isActive} />
+       )} */}
       <span className="ms-3 font-black">{span}</span>
     </Link>
   );

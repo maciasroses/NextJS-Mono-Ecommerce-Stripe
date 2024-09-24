@@ -26,7 +26,7 @@ const ThemeButton = ({
       onClick={handleThemeChange}
       className={cn(
         "w-full flex items-center gap-2 p-2 rounded-md group hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-900 dark:text-white",
-        theme === themeColor && "text-blue-500 dark:text-blue-300"
+        theme === themeColor && "text-blue-600 dark:text-blue-300"
       )}
     >
       {icon}

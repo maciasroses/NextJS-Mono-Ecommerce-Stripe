@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
+import AddToCart from "../AddToCart";
 import { useModal } from "@/app/hooks";
 import AddCustomList from "../CustomList/AddCustomList";
 import formatCurrency from "@/app/utils/format-currency";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftChevron, RightChevron, XMark } from "@/public/icons";
 import type { ICustomList, IProduct } from "@/app/interfaces";
-import AddToCart from "../AddToCart";
 
 interface IProductSlugCard {
   lng: string;
@@ -156,8 +156,9 @@ const ProductSlugCard = ({
               <div
                 key={file.id}
                 className={cn(
-                  "size-16 border border-gray-300 cursor-pointer hover:border-blue-500 p-1",
-                  selectedImage === file.url && "border-blue-500"
+                  "size-16 border border-gray-300 cursor-pointer hover:border-blue-600 dark:hover:border-blue-300 p-1",
+                  selectedImage === file.url &&
+                    "border-blue-600 dark:border-blue-300"
                 )}
               >
                 <Image

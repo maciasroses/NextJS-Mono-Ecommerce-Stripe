@@ -58,7 +58,7 @@ const MainSearch = ({ id, lng }: IMainSearch) => {
         />
         <button
           onClick={handleSearch}
-          className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2"
+          className="text-white dark:text-blue-300 absolute end-2.5 bottom-2.5 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2 font-medium rounded-lg text-sm px-4 py-2"
         >
           Search
         </button>

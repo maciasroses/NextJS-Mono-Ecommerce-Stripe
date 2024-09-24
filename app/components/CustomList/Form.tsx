@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { Slide, toast } from "react-toastify";
-import { useResolvedTheme } from "@/app/hooks";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
+import { Slide, toast } from "react-toastify";
 import DefaultPhoto from "@/public/photo.webp";
-import { Heart, LeftArrow, Plus } from "@/public/icons";
+import { useResolvedTheme } from "@/app/hooks";
 import { GenericInput, SubmitButton } from "../Form";
+import { Heart, LeftArrow, Plus } from "@/public/icons";
 import {
   addProductToManyCustomLists,
   createNewCustomList,
@@ -86,7 +86,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
             <div className="flex items-center gap-4">
               <button
                 onClick={handleChageView}
-                className="text-blue-500 hover:text-blue-600"
+                className="text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400"
               >
                 <LeftArrow size="size-6 md:size-8" />
               </button>
@@ -139,11 +139,11 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
           <div className="flex flex-col px-4">
             <button
               onClick={handleChageView}
-              className="flex items-center gap-2 text-blue-500 hover:text-blue-600 mb-2"
+              className="flex items-center group gap-2 text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400 mb-2"
             >
               <Plus
                 size="size-10"
-                customClass="border border-blue-500 hover:border-blue-600 rounded-md p-1"
+                customClass="border border-blue-600 dark:border-blue-300 group-hover:border-blue-700 dark:group-hover:border-blue-400 rounded-md p-1"
               />
               <span>Create new list</span>
             </button>

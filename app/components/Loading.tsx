@@ -6,9 +6,9 @@ interface ILoading {
 }
 
 const fillColorMap: { [key: string]: string } = {
-  red: "fill-red-500",
-  blue: "fill-blue-500",
-  green: "fill-green-500",
+  red: "fill-red-600 dark:fill-red-300",
+  blue: "fill-blue-600 dark:fill-blue-300",
+  green: "fill-green-600 dark:fill-green-300",
 };
 
 const Loading: React.FC<ILoading> = ({ color = "blue", size = "size-6" }) => {

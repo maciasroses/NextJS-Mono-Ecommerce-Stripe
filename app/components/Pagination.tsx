@@ -42,7 +42,7 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
               passHref
               className={`flex items-center justify-center px-3 h-8 leading-tight border ${
                 currentPage === i + 1
-                  ? "text-white bg-blue-500 border-blue-500 dark:bg-blue-600 dark:border-blue-600"
+                  ? "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700  dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2"
                   : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               }`}
             >

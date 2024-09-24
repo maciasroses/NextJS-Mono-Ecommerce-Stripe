@@ -1,12 +1,5 @@
 import { useState, useEffect, ReactNode, createContext } from "react";
-
-interface ICartItem {
-  id: string;
-  name: string;
-  file: string;
-  price: number;
-  quantity: number;
-}
+import type { ICartItem } from "@/app/interfaces";
 
 export interface ICartContext {
   cart: ICartItem[];

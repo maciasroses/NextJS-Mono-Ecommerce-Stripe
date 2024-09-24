@@ -13,7 +13,7 @@ const CheckoutPage = async ({
 
   return (
     <>
-      <Form lng={lng} userEmail={email} />
+      <Form lng={lng} userId={session?.userId as string} userEmail={email} />
     </>
   );
 };

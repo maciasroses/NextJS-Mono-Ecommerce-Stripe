@@ -122,17 +122,29 @@ model ProductOnOrder {
   @@id([productId, orderId])
 }
 
-enum OrderStatus {
+enum ShippingType {
+  STANDARD
+  EXPRESS
+}
+
+enum ShippingStatus {
   PENDING
   SHIPPED
   DELIVERED
-  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
 }
 
 model Order {
-  id           String      @id @default(uuid())
-  status       OrderStatus @default(PENDING)
-  totalInCents Int
+  id             String         @id @default(uuid())
+  totalInCents   Int
+  shippingType   ShippingType   @default(STANDARD)
+  paymentStatus  PaymentStatus  @default(PENDING)
+  shippingStatus ShippingStatus @default(PENDING)
 
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String

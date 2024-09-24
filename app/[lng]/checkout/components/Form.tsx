@@ -1,12 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useEffect, useState } from "react";
+import { toast, Slide } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
-import { GenericBackToPage } from "@/app/components";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
+import { GenericBackToPage, Loading } from "@/app/components";
 import { createPaymentIntent } from "@/app/services/stripe/payment";
+import {
+  checkNUpdateStock,
+  reserverStock,
+} from "@/app/services/stock/controller";
 import {
   Elements,
   useStripe,
@@ -14,7 +20,7 @@ import {
   PaymentElement,
   LinkAuthenticationElement,
 } from "@stripe/react-stripe-js";
-import Image from "next/image";
+import type { ICartItem } from "@/app/interfaces";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -22,23 +28,110 @@ const stripePromise = loadStripe(
 
 interface IForm {
   lng: string;
+  userId: string;
   userEmail: string;
 }
 
-const Form = ({ lng, userEmail }: IForm) => {
-  const { cart } = useCart();
+const Form = ({ lng, userId, userEmail }: IForm) => {
   const theme = useResolvedTheme();
+  const { cart, clearCart, addToCart } = useCart();
+  const [isLoading, setIsLoading] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
+  const [changesInCart, setChangesInCart] = useState(false);
+  const [isStockChecked, setIsStockChecked] = useState(false);
+  const [updatedCart, setUpdatedCart] = useState<ICartItem[]>();
 
   useEffect(() => {
-    const handlePaymentIntent = async () => {
-      const clientSecret = (await createPaymentIntent(cart)) as string;
-      setClientSecret(clientSecret);
+    const handleStockCheckAndReservation = async () => {
+      const newCart = await checkNUpdateStock(userId, cart);
+
+      const itemsWithUpdatedQuantity = newCart.filter((newItem) => {
+        const oldItem = cart.find((item) => item.id === newItem.id);
+        return oldItem && oldItem.quantity !== newItem.quantity;
+      });
+
+      const itemsRemovedFromCart = cart.filter(
+        (oldItem) => !newCart.some((newItem) => newItem.id === oldItem.id)
+      );
+
+      if (
+        itemsWithUpdatedQuantity.length > 0 ||
+        itemsRemovedFromCart.length > 0
+      ) {
+        clearCart();
+        newCart.forEach((item) => addToCart(item));
+        setChangesInCart(true);
+      }
+
+      setUpdatedCart(newCart);
+      setIsStockChecked(true);
+      setIsLoading(false);
     };
-    if (cart.length > 0) {
-      handlePaymentIntent();
+
+    if (!isStockChecked && cart.length > 0) {
+      handleStockCheckAndReservation();
+    } else if (cart.length === 0) {
+      setIsLoading(false);
     }
-  }, [cart]);
+  }, [cart, theme, clearCart, addToCart, isStockChecked, userId]);
+
+  useEffect(() => {
+    if (changesInCart) {
+      toast.warning(
+        "Some items are out of stock or updated, please review your cart",
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          closeOnClick: true,
+          position: "bottom-right",
+          theme: theme === "dark" ? "dark" : "light",
+        }
+      );
+    }
+  }, [changesInCart, theme]);
+
+  useEffect(() => {
+    const handleReservationAndPaymentIntent = async () => {
+      if (updatedCart && updatedCart.length > 0 && isStockChecked) {
+        const reservations = await reserverStock(userId, updatedCart);
+
+        if (reservations.length !== updatedCart.length) {
+          toast.error("An error occurred, please try again later", {
+            transition: Slide,
+            hideProgressBar: true,
+            closeOnClick: true,
+            position: "bottom-right",
+            theme: theme === "dark" ? "dark" : "light",
+          });
+          return;
+        }
+
+        const clientSecret = (await createPaymentIntent(
+          updatedCart,
+          userId
+        )) as string;
+        setClientSecret(clientSecret);
+      }
+    };
+
+    if (isStockChecked) {
+      handleReservationAndPaymentIntent();
+    }
+  }, [updatedCart, isStockChecked, theme, userId]);
+
+  useEffect(() => {
+    if (isLoading && cart.length === 0) {
+      setIsLoading(false);
+    }
+  }, [cart, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen pt-24">
+        <Loading size="size-20" />
+      </div>
+    );
+  }
 
   if (cart.length === 0) {
     return (
@@ -93,12 +186,26 @@ const Form = ({ lng, userEmail }: IForm) => {
             </li>
           ))}
         </ul>
-        <p className="text-base sm:text-xl text-right mt-4">
-          Total:{" "}
+        <p className="text-sm sm:text-lg text-right mt-4">
+          Shipping: <span className="font-bold">$99.00</span>
+        </p>
+        <p className="text-sm sm:text-lg text-right">
+          Subtotal:{" "}
           <span className="font-bold">
             {formatCurrency(
               cart.reduce((acc, item) => acc + item.price * item.quantity, 0) /
                 100,
+              "MXN"
+            )}
+          </span>
+        </p>
+        <p className="text-lg sm:text-2xl text-right mt-2">
+          Total:{" "}
+          <span className="font-bold">
+            {formatCurrency(
+              cart.reduce((acc, item) => acc + item.price * item.quantity, 0) /
+                100 +
+                99,
               "MXN"
             )}
           </span>
@@ -155,32 +262,35 @@ const StripeForm = ({ lng, userEmail }: IStripeForm) => {
       onSubmit={handleConfirmPayment}
       className="w-full md:w-1/3 px-4 pt-12 pb-4 sticky top-24 h-full"
     >
-      {errorMessage && (
-        <p className="text-[#cb3544] dark:text-[#c87688] font-bold mb-2">
-          {errorMessage}
-        </p>
-      )}
-      <PaymentElement />
-      <div className="mt-2 hidden">
-        <LinkAuthenticationElement
-          options={{
-            defaultValues: {
-              email: userEmail,
-            },
-          }}
-        />
-      </div>
-      <button
-        disabled={stripe == null || elements == null || isLoading}
-        className={cn(
-          "w-full py-2 rounded-md transition mt-4",
-          stripe == null || elements == null || isLoading
-            ? "bg-gray-300 dark:bg-gray-800 cursor-not-allowed"
-            : "text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800"
+      <fieldset disabled={stripe == null || elements == null || isLoading}>
+        {errorMessage && (
+          <p className="text-[#cb3544] dark:text-[#c87688] font-bold mb-2">
+            {errorMessage}
+          </p>
         )}
-      >
-        {isLoading ? "Processing..." : "Confirm payment"}
-      </button>
+        <PaymentElement />
+        <div className="mt-2 hidden">
+          <LinkAuthenticationElement
+            options={{
+              defaultValues: {
+                email: userEmail,
+              },
+            }}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={stripe == null || elements == null || isLoading}
+          className={cn(
+            "w-full py-2 rounded-md transition mt-4",
+            stripe == null || elements == null || isLoading
+              ? "bg-gray-300 dark:bg-gray-800 cursor-not-allowed"
+              : "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2"
+          )}
+        >
+          {isLoading ? "Processing..." : "Confirm payment"}
+        </button>
+      </fieldset>
     </form>
   );
 };

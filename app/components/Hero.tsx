@@ -13,11 +13,12 @@ const Hero = ({ lng }: { lng: string }) => {
           Apple Watch
         </h1>
         <p className="text-lg sm:text-2xl md:text-4xl lg:text-6xl md:mt-4 font-thin">
-          It is not just a gadget, it is all you need.
+          It is not just a gadget, <br />
+          it is all you need.
         </p>
         <Link
           href={`/${lng}/apple-watch`}
-          className="mt-4 md:mt-10 bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md text-sm sm:text-base md:text-lg lg:text-xl"
+          className="mt-4 md:mt-10 text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2 hover:bg-blue-700 px-4 py-2 rounded-md text-sm sm:text-base md:text-lg lg:text-xl"
         >
           Buy it now
         </Link>
