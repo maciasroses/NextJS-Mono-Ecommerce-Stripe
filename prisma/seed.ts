@@ -30,9 +30,9 @@ async function main() {
   });
 
   enum ProductCategory {
+    TOYS = "TOYS",
     BOOKS = "BOOKS",
     CLOTHING = "CLOTHING",
-    TOYS = "TOYS",
     ELECTRONICS = "ELECTRONICS",
   }
 
@@ -138,7 +138,7 @@ async function main() {
     {
       name: "AirPods",
       slug: "airpods",
-      description: "A airpods",
+      description: "An airpods",
       priceInCents: 500000,
       category: ProductCategory.ELECTRONICS,
       quantity: 2,
@@ -152,7 +152,7 @@ async function main() {
     {
       name: "iPhone",
       slug: "iphone",
-      description: "A iPhone",
+      description: "An iPhone",
       priceInCents: 1999900,
       category: ProductCategory.ELECTRONICS,
       quantity: 8,
@@ -166,7 +166,7 @@ async function main() {
     {
       name: "iPad",
       slug: "ipad",
-      description: "A iPad",
+      description: "An iPad",
       priceInCents: 2599900,
       category: ProductCategory.ELECTRONICS,
       quantity: 5,
@@ -194,7 +194,7 @@ async function main() {
     {
       name: "Apple Watch",
       slug: "apple-watch",
-      description: "A Apple Watch",
+      description: "An Apple Watch",
       priceInCents: 999900,
       category: ProductCategory.ELECTRONICS,
       quantity: 6,

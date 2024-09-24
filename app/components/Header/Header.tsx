@@ -28,7 +28,7 @@ const Header = ({ lng, user, products }: IHeader) => {
           </Link>
           {pathname !== `/${lng}/login` &&
             pathname !== `/${lng}/signup` &&
-            pathname !== `/${lng}/checkout` && (
+            !pathname.startsWith(`/${lng}/checkout`) && (
               <div className="w-full max-w-2xl hidden md:block">
                 <MainSearch id="search-bar" lng={lng} />
               </div>
@@ -38,16 +38,16 @@ const Header = ({ lng, user, products }: IHeader) => {
             <LangSelector lng={lng} />
             {pathname !== `/${lng}/login` &&
               pathname !== `/${lng}/signup` &&
-              pathname !== `/${lng}/checkout` && (
+              !pathname.startsWith(`/${lng}/checkout`) && (
                 <CartMenu lng={lng} products={products} />
               )}
             {user && pathname !== `/${lng}/checkout` ? (
-              <ProfileMenu user={user} />
+              <ProfileMenu lng={lng} user={user} />
             ) : (
               <>
                 {pathname !== `/${lng}/login` &&
                   pathname !== `/${lng}/signup` &&
-                  pathname !== `/${lng}/checkout` && (
+                  !pathname.startsWith(`/${lng}/checkout`) && (
                     <Link
                       href={`/${lng}/login`}
                       className="px-4 py-2 text-sm text-white bg-blue-700 rounded-md hover:bg-blue-800 flex items-center"
@@ -61,7 +61,7 @@ const Header = ({ lng, user, products }: IHeader) => {
         </div>
         {pathname !== `/${lng}/login` &&
           pathname !== `/${lng}/signup` &&
-          pathname !== `/${lng}/checkout` && (
+          !pathname.startsWith(`/${lng}/checkout`) && (
             <div
               className={cn(
                 "w-full md:hidden",

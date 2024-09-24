@@ -10,6 +10,8 @@ const Filters = () => {
 
   const handleCategory = (category: string) => {
     const params = new URLSearchParams(searchParams);
+    // params.set("page", "1");
+    params.delete("page");
     params.set("category", category);
     replace(`${pathname}?${params.toString()}`);
   };
@@ -28,6 +30,8 @@ const Filters = () => {
     } else {
       params.delete("priceTo");
     }
+    // params.set("page", "1");
+    params.delete("page");
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -35,11 +39,11 @@ const Filters = () => {
     <>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="font-medium text-lg">Categorías</p>
+          <p className="font-medium text-lg">Categories</p>
           <ul className="flex flex-col">
             <li>
               <ButtonCategoryComponent
-                label="Electrónicos"
+                label="Electronics"
                 category="ELECTRONICS"
                 searchParams={searchParams}
                 handleCategory={handleCategory}
@@ -47,7 +51,7 @@ const Filters = () => {
             </li>
             <li>
               <ButtonCategoryComponent
-                label="Libros"
+                label="Books"
                 category="BOOKS"
                 searchParams={searchParams}
                 handleCategory={handleCategory}
@@ -55,7 +59,7 @@ const Filters = () => {
             </li>
             <li>
               <ButtonCategoryComponent
-                label="Ropa"
+                label="Clothing"
                 category="CLOTHING"
                 searchParams={searchParams}
                 handleCategory={handleCategory}
@@ -63,7 +67,7 @@ const Filters = () => {
             </li>
             <li>
               <ButtonCategoryComponent
-                label="Juguetes"
+                label="Toys"
                 category="TOYS"
                 searchParams={searchParams}
                 handleCategory={handleCategory}
@@ -72,7 +76,7 @@ const Filters = () => {
           </ul>
         </div>
         <div>
-          <p className="font-medium text-lg">Precio</p>
+          <p className="font-medium text-lg">Price</p>
           <form
             onSubmit={handlePrice}
             className="flex gap-2 flex-col ml-5 mt-2"
@@ -84,7 +88,7 @@ const Filters = () => {
                 name="priceFrom"
                 min="0"
                 max="19999999"
-                placeholder="Desde"
+                placeholder="From"
                 defaultValue={searchParams.get("priceFrom")?.toString()}
                 className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800"
               />
@@ -95,16 +99,16 @@ const Filters = () => {
                 name="priceTo"
                 min="0"
                 max="19999999"
-                placeholder="Hasta"
+                placeholder="To"
                 defaultValue={searchParams.get("priceTo")?.toString()}
                 className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-700 hover:bg-blue-800 text-white p-2 rounded-md"
+              className="w-full text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2 p-2 rounded-md"
             >
-              Aplicar
+              Apply
             </button>
           </form>
         </div>
@@ -130,9 +134,9 @@ const ButtonCategoryComponent = ({
     <button
       onClick={() => handleCategory(category)}
       className={cn(
-        "text-sm text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 ml-5",
+        "text-sm text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-300 ml-5",
         searchParams.get("category") === category &&
-          "text-blue-600 dark:text-blue-400"
+          "text-blue-600 dark:text-blue-300"
       )}
     >
       {label}

@@ -11,7 +11,7 @@ const LightIcon = ({ theme }: { theme: string }) => {
       className={cn(
         "size-6 transition duration-75 ",
         theme === "light"
-          ? "text-blue-500 dark:text-blue-300"
+          ? "text-blue-600 dark:text-blue-300"
           : "text-gray-500 hover:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
       )}
     >

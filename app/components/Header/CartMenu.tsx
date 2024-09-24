@@ -58,15 +58,15 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
         <div className="p-4 h-full flex flex-col justify-between gap-4">
           {cart.length === 0 ? (
             <div>
-              <h2 className="text-xl font-semibold">Mi Carrito</h2>
+              <h2 className="text-xl font-semibold">My cart</h2>
               <p className="text-gray-500 dark:text-gray-200">
-                Tu carrito está vacío
+                Your cart is empty
               </p>
             </div>
           ) : (
             <>
               <div className="h-3/4 sm:h-1/2 lg:h-5/6">
-                <h2 className="text-xl font-semibold">Mi Carrito</h2>
+                <h2 className="text-xl font-semibold">My cart</h2>
                 <ul className=" max-h-full overflow-y-auto">
                   {cart.map((item) => (
                     <li
@@ -85,7 +85,7 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                       <div className="w-2/3">
                         <div className="flex justify-end">
                           {(products.find((product) => product.slug === item.id)
-                            ?.quantity ?? 0) > item.quantity &&
+                            ?.quantity ?? 0) > 0 &&
                             (products.find(
                               (product) => product.slug === item.id
                             )?.maximumQuantityPerOrder ?? 0) >
@@ -127,7 +127,7 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                           className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500"
                           onClick={() => removeFromCart(item.id)}
                         >
-                          Eliminar
+                          Delete
                         </button>
                       </div>
                     </li>
@@ -149,15 +149,15 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                 </p>
                 <button
                   onClick={handleCheckout}
-                  className="w-full text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 py-2 rounded-md transition"
+                  className="w-full text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2 py-2 rounded-md transition"
                 >
-                  Proceder al pago
+                  Proceed to checkout
                 </button>
                 <button
-                  className="w-full text-white bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800 py-2 rounded-md transition"
+                  className="w-full text-white dark:text-red-300 bg-red-600 dark:bg-red-950 hover:bg-red-700 dark:hover:bg-red-900 dark:border-red-300 dark:border-2 py-2 rounded-md transition"
                   onClick={clearCart}
                 >
-                  Vaciar carrito
+                  Clear cart
                 </button>
               </div>
             </>

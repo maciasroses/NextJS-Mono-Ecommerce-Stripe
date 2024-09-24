@@ -67,6 +67,28 @@ export interface IInventoryTransaction extends InventoryTransaction {
   product: IProduct;
 }
 
+export interface ICartItem {
+  id: string;
+  name: string;
+  file: string;
+  price: number;
+  quantity: number;
+}
+
+export interface IProductForEmail {
+  name: string;
+  file: string;
+  price: number;
+  quantity: number;
+}
+
+export interface IOrderInfoForEmail {
+  email: string;
+  order: IOrder;
+  products: IProductForEmail[];
+  totalInCents: number;
+}
+
 export interface IBaseLangPage {
   params: {
     lng: string;
@@ -119,4 +141,9 @@ export interface IProductSearchParams {
   quantityTo?: string | number;
   quantityFrom?: string | number;
   isAdminRequest?: boolean;
+}
+
+export interface IGenericIcon {
+  size?: string;
+  customClass?: string;
 }

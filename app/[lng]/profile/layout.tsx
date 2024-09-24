@@ -1,8 +1,17 @@
-const ProfileLayout = async ({ children }: { children: React.ReactNode }) => {
+import { Sidebar } from "./components";
+import type { IBaseLangPage } from "@/app/interfaces";
+
+interface IProfileLayout extends IBaseLangPage {
+  children: React.ReactNode;
+}
+
+const ProfileLayout = async ({ children, params: { lng } }: IProfileLayout) => {
   return (
     <>
-      <div>PROFILE HEADER</div>
-      {children}
+      <Sidebar lng={lng} />
+      <article className="sm:ml-48 pt-40 md:pt-24 px-4 pb-4 min-h-screen">
+        {children}
+      </article>
     </>
   );
 };

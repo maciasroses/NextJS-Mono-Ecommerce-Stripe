@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { ClearCart } from "./components";
 import { GenericBackToPage } from "@/app/components";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
@@ -44,9 +45,18 @@ const CheckoutSuccessPage = async ({
     const isSuccess = paymentIntent.status === "succeeded";
 
     return (
-      <div className="pt-40">
-        <>{isSuccess ? <h1>YEAH</h1> : <h1>Payment failed</h1>}</>
-      </div>
+      <>
+        {isSuccess ? (
+          <ClearCart lng={lng} />
+        ) : (
+          <GenericBackToPage
+            link={`/${lng}/checkout`}
+            title="Payment failed"
+            linkText="Try again"
+            description="The payment was not successful"
+          />
+        )}
+      </>
     );
   } catch (error) {
     // console.error("Stripe error:", error);

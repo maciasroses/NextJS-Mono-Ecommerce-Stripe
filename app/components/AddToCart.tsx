@@ -37,22 +37,22 @@ const AddToCart = ({ product }: IAddToCart) => {
     <button
       onClick={
         currentQuantityProduct < product.maximumQuantityPerOrder &&
-        currentQuantityProduct < product.quantity
+        product.quantity > 0
           ? handleAddToCart
           : () => {}
       }
       className={cn(
-        "text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:outline-none",
+        "font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:outline-none",
         currentQuantityProduct < product.maximumQuantityPerOrder &&
-          currentQuantityProduct < product.quantity
-          ? "bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
-          : "bg-gray-300 cursor-not-allowed text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+          product.quantity > 0
+          ? "text-white dark:text-blue-300 bg-blue-600 hover:bg-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2"
+          : "text-gray-600 dark:text-gray-200 bg-gray-300 cursor-not-allowed  dark:bg-gray-700 "
       )}
     >
       {currentQuantityProduct < product.maximumQuantityPerOrder &&
-      currentQuantityProduct < product.quantity
+      product.quantity > 0
         ? "Add to cart"
-        : "Max quantity reached"}
+        : "Out of stock"}
     </button>
   );
 };

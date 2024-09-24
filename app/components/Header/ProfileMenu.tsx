@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/app/hooks";
 import ProfilePic from "@/public/profilepic.webp";
-import { logout } from "@/app/services/user/controller";
 import { useEffect, useRef, useState } from "react";
+import { logout } from "@/app/services/user/controller";
 import type { IUser } from "@/app/interfaces";
 
 interface IProfileLink {
@@ -26,7 +26,7 @@ const ProfileLink = ({ to, onClick, text }: IProfileLink) => {
   );
 };
 
-const ProfileMenu = ({ user }: { user: IUser }) => {
+const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const { setUser } = useAuth();
@@ -83,51 +83,49 @@ const ProfileMenu = ({ user }: { user: IUser }) => {
                 {user.email}
               </p>
             </div>
-
-            {/* THE FOLLOWING IS FOR MOBILE DEVICES */}
-
-            <div className="sm:hidden pb-1">
-              <div className="border-t border-gray-300 dark:border-gray-800"></div>
+            <div className="border-t border-gray-300 dark:border-gray-800"></div>
+            <ProfileLink
+              to={user.role === "ADMIN" ? `/${lng}/admin` : `/${lng}`}
+              onClick={closeMenu}
+              text="Home"
+            />
+            {user.role === "ADMIN" && (
               <ProfileLink
-                to={user.role === "ADMIN" ? "/admin/home" : "/auth/home"}
+                to="/admin/sales"
                 onClick={closeMenu}
-                text="Inicio"
+                text="Ventas"
               />
-              {user.role === "ADMIN" && (
+            )}
+            <ProfileLink
+              to={
+                user.role === "ADMIN"
+                  ? `/${lng}/admin/profile`
+                  : `/${lng}/profile`
+              }
+              onClick={closeMenu}
+              text="Profile"
+            />
+            {user.role === "ADMIN" && (
+              <>
                 <ProfileLink
-                  to="/admin/sales"
+                  to="/admin/products"
                   onClick={closeMenu}
-                  text="Ventas"
+                  text="Productos"
                 />
-              )}
-              <ProfileLink
-                to={user.role === "ADMIN" ? "/admin/orders" : "/auth/orders"}
-                onClick={closeMenu}
-                text="Pedidos"
-              />
-              {user.role === "ADMIN" && (
-                <>
-                  <ProfileLink
-                    to="/admin/products"
-                    onClick={closeMenu}
-                    text="Productos"
-                  />
-                  <ProfileLink
-                    to="/admin/providers"
-                    onClick={closeMenu}
-                    text="Proveedores"
-                  />
-                </>
-              )}
-            </div>
-
+                <ProfileLink
+                  to="/admin/providers"
+                  onClick={closeMenu}
+                  text="Proveedores"
+                />
+              </>
+            )}
             <div className="border-t border-gray-300 dark:border-gray-800"></div>
             <form action={logout}>
               <button
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-left"
                 type="submit"
               >
-                Cerrar sesión
+                Log out
               </button>
             </form>
           </div>
