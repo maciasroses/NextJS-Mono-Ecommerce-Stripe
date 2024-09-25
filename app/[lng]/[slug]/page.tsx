@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { ProductSlugCard } from "@/app/components";
 import { getSession } from "@/app/services/user/controller";
 import { getProductBySlug } from "@/app/services/product/controller";
-import { getListByUserId } from "@/app/services/customList/controller";
+import { getListsByUserId } from "@/app/services/customList/controller";
 import type { IProduct, ICustomList } from "@/app/interfaces";
 
 interface ISlugPage {
@@ -16,7 +16,7 @@ const SlugPage = async ({ params: { lng, slug } }: ISlugPage) => {
   let myLists: ICustomList[] = [];
   const session = await getSession();
   if (session) {
-    myLists = (await getListByUserId({
+    myLists = (await getListsByUserId({
       userId: session.userId as string,
     })) as ICustomList[];
   }

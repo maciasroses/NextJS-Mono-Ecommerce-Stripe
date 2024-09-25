@@ -84,7 +84,7 @@ const ThemeSelector = () => {
       <button
         onClick={toggleMenu}
         className="flex items-center"
-        aria-label="Selector de tema"
+        aria-label="Theme selector"
       >
         {theme === "light" ||
         (theme === "system" && systemTheme === "light") ? (
@@ -104,21 +104,21 @@ const ThemeSelector = () => {
               themeColor="light"
               handleThemeChange={() => handleThemeChange("light")}
               icon={<LightIcon theme={theme} />}
-              span="Claro"
+              span="Light"
             />
             <ThemeButton
               theme={theme}
               themeColor="dark"
               handleThemeChange={() => handleThemeChange("dark")}
               icon={<DarkIcon theme={theme} />}
-              span="Oscuro"
+              span="Dark"
             />
             <ThemeButton
               theme={theme}
               themeColor="system"
               handleThemeChange={() => handleThemeChange("system")}
               icon={<SystemIcon theme={theme} />}
-              span="Sistema"
+              span="System"
             />
           </div>
         </div>

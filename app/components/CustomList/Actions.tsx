@@ -1,9 +1,9 @@
 "use client";
 
-import { ElipsisList } from "@/public/icons";
-import { useEffect, useRef, useState } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
+import { ElipsisList } from "@/public/icons";
+import { useEffect, useRef, useState } from "react";
 
 interface IActions {
   customList: {

@@ -63,7 +63,7 @@ export async function readCustomList({
     return await prisma.customList.findUnique({
       where: {
         userId_name: {
-          name,
+          name: decodeURIComponent(name),
           userId,
         },
       },
@@ -164,6 +164,17 @@ export async function deleteCustomProductList({
   productId,
   customListId,
 }: IReadNDeleteCustomProductsList) {
+  if (customListId && productId) {
+    return await prisma.customProductsList.delete({
+      where: {
+        customListId_productId: {
+          productId,
+          customListId,
+        },
+      },
+    });
+  }
+
   if (userId && productId) {
     return await prisma.customProductsList.deleteMany({
       where: {

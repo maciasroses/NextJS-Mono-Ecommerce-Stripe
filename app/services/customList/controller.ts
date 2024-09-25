@@ -2,10 +2,8 @@
 
 import { cookies } from "next/headers";
 import { validateSchema } from "./schema";
-// import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getSession } from "../user/controller";
-// import { getProductById } from "../product/controller";
 import {
   createCustomList,
   createCustomProductsList,
@@ -21,7 +19,7 @@ import type {
   // IProduct,
 } from "@/app/interfaces";
 
-export async function getListByUserId({ userId }: { userId: string }) {
+export async function getListsByUserId({ userId }: { userId: string }) {
   try {
     return await readCustomList({
       userId,
@@ -29,6 +27,24 @@ export async function getListByUserId({ userId }: { userId: string }) {
   } catch (error) {
     console.error(error);
     return [];
+  }
+}
+
+export async function getListByNameNUserId({
+  name,
+  userId,
+}: {
+  name: string;
+  userId: string;
+}) {
+  try {
+    return await readCustomList({
+      name,
+      userId,
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 }
 
@@ -279,4 +295,22 @@ export async function deleteProductFromAllCustomLists(productId: string) {
     console.error(error);
     return { message: "Internal server error" };
   }
+}
+
+export async function deleteProductFromCustomList(
+  customListId: string,
+  productId: string
+) {
+  try {
+    await deleteCustomProductList({
+      customListId,
+      productId,
+    });
+  } catch (error) {
+    console.error(error);
+    return { message: "Internal server error" };
+  }
+  // revalidatePath(`/${lng}/profile/lists`);
+  // redirect(`/${lng}/profile/lists`);
+  return { message: "OK" };
 }

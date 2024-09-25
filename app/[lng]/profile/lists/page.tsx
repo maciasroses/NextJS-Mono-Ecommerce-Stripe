@@ -1,13 +1,13 @@
 import { ListCard } from "@/app/components/CustomList";
 import { getSession } from "@/app/services/user/controller";
-import { getListByUserId } from "@/app/services/customList/controller";
+import { getListsByUserId } from "@/app/services/customList/controller";
 import type { IBaseLangPage, ICustomList } from "@/app/interfaces";
 
 interface IProfileListsPage extends IBaseLangPage {}
 
 const ProfileListsPage = async ({ params: { lng } }: IProfileListsPage) => {
   const session = await getSession();
-  const myLists = (await getListByUserId({
+  const myLists = (await getListsByUserId({
     userId: session?.userId as string,
   })) as ICustomList[];
 
