@@ -51,7 +51,10 @@ const Delete = ({ customList, handleClose }: IDelete) => {
 
   return (
     <>
-      <button className="block w-full p-2 hover:bg-gray-100" onClick={onOpen}>
+      <button
+        className="block w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+        onClick={onOpen}
+      >
         Delete
       </button>
       <Modal isOpen={isOpen} onClose={handleClose} isForSideBar={false}>
@@ -62,15 +65,15 @@ const Delete = ({ customList, handleClose }: IDelete) => {
           <form onSubmit={handleSubmit} className="px-4">
             <fieldset
               disabled={isSubmitting}
-              className={cn(isSubmitting && "opacity-50")}
+              className={cn("text-center", isSubmitting && "opacity-50")}
             >
+              <h2 className="text-red-600 dark:text-red-300 text-xl">
+                ⚠️ This action cannot be undone. ⚠️
+              </h2>
               <p className="text-2xl">
                 Are you sure you want to delete the list{" "}
                 <span className="font-bold">{customList.name}</span>?
               </p>
-              <small className="text-red-600">
-                This action cannot be undone.
-              </small>
               <div className="text-center mt-4 w-full">
                 <SubmitButton
                   title="Delete"

@@ -6,7 +6,7 @@ import type {
   IProductSearchParams,
 } from "@/app/interfaces";
 import { getSession } from "@/app/services/user/controller";
-import { getListByUserId } from "@/app/services/customList/controller";
+import { getListsByUserId } from "@/app/services/customList/controller";
 
 interface IProductListComp {
   lng: string;
@@ -17,7 +17,7 @@ const ProductList = async ({ lng, searchParams }: IProductListComp) => {
   let myLists: ICustomList[] = [];
   const session = await getSession();
   if (session) {
-    myLists = (await getListByUserId({
+    myLists = (await getListsByUserId({
       userId: session.userId as string,
     })) as ICustomList[];
   }

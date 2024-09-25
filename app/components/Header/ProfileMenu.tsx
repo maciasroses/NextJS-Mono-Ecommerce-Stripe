@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/app/utils/cn";
 import { useAuth } from "@/app/hooks";
+import { DownChevron } from "@/public/icons";
 import ProfilePic from "@/public/profilepic.webp";
 import { useEffect, useRef, useState } from "react";
 import { logout } from "@/app/services/user/controller";
@@ -10,15 +12,19 @@ import type { IUser } from "@/app/interfaces";
 
 interface IProfileLink {
   to: string;
-  onClick: () => void;
   text: string;
+  onClick: () => void;
+  customClass?: string;
 }
 
-const ProfileLink = ({ to, onClick, text }: IProfileLink) => {
+const ProfileLink = ({ to, onClick, text, customClass }: IProfileLink) => {
   return (
     <Link
       href={to}
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+      className={cn(
+        "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white",
+        customClass
+      )}
       onClick={onClick}
     >
       {text}
@@ -27,9 +33,14 @@ const ProfileLink = ({ to, onClick, text }: IProfileLink) => {
 };
 
 const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
   const { setUser } = useAuth();
+  const menuRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMenu, setProfileMenu] = useState(false);
+
+  const handleProfileMenu = () => {
+    setProfileMenu(!profileMenu);
+  };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -41,11 +52,13 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
       !(menuRef.current as HTMLElement).contains(event.target as Node)
     ) {
       setMenuOpen(false);
+      setProfileMenu(false);
     }
   };
 
   const closeMenu = () => {
     setMenuOpen(false);
+    setProfileMenu(false);
   };
 
   useEffect(() => {
@@ -96,15 +109,50 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
                 text="Ventas"
               />
             )}
-            <ProfileLink
-              to={
-                user.role === "ADMIN"
-                  ? `/${lng}/admin/profile`
-                  : `/${lng}/profile`
-              }
-              onClick={closeMenu}
-              text="Profile"
-            />
+            <p
+              onClick={handleProfileMenu}
+              className="relative block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white cursor-pointer"
+            >
+              Profile
+              <span
+                className={cn(
+                  "absolute right-4 top-2.5 transform transition-all duration-300",
+                  profileMenu ? " rotate-180" : "rotate-0"
+                )}
+              >
+                <DownChevron size="size-4" />
+              </span>
+            </p>
+            <ul
+              className={`${
+                profileMenu ? "block" : "hidden"
+              } transition duration-300`}
+            >
+              <li>
+                <ProfileLink
+                  text="Home"
+                  customClass="pl-8"
+                  onClick={closeMenu}
+                  to={`/${lng}/profile`}
+                />
+              </li>
+              <li>
+                <ProfileLink
+                  text="Lists"
+                  customClass="pl-8"
+                  onClick={closeMenu}
+                  to={`/${lng}/profile/lists`}
+                />
+              </li>
+              <li>
+                <ProfileLink
+                  text="Orders"
+                  customClass="pl-8"
+                  onClick={closeMenu}
+                  to={`/${lng}/profile/orders`}
+                />
+              </li>
+            </ul>
             {user.role === "ADMIN" && (
               <>
                 <ProfileLink

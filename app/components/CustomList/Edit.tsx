@@ -1,14 +1,14 @@
 "use client";
 
-import { useModal, useResolvedTheme } from "@/app/hooks";
 import Modal from "../Modal";
-import { GenericInput, SubmitButton } from "../Form";
-import { useEffect, useState } from "react";
-import { ICustomListState } from "@/app/interfaces";
-import { useFormState } from "react-dom";
-import { updateExistingCustomList } from "@/app/services/customList/controller";
 import { cn } from "@/app/utils/cn";
+import { useFormState } from "react-dom";
+import { useEffect, useState } from "react";
 import { Slide, toast } from "react-toastify";
+import { GenericInput, SubmitButton } from "../Form";
+import { useModal, useResolvedTheme } from "@/app/hooks";
+import { updateExistingCustomList } from "@/app/services/customList/controller";
+import type { ICustomListState } from "@/app/interfaces";
 
 interface IEdit {
   customList: {
@@ -51,7 +51,10 @@ const Edit = ({ customList, handleClose }: IEdit) => {
 
   return (
     <>
-      <button className="block w-full p-2 hover:bg-gray-100" onClick={onOpen}>
+      <button
+        className="block w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+        onClick={onOpen}
+      >
         Edit
       </button>
       <Modal isOpen={isOpen} onClose={handleClose} isForSideBar={false}>
