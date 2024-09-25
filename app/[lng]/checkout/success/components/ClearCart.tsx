@@ -9,7 +9,7 @@ const ClearCart = ({ lng }: { lng: string }) => {
 
   useEffect(() => {
     clearCart();
-  }, []);
+  }, [clearCart]);
 
   return (
     <GenericBackToPage

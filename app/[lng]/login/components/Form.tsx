@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useFormState } from "react-dom";
-import { SubmitButton } from "@/app/components";
+import { GenericInput, SubmitButton } from "@/app/components";
 import { login } from "@/app/services/user/controller";
 import type { ILoginState } from "@/app/interfaces";
+import { cn } from "@/app/utils/cn";
 
 const Form = ({ lng }: { lng: string }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,45 +24,34 @@ const Form = ({ lng }: { lng: string }) => {
     <>
       <div className="flex flex-col items-center gap-2">
         <h1 className=" text-6xl">Log in</h1>
-        {error?.message && <p className="text-red-600">{error?.message}</p>}
+        {error?.message && (
+          <p className="text-red-600 dark:text-red-300">{error?.message}</p>
+        )}
       </div>
       <form action={action}>
-        <fieldset disabled={isSubmitting}>
+        <fieldset
+          disabled={isSubmitting}
+          className={cn(isSubmitting && "opacity-50")}
+        >
           <div className="flex flex-col gap-4 text-xl">
             <div className="flex flex-col gap-2">
-              <label htmlFor="email">Email</label>
-              <input
+              <GenericInput
                 type="email"
-                name="email"
                 id="email"
                 autoComplete="email"
-                placeholder="email@test.com"
-                className={`border block w-full p-2.5 text-sm rounded-lg dark:bg-gray-700 ${
-                  errors?.email
-                    ? "bg-red-50 border-red-500 text-red-900 dark:text-red-400 placeholder-red-700 dark:placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                    : "bg-gray-50 border-gray-300 text-gray-900 dark:text-white dark:placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                }`}
+                placeholder="user@mail.com"
+                ariaLabel="Email"
+                error={errors?.email}
               />
-              {errors?.email && (
-                <small className="text-red-600">{errors?.email}</small>
-              )}
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="password">Password</label>
-              <input
+              <GenericInput
                 type="password"
-                name="password"
                 id="password"
                 placeholder="password"
-                className={`border block w-full p-2.5 text-sm rounded-lg dark:bg-gray-700 ${
-                  errors?.password
-                    ? "bg-red-50 border-red-500 text-red-900 dark:text-red-400 placeholder-red-700 dark:placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                    : "bg-gray-50 border-gray-300 text-gray-900 dark:text-white dark:placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                }`}
+                ariaLabel="Password"
+                error={errors?.password}
               />
-              {errors?.password && (
-                <small className="text-red-600">{errors?.password}</small>
-              )}
             </div>
           </div>
           <input hidden name="lang" defaultValue={lng} />

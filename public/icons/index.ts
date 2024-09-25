@@ -24,6 +24,7 @@ import PlusCircle from "./PlusCircle";
 import MinusCircle from "./MinusCircle";
 import ShoppingBag from "./ShoppingBag";
 import LeftChevron from "./LeftChevron";
+import ElipsisList from "./EllipsisList";
 import RightChevron from "./RightChevron";
 
 export {
@@ -53,5 +54,6 @@ export {
   MinusCircle,
   ShoppingBag,
   LeftChevron,
+  ElipsisList,
   RightChevron,
 };

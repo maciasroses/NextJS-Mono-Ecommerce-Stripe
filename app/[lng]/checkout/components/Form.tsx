@@ -262,7 +262,12 @@ const StripeForm = ({ lng, userEmail }: IStripeForm) => {
       onSubmit={handleConfirmPayment}
       className="w-full md:w-1/3 px-4 pt-12 pb-4 sticky top-24 h-full"
     >
-      <fieldset disabled={stripe == null || elements == null || isLoading}>
+      <fieldset
+        disabled={stripe == null || elements == null || isLoading}
+        className={cn(
+          stripe == null || elements == null || (isLoading && "opacity-50")
+        )}
+      >
         {errorMessage && (
           <p className="text-[#cb3544] dark:text-[#c87688] font-bold mb-2">
             {errorMessage}
@@ -282,10 +287,10 @@ const StripeForm = ({ lng, userEmail }: IStripeForm) => {
           type="submit"
           disabled={stripe == null || elements == null || isLoading}
           className={cn(
-            "w-full py-2 rounded-md transition mt-4",
+            "w-full py-2 rounded-lg mt-4",
             stripe == null || elements == null || isLoading
               ? "bg-gray-300 dark:bg-gray-800 cursor-not-allowed"
-              : "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 dark:border-blue-300 dark:border-2"
+              : "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 transition-colors duration-300"
           )}
         >
           {isLoading ? "Processing..." : "Confirm payment"}

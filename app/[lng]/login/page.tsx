@@ -15,7 +15,10 @@ const LoginPage = ({ params: { lng } }: IBaseLangPage) => {
         <p>
           Not registered yet?{" "}
           <span>
-            <Link className="text-blue-600" href={`/${lng}/signup`}>
+            <Link
+              className="hover:underline text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600"
+              href={`/${lng}/signup`}
+            >
               Sign up
             </Link>
           </span>

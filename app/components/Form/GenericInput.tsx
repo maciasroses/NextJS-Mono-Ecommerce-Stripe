@@ -8,6 +8,7 @@ interface IGenericInput {
   min?: string;
   max?: string;
   rows?: number;
+  autoComplete?: string;
   options?: { value: string; label: string }[];
   defaultValue?: string;
   defaultChecked?: boolean;
@@ -26,6 +27,7 @@ const GenericInput: React.FC<IGenericInput> = ({
   id,
   ariaLabel,
   type,
+  autoComplete,
   step,
   min,
   max,
@@ -42,16 +44,17 @@ const GenericInput: React.FC<IGenericInput> = ({
   const commonProps = {
     id,
     name: id,
+    autoComplete,
     onChange,
     defaultValue,
     "aria-label": ariaLabel,
     className: cn(
-      "border p-2.5 text-sm rounded-lg dark:bg-gray-900",
+      "border p-2.5 text-sm rounded-lg dark:bg-gray-900 transition-colors duration-300 focus:outline-none",
       type === "checkbox" ? "cursor-pointer" : "w-full",
       className,
       error
-        ? "bg-red-50 border-red-500 text-red-900 dark:text-red-400 placeholder-red-700 dark:placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-        : "bg-gray-50 border-gray-300 text-gray-900 dark:text-white dark:placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
+        ? "bg-red-50 text-red-900 dark:text-red-300 placeholder-red-700 dark:placeholder-red-500 border-red-500 focus:border-red-700 dark:focus:border-red-300"
+        : "bg-gray-50 text-gray-900 dark:text-white dark:placeholder-gray-400 border-gray-300 focus:border-gray-500 dark:focus:border-gray-100"
     ),
   };
 
@@ -82,7 +85,9 @@ const GenericInput: React.FC<IGenericInput> = ({
           {...commonProps}
         />
       )}
-      {error && <small className="text-red-600">{error}</small>}
+      {error && (
+        <small className="text-red-600 dark:text-red-300">{error}</small>
+      )}
     </>
   );
 };
