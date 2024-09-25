@@ -1,4 +1,10 @@
-import { useState, useEffect, ReactNode, createContext } from "react";
+import {
+  useState,
+  useEffect,
+  ReactNode,
+  createContext,
+  useCallback,
+} from "react";
 import type { ICartItem } from "@/app/interfaces";
 
 export interface ICartContext {
@@ -28,7 +34,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [cart]);
 
-  const addToCart = (item: ICartItem) => {
+  const addToCart = useCallback((item: ICartItem) => {
     setCart((prevCart) => {
       const itemIndex = prevCart.findIndex(
         (cartItem) => cartItem.id === item.id
@@ -50,15 +56,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         ];
       }
     });
-  };
+  }, []);
 
-  const removeFromCart = (id: string) => {
+  const removeFromCart = useCallback((id: string) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-  };
+  }, []);
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCart([]);
-  };
+  }, []);
 
   return (
     <CartContext.Provider

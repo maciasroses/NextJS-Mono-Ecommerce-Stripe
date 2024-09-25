@@ -5,18 +5,20 @@ import { validateSchema } from "./schema";
 // import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getSession } from "../user/controller";
-import { getProductById } from "../product/controller";
+// import { getProductById } from "../product/controller";
 import {
   createCustomList,
   createCustomProductsList,
+  deleteCustomList,
   deleteCustomProductList,
   readCustomList,
   readCustomProductsList,
+  updateCustomList,
 } from "./model";
 import type {
   IAddProductToCustomList,
   ICustomListState,
-  IProduct,
+  // IProduct,
 } from "@/app/interfaces";
 
 export async function getListByUserId({ userId }: { userId: string }) {
@@ -64,7 +66,7 @@ export async function createNewCustomList(
   _prevState: ICustomListState,
   formData: FormData
 ) {
-  const lng = cookies().get("i18next")?.value ?? "en";
+  // const lng = cookies().get("i18next")?.value ?? "en";
   const session = await getSession().catch(() => null);
   const productId = (formData.get("productId") as string) ?? "";
 
@@ -112,8 +114,8 @@ export async function createNewCustomList(
     console.error(error);
     return { message: "Internal server error" };
   }
-  const { slug } = (await getProductById({ id: productId })) as IProduct;
-  revalidatePath(`/${lng}/${slug}`);
+  // const { slug } = (await getProductById({ id: productId })) as IProduct;
+  // revalidatePath(`/${lng}/${slug}`);
   return { message: "OK" };
 }
 
@@ -147,27 +149,6 @@ export async function addProductToCustomList(
   // revalidatePath(`/${lng}/profile/lists`);
   // redirect(`/${lng}/profile/lists`);
 }
-
-// WITHOUT FORMSTATE AND FOMRDATA
-// export async function addProductToManyCustomLists(
-//   productId: string,
-//   customListIds: string[]
-// ) {
-//   try {
-//     customListIds.forEach(async (customListId) => {
-//       await createCustomProductsList({
-//         data: {
-//           productId,
-//           customListId,
-//         },
-//       });
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return { message: "Internal server error" };
-//   }
-//   return { message: "OK" };
-// }
 
 export async function addProductToManyCustomLists(
   _prevState: IAddProductToCustomList,
@@ -223,6 +204,67 @@ export async function addProductToManyCustomLists(
     console.error(error);
     return { message: "Internal server error" };
   }
+  return { message: "OK" };
+}
+
+export async function updateExistingCustomList(
+  _prevState: ICustomListState,
+  formData: FormData
+) {
+  const lng = cookies().get("i18next")?.value ?? "en";
+
+  const data = {
+    id: formData.get("id") as string,
+    name: formData.get("name") as string,
+    description: formData.get("description") as string,
+  };
+
+  const errors = validateSchema("update", data);
+
+  if (Object.keys(errors).length !== 0) {
+    return {
+      errors,
+      message: "",
+    };
+  }
+
+  try {
+    const customList = await readCustomList({
+      id: data.id,
+    });
+
+    if (!customList) {
+      return {
+        errors: {
+          id: "List not found",
+        },
+        message: "",
+      };
+    }
+
+    await updateCustomList({ id: data.id, data });
+  } catch (error) {
+    console.error(error);
+    return { message: "Internal server error" };
+  }
+
+  revalidatePath(`/${lng}/profile/lists`);
+  // redirect(`/${lng}/profile/lists`);
+  return { message: "OK" };
+}
+
+export async function deleteExistingCustomList(customListId: string) {
+  const lng = cookies().get("i18next")?.value ?? "en";
+  try {
+    await deleteCustomList({
+      id: customListId,
+    });
+  } catch (error) {
+    console.error(error);
+    return { message: "Internal server error" };
+  }
+  revalidatePath(`/${lng}/profile/lists`);
+  // redirect(`/${lng}/profile/lists`);
   return { message: "OK" };
 }
 

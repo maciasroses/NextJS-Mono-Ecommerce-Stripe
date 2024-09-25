@@ -59,7 +59,7 @@ const CheckoutSuccessPage = async ({
       </>
     );
   } catch (error) {
-    // console.error("Stripe error:", error);
+    console.error("Stripe error:", error);
     return (
       <GenericBackToPage
         link={`/${lng}/checkout`}

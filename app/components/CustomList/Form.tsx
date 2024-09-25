@@ -17,6 +17,7 @@ import type {
   ICustomList,
   ICustomListState,
 } from "@/app/interfaces";
+import { cn } from "@/app/utils/cn";
 
 interface IForm {
   myLists: ICustomList[];
@@ -86,7 +87,11 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
             <div className="flex items-center gap-4">
               <button
                 onClick={handleChageView}
-                className="text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400"
+                disabled={isSubmitting}
+                className={cn(
+                  "text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400",
+                  isSubmitting && "opacity-50"
+                )}
               >
                 <LeftArrow size="size-6 md:size-8" />
               </button>
@@ -97,7 +102,10 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
             )}
           </div>
           <form action={action} className="px-4">
-            <fieldset disabled={isSubmitting}>
+            <fieldset
+              disabled={isSubmitting}
+              className={cn(isSubmitting && "opacity-50")}
+            >
               <div className="flex flex-col gap-2">
                 <GenericInput
                   id="name"
@@ -128,10 +136,12 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
           <div className="flex flex-col gap-2">
             <h1 className="text-xl md:text-4xl">Add to list</h1>
             {addProductError?.message && addProductError?.message !== "OK" && (
-              <p className="text-red-600">{addProductError?.message}</p>
+              <p className="text-red-600 dark:text-red-300">
+                {addProductError?.message}
+              </p>
             )}
             {addProductErrors && addProductErrors[0]?.customListId && (
-              <p className="text-red-600">
+              <p className="text-red-600 dark:text-red-300">
                 {addProductErrors[0]?.customListId}
               </p>
             )}
@@ -139,7 +149,11 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
           <div className="flex flex-col px-4">
             <button
               onClick={handleChageView}
-              className="flex items-center group gap-2 text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400 mb-2"
+              disabled={isSubmitting}
+              className={cn(
+                "flex items-center group gap-2 text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400 mb-2",
+                isSubmitting && "opacity-50 cursor-not-allowed"
+              )}
             >
               <Plus
                 size="size-10"
@@ -148,13 +162,19 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
               <span>Create new list</span>
             </button>
             <form action={addProductAction}>
-              <fieldset disabled={isSubmitting}>
+              <fieldset
+                disabled={isSubmitting}
+                className={cn(isSubmitting && "opacity-50")}
+              >
                 <div className="max-h-[169px] overflow-y-auto">
                   {myLists.map((list) => (
                     <label
                       key={list.id}
                       htmlFor={list.id}
-                      className="flex justify-between items-center gap-2 cursor-pointer mb-2"
+                      className={cn(
+                        "flex justify-between items-center gap-2 mb-2",
+                        isSubmitting ? "cursor-not-allowed" : "cursor-pointer"
+                      )}
                     >
                       <div className="flex items-center gap-2">
                         <div className="size-10 border border-gray-200 p-1 rounded-md">
@@ -192,7 +212,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
                   ))}
                 </div>
                 <input hidden name="productId" defaultValue={productId} />
-                <div className="text-center mt-4 w-full">
+                <div className="text-center mt-4">
                   <SubmitButton
                     title="Add"
                     handleChangeIsSearching={handleChangeIsSubmitting}
