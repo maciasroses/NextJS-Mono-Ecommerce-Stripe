@@ -21,7 +21,7 @@ const Heart = ({
       className={cn(
         size,
         customClass,
-        isFilled ? "text-red-500" : "text-gray-300"
+        isFilled ? "text-red-600 dark:text-red-300" : "text-gray-300"
       )}
     >
       <path

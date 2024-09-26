@@ -7,9 +7,9 @@ interface FilterConfig {
 }
 
 export const useSearchFilter = (defaultFilters: FilterConfig) => {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const searchParams = useSearchParams();
 
   const initialFilters = Object.keys(defaultFilters).reduce((acc, key) => {
     acc[key] = searchParams.get(key) || defaultFilters[key];

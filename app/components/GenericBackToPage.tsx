@@ -29,7 +29,7 @@ const GenericBackToPage = ({
       </p>
       <Link
         href={link}
-        className="text-base md:text-xl px-4 py-2 mt-4 rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 transition-colors duration-300"
+        className="text-base md:text-xl px-4 py-2 mt-4 rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
       >
         {linkText}
       </Link>

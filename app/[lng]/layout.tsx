@@ -47,7 +47,7 @@ export default async function RootLayout({
     <html lang={lng} dir={dir(lng)}>
       <body
         suppressHydrationWarning
-        className="dark:bg-gray-950 dark:text-white"
+        className="dark:bg-gray-950 dark:text-white transition-colors duration-300"
       >
         <ThemeComponent>
           <CartComponent>

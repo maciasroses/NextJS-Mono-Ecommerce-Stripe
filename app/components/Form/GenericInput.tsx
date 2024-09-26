@@ -49,7 +49,7 @@ const GenericInput: React.FC<IGenericInput> = ({
     defaultValue,
     "aria-label": ariaLabel,
     className: cn(
-      "border p-2.5 text-sm rounded-lg dark:bg-gray-900 transition-colors duration-300 focus:outline-none",
+      "border p-2.5 text-sm rounded-lg dark:bg-gray-900 focus:outline-none",
       type === "checkbox" ? "cursor-pointer" : "w-full",
       className,
       error
