@@ -146,4 +146,5 @@ export interface IProductSearchParams {
 export interface IGenericIcon {
   size?: string;
   customClass?: string;
+  strokeWidth?: number;
 }

@@ -1,4 +1,5 @@
 import { cn } from "@/app/utils/cn";
+import type { IGenericIcon } from "@/app/interfaces";
 
 const colorMap: { [key: string]: string } = {
   gray: "text-gray-500 dark:text-gray-400",
@@ -6,15 +7,25 @@ const colorMap: { [key: string]: string } = {
   green: "text-green-500 dark:text-green-400",
 };
 
-const Upload = ({ color = "gray" }: { color?: string }) => {
+interface IUpload extends IGenericIcon {
+  color?: string;
+}
+
+const Upload = ({
+  size = "size-6",
+  customClass = "",
+  strokeWidth = 1.5,
+  color = "gray",
+}: IUpload) => {
   return (
     <svg
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 20 16"
-      style={{ width: "25px", height: "25px" }}
-      className={cn("mb-4", `${colorMap[color]}`)}
+      strokeWidth={strokeWidth}
+      stroke="currentColor"
+      className={cn(size, customClass, `${colorMap[color]}`)}
     >
       <path
         stroke="currentColor"
@@ -28,5 +39,3 @@ const Upload = ({ color = "gray" }: { color?: string }) => {
 };
 
 export default Upload;
-
-// text-gray-500 dark:text-gray-400

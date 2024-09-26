@@ -1,9 +1,9 @@
 "use client";
 
+import Filters from "../Filters";
+import { useState } from "react";
 import { cn } from "@/app/utils/cn";
 import { Filters as FiltersIcon, XMark } from "@/public/icons";
-import { useState } from "react";
-import Filters from "../Filters";
 
 const FiltersMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ const FiltersMenu = () => {
         onClick={toggleMenu}
         className="h-full flex items-center"
       >
-        <FiltersIcon />
+        <FiltersIcon size="size-8" strokeWidth={1} />
       </button>
       <div
         className={cn(

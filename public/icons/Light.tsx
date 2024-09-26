@@ -1,15 +1,27 @@
 import { cn } from "@/app/utils/cn";
+import type { IGenericIcon } from "@/app/interfaces";
 
-const LightIcon = ({ theme }: { theme: string }) => {
+interface ILight extends IGenericIcon {
+  theme: string;
+}
+
+const Light = ({
+  theme,
+  size = "size-6",
+  customClass = "",
+  strokeWidth = 1.5,
+}: ILight) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       stroke="currentColor"
       className={cn(
-        "size-6 transition duration-75 ",
+        "transition duration-75 ",
+        size,
+        customClass,
         theme === "light"
           ? "text-blue-600 dark:text-blue-300"
           : "text-gray-500 hover:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -24,4 +36,4 @@ const LightIcon = ({ theme }: { theme: string }) => {
   );
 };
 
-export default LightIcon;
+export default Light;

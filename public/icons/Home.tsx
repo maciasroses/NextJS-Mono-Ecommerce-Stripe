@@ -1,18 +1,19 @@
 import { cn } from "@/app/utils/cn";
+import type { IGenericIcon } from "@/app/interfaces";
 
-const HomeIcon = ({ isActive }: { isActive?: boolean }) => {
+const HomeIcon = ({
+  size = "size-6",
+  customClass = "",
+  strokeWidth = 1.5,
+}: IGenericIcon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth="2.5"
+      strokeWidth={strokeWidth}
       stroke="currentColor"
-      style={{ width: "1.5rem", height: "1.5rem" }}
-      className={cn(
-        "transition duration-75 group-hover:text-gray-500",
-        isActive && "text-gray-500"
-      )}
+      className={cn(size, customClass)}
     >
       <path
         strokeLinecap="round"

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import AddToCart from "../AddToCart";
-import AddCustomList from "../CustomList/AddCustomList";
+import { AddCustomList } from "../CustomList";
 import formatCurrency from "@/app/utils/format-currency";
 import type { ICustomList, IProduct } from "@/app/interfaces";
 

@@ -3,7 +3,7 @@
 import { cn } from "@/app/utils/cn";
 import { useTheme } from "@/app/hooks";
 import { useEffect, useRef, useState } from "react";
-import { DarkIcon, LightIcon, SystemIcon } from "@/public/icons";
+import { Moon, Light, System } from "@/public/icons";
 
 interface IThemeButton {
   theme: string;
@@ -88,9 +88,9 @@ const ThemeSelector = () => {
       >
         {theme === "light" ||
         (theme === "system" && systemTheme === "light") ? (
-          <LightIcon theme={theme} />
+          <Light theme={theme} />
         ) : (
-          <DarkIcon theme={theme} />
+          <Moon theme={theme} />
         )}
       </button>
       {menuOpen && (
@@ -103,21 +103,21 @@ const ThemeSelector = () => {
               theme={theme}
               themeColor="light"
               handleThemeChange={() => handleThemeChange("light")}
-              icon={<LightIcon theme={theme} />}
+              icon={<Light theme={theme} />}
               span="Light"
             />
             <ThemeButton
               theme={theme}
               themeColor="dark"
               handleThemeChange={() => handleThemeChange("dark")}
-              icon={<DarkIcon theme={theme} />}
+              icon={<Moon theme={theme} />}
               span="Dark"
             />
             <ThemeButton
               theme={theme}
               themeColor="system"
               handleThemeChange={() => handleThemeChange("system")}
-              icon={<SystemIcon theme={theme} />}
+              icon={<System theme={theme} />}
               span="System"
             />
           </div>

@@ -43,8 +43,8 @@ const MainSearch = ({ id, lng }: IMainSearch) => {
         Search
       </label>
       <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-          <Search />
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3">
+          <Search size="size-4 text-gray-400" />
         </div>
         <input
           type="search"

@@ -7,9 +7,9 @@ import ProductCardSkeleton from "./ProductCardSkeleton";
 
 export {
   Card404,
-  ProductCard,
-  ProductCardSkeleton,
   ErrorCard,
-  ProductSlugCard,
+  ProductCard,
   CardSkeleton,
+  ProductSlugCard,
+  ProductCardSkeleton,
 };

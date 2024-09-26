@@ -41,9 +41,7 @@ export const useSearchFilter = (defaultFilters: FilterConfig) => {
 
   const clearFilters = () => {
     setFilters(defaultFilters);
-    // setSearchParams(new URLSearchParams()); WITH REACT-ROUTER-DOM
-    // handleDebouncedSearch(defaultFilters); OPTIONAL SOLUTION
-    replace(pathname); // I THING THIS IS THE BEST SOLUTION
+    replace(pathname);
   };
 
   return { filters, handleSearch, clearFilters };
