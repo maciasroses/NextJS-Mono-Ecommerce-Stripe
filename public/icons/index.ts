@@ -1,21 +1,21 @@
 import XBox from "./XBox";
 import Plus from "./Plus";
+import Moon from "./Moon";
 import XMark from "./XMark";
 import Heart from "./Heart";
+import Light from "./Light";
 import MXFlag from "./MXFlag";
 import Upload from "./Upload";
 import USFlag from "./USFlag";
 import Puzzle from "./Puzzle";
 import Dollar from "./Dollar";
 import HomeIcon from "./Home";
-import DarkIcon from "./Dark";
 import UserIcon from "./User";
 import Search from "./Search";
+import System from "./System";
 import Filters from "./Filters";
 import SadFace from "./SadFace";
 import TrashIcon from "./Trash";
-import LightIcon from "./Light";
-import SystemIcon from "./System";
 import PencilIcon from "./Pencil";
 import UpChevron from "./UpChevron";
 import SmileFace from "./SmileFace";
@@ -32,6 +32,7 @@ import RightChevron from "./RightChevron";
 export {
   XBox,
   Plus,
+  Moon,
   XMark,
   Heart,
   MXFlag,
@@ -43,15 +44,14 @@ export {
   SadFace,
   Filters,
   HomeIcon,
-  DarkIcon,
   UserIcon,
   SmileFace,
   TrashIcon,
-  LightIcon,
+  Light,
   LeftArrow,
   UpChevron,
   RightArrow,
-  SystemIcon,
+  System,
   PencilIcon,
   PlusCircle,
   DownChevron,

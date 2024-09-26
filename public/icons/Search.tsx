@@ -1,12 +1,19 @@
-const Search = () => {
+import { cn } from "@/app/utils/cn";
+import type { IGenericIcon } from "@/app/interfaces";
+
+const Search = ({
+  size = "size-6",
+  customClass = "",
+  strokeWidth = 1.5,
+}: IGenericIcon) => {
   return (
     <svg
-      className="text-gray-500 dark:text-gray-400"
-      style={{ width: "1rem", height: "1rem" }}
-      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 20 20"
+      strokeWidth={strokeWidth}
+      stroke="currentColor"
+      className={cn(size, customClass)}
     >
       <path
         stroke="currentColor"

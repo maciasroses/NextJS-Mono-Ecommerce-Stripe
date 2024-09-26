@@ -1,22 +1,22 @@
 import { cn } from "@/app/utils/cn";
+import type { IGenericIcon } from "@/app/interfaces";
 
-interface IHeart {
-  size?: string;
+interface IHeart extends IGenericIcon {
   isFilled?: boolean;
-  customClass?: string;
 }
 
 const Heart = ({
   size = "size-6",
   isFilled = false,
   customClass = "",
+  strokeWidth = 1.5,
 }: IHeart) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill={isFilled ? "currentColor" : "none"}
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth}
       stroke="currentColor"
       className={cn(
         size,

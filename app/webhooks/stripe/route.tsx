@@ -16,8 +16,8 @@ import type {
   IOrderInfoForEmail,
 } from "@/app/interfaces";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const resend = new Resend(process.env.RESEND_API_KEY as string);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: NextRequest) {
   const event = stripe.webhooks.constructEvent(
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const productsQuantities = JSON.parse(charge.metadata.productsQuantities);
 
     if (email == null || userId == null || productsIds == null) {
-      return new Response("Bad request", { status: 400 });
+      return new NextResponse("Bad request", { status: 400 });
     }
 
     try {
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
       });
     } catch (error) {
       console.error(error);
-      return new Response("Failed to create order", { status: 500 });
+      return new NextResponse("Failed to create order", { status: 500 });
     }
   }
 

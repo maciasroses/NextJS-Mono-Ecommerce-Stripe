@@ -10,7 +10,6 @@ const Filters = () => {
 
   const handleCategory = (category: string) => {
     const params = new URLSearchParams(searchParams);
-    // params.set("page", "1");
     params.delete("page");
     params.set("category", category);
     replace(`${pathname}?${params.toString()}`);
@@ -30,7 +29,6 @@ const Filters = () => {
     } else {
       params.delete("priceTo");
     }
-    // params.set("page", "1");
     params.delete("page");
     replace(`${pathname}?${params.toString()}`);
   };

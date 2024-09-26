@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "../utils/cn";
+import { cn } from "@/app/utils/cn";
 import { toast, Slide } from "react-toastify";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import type { IProduct } from "@/app/interfaces";

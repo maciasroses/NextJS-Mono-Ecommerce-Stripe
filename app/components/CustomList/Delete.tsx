@@ -1,12 +1,12 @@
 "use client";
 
-import { useModal, useResolvedTheme } from "@/app/hooks";
 import Modal from "../Modal";
-import { SubmitButton } from "../Form";
 import { useState } from "react";
-import { deleteExistingCustomList } from "@/app/services/customList/controller";
 import { cn } from "@/app/utils/cn";
+import { SubmitButton } from "../Form";
 import { Slide, toast } from "react-toastify";
+import { useModal, useResolvedTheme } from "@/app/hooks";
+import { deleteExistingCustomList } from "@/app/services/customList/controller";
 
 interface IDelete {
   customList: {

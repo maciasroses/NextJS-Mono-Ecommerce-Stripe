@@ -1,8 +1,8 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { dir } from "i18next";
-import { ToastContainer } from "react-toastify";
 import { languages } from "@/app/i18n/settings";
+import { ToastContainer } from "react-toastify";
 import { getAllProducts } from "../services/product/controller";
 import { getSession, getUserById } from "@/app/services/user/controller";
 import {

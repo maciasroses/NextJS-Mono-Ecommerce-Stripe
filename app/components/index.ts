@@ -16,8 +16,10 @@ import ErrorBoundary from "./ErrorBoundary";
 import MainSearch from "./Header/MainSearch";
 import { AddCustomList } from "./CustomList";
 import ThemeComponent from "./ThemeComponent";
-import GenericBackToPage from "./GenericBackToPage";
 import { PieSkeleton, BarSkeleton } from "./Chart";
+import GenericBackToPage from "./GenericBackToPage";
+import { DatatableSkeleton, Datatable } from "./Datatable";
+import { GenericInput, SubmitButton, GenericSearchInput } from "./Form";
 import {
   Card404,
   CardSkeleton,
@@ -26,8 +28,6 @@ import {
   ProductSlugCard,
   ProductCard,
 } from "./Card";
-import { DatatableSkeleton, Datatable } from "./Datatable";
-import { GenericInput, SubmitButton, GenericSearchInput } from "./Form";
 
 export {
   Hero,

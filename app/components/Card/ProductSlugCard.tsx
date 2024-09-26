@@ -4,7 +4,7 @@ import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import AddToCart from "../AddToCart";
 import { useModal } from "@/app/hooks";
-import AddCustomList from "../CustomList/AddCustomList";
+import { AddCustomList } from "../CustomList";
 import formatCurrency from "@/app/utils/format-currency";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftChevron, RightChevron, XMark } from "@/public/icons";

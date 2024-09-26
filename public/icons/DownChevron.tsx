@@ -1,13 +1,18 @@
 import { cn } from "@/app/utils/cn";
 import type { IGenericIcon } from "@/app/interfaces";
 
-const DownChevron = ({ size = "size-6", customClass = "" }: IGenericIcon) => {
+const DownChevron = ({
+  size = "size-6",
+  customClass = "",
+  strokeWidth = 1.5,
+}: IGenericIcon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
+      strokeWidth={strokeWidth}
       className={cn(size, customClass)}
     >
       <path
