@@ -1,6 +1,17 @@
 "use server";
 
-import { create } from "./model";
+import { create, read } from "./model";
+
+export async function getOrdersByUserId({ userId }: { userId: string }) {
+  try {
+    return await read({
+      userId,
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
 
 interface ICreateOrderThroughStripWebHook {
   userId: string;

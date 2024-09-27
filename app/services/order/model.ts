@@ -12,13 +12,46 @@ export async function create({
   });
 }
 
-export async function read({
-  where,
-}: {
-  where: (typeof prisma.order.findUnique)["arguments"]["where"];
-}) {
-  return await prisma.order.findUnique({
-    where,
+interface IRead {
+  id?: string;
+  userId?: string;
+}
+
+export async function read({ id, userId }: IRead) {
+  const globalInclude = {
+    products: {
+      include: {
+        product: {
+          include: {
+            files: true,
+          },
+        },
+      },
+    },
+  };
+
+  if (id) {
+    return await prisma.order.findUnique({
+      where: { id },
+      include: globalInclude,
+    });
+  }
+
+  if (userId) {
+    return await prisma.order.findMany({
+      where: { userId },
+      include: globalInclude,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  return await prisma.order.findMany({
+    include: globalInclude,
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 }
 
