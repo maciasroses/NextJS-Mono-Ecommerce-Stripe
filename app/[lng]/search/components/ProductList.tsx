@@ -1,12 +1,12 @@
 import { Card404, ProductCard } from "@/app/components";
+import { getSession } from "@/app/services/user/controller";
 import { getProducts } from "@/app/services/product/controller";
+import { getListsByUserId } from "@/app/services/customList/controller";
 import type {
   ICustomList,
   IProductList,
   IProductSearchParams,
 } from "@/app/interfaces";
-import { getSession } from "@/app/services/user/controller";
-import { getListsByUserId } from "@/app/services/customList/controller";
 
 interface IProductListComp {
   lng: string;

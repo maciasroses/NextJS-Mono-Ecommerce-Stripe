@@ -45,7 +45,7 @@ const AddToCart = ({ product }: IAddToCart) => {
         "font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:outline-none",
         currentQuantityProduct < product.maximumQuantityPerOrder &&
           product.quantity > 0
-          ? "text-white dark:text-blue-300 bg-blue-600 hover:bg-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 transition-colors duration-300"
+          ? "text-white dark:text-blue-300 bg-blue-600 hover:bg-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
           : "text-gray-600 dark:text-gray-200 bg-gray-300 cursor-not-allowed  dark:bg-gray-700 "
       )}
     >

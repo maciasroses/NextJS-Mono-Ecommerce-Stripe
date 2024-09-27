@@ -18,7 +18,7 @@ const Hero = ({ lng }: { lng: string }) => {
         </p>
         <Link
           href={`/${lng}/apple-watch`}
-          className="mt-4 md:mt-10 text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700  dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 px-4 py-2 rounded-lg text-sm sm:text-base md:text-lg lg:text-xl transition-colors duration-300"
+          className="mt-4 md:mt-10 text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700  dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 px-4 py-2 rounded-lg text-sm sm:text-base md:text-lg lg:text-xl"
         >
           Buy it now
         </Link>

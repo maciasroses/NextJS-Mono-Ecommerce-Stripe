@@ -56,7 +56,7 @@ const LinkComp = ({ to, span, icon }: ILinkComp) => {
       ) : icon === "lists" ? (
         <BulletList />
       ) : (
-        <ShoppingBag />
+        <ShoppingBag strokeWidth={1} />
       )}
       <span className="ms-3">{span}</span>
     </Link>

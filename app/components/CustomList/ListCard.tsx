@@ -16,7 +16,7 @@ const ListCard = ({ lng, customList }: IListCard) => {
     description: customList.description,
   };
   return (
-    <div className="flex justify-between items-start border border-gray-200 dark:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">
+    <div className="flex justify-between items-start shadow-lg dark:shadow-gray-800 border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">
       <Link
         href={`/${lng}/profile/lists/${customList.name}`}
         className="flex gap-2 m-4 w-full"

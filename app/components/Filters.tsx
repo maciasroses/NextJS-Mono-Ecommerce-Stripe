@@ -88,7 +88,7 @@ const Filters = () => {
                 max="19999999"
                 placeholder="From"
                 defaultValue={searchParams.get("priceFrom")?.toString()}
-                className="w-full p-2 rounded-lg transition-colors duration-300 focus:outline-none border bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white dark:placeholder-gray-400 border-gray-300 focus:border-gray-500 dark:focus:border-gray-100"
+                className="w-full p-2 rounded-lg focus:outline-none border bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white dark:placeholder-gray-400 border-gray-300 focus:border-gray-500 dark:focus:border-gray-100"
               />
               {" - "}
               <input
@@ -99,12 +99,12 @@ const Filters = () => {
                 max="19999999"
                 placeholder="To"
                 defaultValue={searchParams.get("priceTo")?.toString()}
-                className="w-full p-2 rounded-lg transition-colors duration-300 focus:outline-none border bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white dark:placeholder-gray-400 border-gray-300 focus:border-gray-500 dark:focus:border-gray-100"
+                className="w-full p-2 rounded-lg focus:outline-none border bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white dark:placeholder-gray-400 border-gray-300 focus:border-gray-500 dark:focus:border-gray-100"
               />
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 transition-colors duration-300"
+              className="w-full px-4 py-2 rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
             >
               Apply
             </button>

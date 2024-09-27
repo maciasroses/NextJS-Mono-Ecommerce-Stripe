@@ -1,3 +1,4 @@
+import { useTranslation } from "@/app/i18n";
 import { Hero, RecentList } from "@/app/components";
 import { getSession } from "@/app/services/user/controller";
 import { getAllProducts } from "@/app/services/product/controller";
@@ -5,6 +6,7 @@ import { getListsByUserId } from "@/app/services/customList/controller";
 import type { IBaseLangPage, ICustomList, IProduct } from "@/app/interfaces";
 
 export default async function Home({ params: { lng } }: IBaseLangPage) {
+  // const { t } = await useTranslation(lng, "test");
   let myLists: ICustomList[] = [];
   const session = await getSession();
   if (session) {
