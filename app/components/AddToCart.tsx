@@ -2,7 +2,7 @@
 
 import Toast from "./Toast";
 import { cn } from "@/app/utils/cn";
-import { useCart } from "@/app/hooks";
+import { useCart, useResolvedTheme } from "@/app/hooks";
 import type { IProduct } from "@/app/interfaces";
 
 interface IAddToCart {
@@ -10,6 +10,7 @@ interface IAddToCart {
 }
 
 const AddToCart = ({ product }: IAddToCart) => {
+  const theme = useResolvedTheme();
   const { cart, addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -21,6 +22,7 @@ const AddToCart = ({ product }: IAddToCart) => {
       quantity: 1,
     });
     Toast({
+      theme,
       type: "success",
       message: "Product added to cart",
     });

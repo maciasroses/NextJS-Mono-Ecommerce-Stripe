@@ -1,9 +1,9 @@
 "use client";
 
-import { useResolvedTheme } from "@/app/hooks";
 import { toast, Slide, type ToastPosition } from "react-toastify";
 
 interface IToast {
+  theme: string;
   message: string;
   position?: ToastPosition;
   type: "success" | "error" | "info" | "warning";
@@ -11,10 +11,10 @@ interface IToast {
 
 const Toast = ({
   type = "info",
+  theme,
   message,
   position = "bottom-right",
 }: IToast) => {
-  const theme = useResolvedTheme();
   const options = {
     position,
     transition: Slide,

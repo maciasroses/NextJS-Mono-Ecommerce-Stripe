@@ -76,11 +76,13 @@ const Form = ({ lng, userEmail }: IForm) => {
   useEffect(() => {
     if (changesInCart) {
       Toast({
+        theme,
         type: "warning",
         message:
           "Some items are out of stock or updated, please review your cart",
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changesInCart]);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ const Form = ({ lng, userEmail }: IForm) => {
 
         if (reservations.length !== updatedCart.length) {
           Toast({
+            theme,
             type: "error",
             message: "An error occurred, please try again later",
           });
@@ -104,6 +107,7 @@ const Form = ({ lng, userEmail }: IForm) => {
     if (isStockChecked) {
       handleReservationAndPaymentIntent();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updatedCart, isStockChecked]);
 
   useEffect(() => {

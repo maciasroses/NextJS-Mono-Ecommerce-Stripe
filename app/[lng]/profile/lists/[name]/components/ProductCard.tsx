@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { TrashIcon } from "@/public/icons";
+import { useResolvedTheme } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
 import { AddToCart, Modal, Toast } from "@/app/components";
 import { deleteProductFromCustomList } from "@/app/services/customList/controller";
@@ -16,6 +17,7 @@ interface IProductCard {
 }
 
 const ProductCard = ({ lng, product, customListId }: IProductCard) => {
+  const theme = useResolvedTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = async () => {
@@ -26,11 +28,13 @@ const ProductCard = ({ lng, product, customListId }: IProductCard) => {
 
     if (response.message === "OK") {
       Toast({
+        theme,
         type: "success",
         message: "Product removed successfully",
       });
     } else {
       Toast({
+        theme,
         type: "error",
         message: "Something went wrong",
       });

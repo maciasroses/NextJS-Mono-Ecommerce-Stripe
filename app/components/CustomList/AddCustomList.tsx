@@ -4,7 +4,7 @@ import Form from "./Form";
 import Modal from "../Modal";
 import Toast from "../Toast";
 import { Heart } from "@/public/icons";
-import { useModal } from "@/app/hooks";
+import { useModal, useResolvedTheme } from "@/app/hooks";
 import { deleteProductFromAllCustomLists } from "@/app/services/customList/controller";
 import type { ICustomList } from "@/app/interfaces";
 
@@ -23,6 +23,7 @@ const AddCustomList = ({
   isFavorite,
   myLists,
 }: IAddCustomList) => {
+  const theme = useResolvedTheme();
   const { isOpen, onOpen, onClose } = useModal();
 
   const handleFavorite = () => {
@@ -30,6 +31,7 @@ const AddCustomList = ({
       if (isFavorite) {
         deleteProductFromAllCustomLists(productId);
         Toast({
+          theme,
           type: "success",
           message: "Product removed from all lists",
         });

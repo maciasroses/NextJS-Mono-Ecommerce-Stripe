@@ -3,7 +3,7 @@
 import Modal from "../Modal";
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
-import { useModal } from "@/app/hooks";
+import { useModal, useResolvedTheme } from "@/app/hooks";
 import { SubmitButton } from "../Form";
 import { deleteExistingCustomList } from "@/app/services/customList/controller";
 import Toast from "../Toast";
@@ -18,6 +18,7 @@ interface IDelete {
 }
 
 const Delete = ({ customList, handleClose }: IDelete) => {
+  const theme = useResolvedTheme();
   const { isOpen, onOpen } = useModal();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,11 +27,13 @@ const Delete = ({ customList, handleClose }: IDelete) => {
     const response = await deleteExistingCustomList(customList.id);
     if (response.message === "OK") {
       Toast({
+        theme,
         type: "success",
         message: "List deleted successfully",
       });
     } else {
       Toast({
+        theme,
         type: "error",
         message: "Something went wrong",
       });

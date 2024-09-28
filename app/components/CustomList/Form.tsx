@@ -17,6 +17,7 @@ import type {
   ICustomListState,
 } from "@/app/interfaces";
 import Toast from "../Toast";
+import { useResolvedTheme } from "@/app/hooks";
 
 interface IForm {
   myLists: ICustomList[];
@@ -25,6 +26,7 @@ interface IForm {
 }
 
 const Form = ({ myLists, productId, handleClose }: IForm) => {
+  const theme = useResolvedTheme();
   const [newListForm, setNewListForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -49,6 +51,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
   useEffect(() => {
     if (error && error.message === "OK") {
       Toast({
+        theme,
         type: "success",
         message: "List created and product added to it successfully",
       });
@@ -56,11 +59,13 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
     }
     if (addProductError && addProductError.message === "OK") {
       Toast({
+        theme,
         type: "success",
         message: "Product added to list(s) successfully",
       });
       handleClose();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, addProductError, handleClose]);
 
   const handleChageView = () => {

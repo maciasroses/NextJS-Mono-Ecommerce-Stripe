@@ -2,7 +2,7 @@
 
 import Modal from "../Modal";
 import { cn } from "@/app/utils/cn";
-import { useModal } from "@/app/hooks";
+import { useModal, useResolvedTheme } from "@/app/hooks";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { GenericInput, SubmitButton } from "../Form";
@@ -20,6 +20,7 @@ interface IEdit {
 }
 
 const Edit = ({ customList, handleClose }: IEdit) => {
+  const theme = useResolvedTheme();
   const { isOpen, onOpen } = useModal();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,11 +34,13 @@ const Edit = ({ customList, handleClose }: IEdit) => {
   useEffect(() => {
     if (error && error.message === "OK") {
       Toast({
+        theme,
         type: "success",
         message: "List updated successfully",
       });
       handleClose();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, handleClose]);
 
   const handleChangeIsSubmitting = (value: boolean) => {
@@ -73,12 +76,14 @@ const Edit = ({ customList, handleClose }: IEdit) => {
                   placeholder="Favorites"
                   error={errors?.name}
                   defaultValue={customList.name}
+                  autoComplete="off"
                 />
                 <GenericInput
                   id="description"
                   ariaLabel="Description (Optional)"
                   type="text"
                   placeholder="This is my favorite list"
+                  autoComplete="off"
                   defaultValue={customList.description ?? ""}
                 />
               </div>
