@@ -1,19 +1,16 @@
 import { Form } from "./components";
-import { getSession, getUserById } from "@/app/services/user/controller";
+import { IUser } from "@/app/interfaces";
+import { getMe } from "@/app/services/user/controller";
 
 const CheckoutPage = async ({
   params: { lng },
 }: {
   params: { lng: string };
 }) => {
-  const session = await getSession();
-  const { email } = (await getUserById({ id: session?.userId as string })) as {
-    email: string;
-  };
-
+  const me = (await getMe()) as IUser;
   return (
     <>
-      <Form lng={lng} userId={session?.userId as string} userEmail={email} />
+      <Form lng={lng} userEmail={me?.email} />
     </>
   );
 };

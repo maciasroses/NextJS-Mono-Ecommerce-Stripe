@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useFormState } from "react-dom";
-import { GenericInput, SubmitButton } from "@/app/components";
-import { login } from "@/app/services/user/controller";
-import type { ILoginState } from "@/app/interfaces";
 import { cn } from "@/app/utils/cn";
+import { useFormState } from "react-dom";
+import { login } from "@/app/services/auth";
+import { GenericInput, SubmitButton } from "@/app/components";
+import type { ILoginState } from "@/app/interfaces";
 
 const Form = ({ lng }: { lng: string }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

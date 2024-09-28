@@ -12,12 +12,7 @@ export async function create({
   });
 }
 
-interface IRead {
-  id?: string;
-  userId?: string;
-}
-
-export async function read({ id, userId }: IRead) {
+export async function read({ id, userId }: { id?: string; userId?: string }) {
   const globalInclude = {
     products: {
       include: {
@@ -29,6 +24,13 @@ export async function read({ id, userId }: IRead) {
       },
     },
   };
+
+  if (id && userId) {
+    return await prisma.order.findUnique({
+      where: { id, userId },
+      include: globalInclude,
+    });
+  }
 
   if (id) {
     return await prisma.order.findUnique({

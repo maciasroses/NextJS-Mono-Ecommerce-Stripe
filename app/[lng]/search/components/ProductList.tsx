@@ -1,11 +1,12 @@
+import { getMe } from "@/app/services/user/controller";
 import { Card404, ProductCard } from "@/app/components";
-import { getSession } from "@/app/services/user/controller";
 import { getProducts } from "@/app/services/product/controller";
-import { getListsByUserId } from "@/app/services/customList/controller";
+import { getMyLists } from "@/app/services/customList/controller";
 import type {
   ICustomList,
   IProductList,
   IProductSearchParams,
+  IUser,
 } from "@/app/interfaces";
 
 interface IProductListComp {
@@ -14,15 +15,10 @@ interface IProductListComp {
 }
 
 const ProductList = async ({ lng, searchParams }: IProductListComp) => {
-  let myLists: ICustomList[] = [];
-  const session = await getSession();
-  if (session) {
-    myLists = (await getListsByUserId({
-      userId: session.userId as string,
-    })) as ICustomList[];
-  }
-
+  const me = (await getMe()) as IUser;
+  const myLists = (await getMyLists()) as ICustomList[];
   const { products } = (await getProducts(searchParams)) as IProductList;
+
   return (
     <>
       {products.length > 0 ? (
@@ -33,7 +29,7 @@ const ProductList = async ({ lng, searchParams }: IProductListComp) => {
               key={product.id}
               product={product}
               myLists={myLists}
-              userId={session?.userId as string}
+              userId={me?.id}
             />
           ))}
         </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { Form } from "./components";
-import { IBaseLangPage } from "@/app/interfaces";
+import type { IBaseLangPage } from "@/app/interfaces";
 
 export const metadata: Metadata = {
   title: "Log in",

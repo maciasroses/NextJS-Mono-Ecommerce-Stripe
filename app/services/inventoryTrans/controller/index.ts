@@ -1,6 +1,6 @@
 "use server";
 
-import { create } from "./model";
+import { create } from "../model";
 
 interface ICreateInventoryTransaction {
   quantity: number;

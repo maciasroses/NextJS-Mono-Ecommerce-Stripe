@@ -1,11 +1,28 @@
 "use server";
 
-import { create, read } from "./model";
+import { create, read } from "../model";
+import { isAuthenticated } from "@/app/services/auth";
 
-export async function getOrdersByUserId({ userId }: { userId: string }) {
+export async function getMyOrders() {
   try {
+    const session = await isAuthenticated();
+
     return await read({
-      userId,
+      userId: session.userId as string,
+    });
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getMyOrderById({ id }: { id: string }) {
+  try {
+    const session = await isAuthenticated();
+
+    return await read({
+      id,
+      userId: session.userId as string,
     });
   } catch (error) {
     console.error(error);

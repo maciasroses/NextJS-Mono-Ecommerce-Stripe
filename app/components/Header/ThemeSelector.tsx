@@ -6,19 +6,19 @@ import { useEffect, useRef, useState } from "react";
 import { Moon, Light, System } from "@/public/icons";
 
 interface IThemeButton {
+  span: string;
   theme: string;
+  icon: JSX.Element;
   themeColor: string;
   handleThemeChange: () => void;
-  icon: JSX.Element;
-  span: string;
 }
 
 const ThemeButton = ({
+  icon,
+  span,
   theme,
   themeColor,
   handleThemeChange,
-  icon,
-  span,
 }: IThemeButton) => {
   return (
     <button
@@ -36,10 +36,10 @@ const ThemeButton = ({
 };
 
 const ThemeSelector = () => {
-  const { theme, setTheme } = useTheme();
-  const [systemTheme, setSystemTheme] = useState<"light" | "dark">("light");
-  const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const { theme, setTheme } = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [systemTheme, setSystemTheme] = useState<"light" | "dark">("light");
 
   const handleThemeChange = (theme: string) => {
     setTheme(theme);

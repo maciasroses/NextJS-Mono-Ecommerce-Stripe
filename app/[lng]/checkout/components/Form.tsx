@@ -10,8 +10,8 @@ import formatCurrency from "@/app/utils/format-currency";
 import { GenericBackToPage, Loading } from "@/app/components";
 import { createPaymentIntent } from "@/app/services/stripe/payment";
 import {
-  checkNUpdateStock,
   reserverStock,
+  checkNUpdateStock,
 } from "@/app/services/stock/controller";
 import {
   Elements,
@@ -28,11 +28,10 @@ const stripePromise = loadStripe(
 
 interface IForm {
   lng: string;
-  userId: string;
   userEmail: string;
 }
 
-const Form = ({ lng, userId, userEmail }: IForm) => {
+const Form = ({ lng, userEmail }: IForm) => {
   const theme = useResolvedTheme();
   const { cart, clearCart, addToCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +42,7 @@ const Form = ({ lng, userId, userEmail }: IForm) => {
 
   useEffect(() => {
     const handleStockCheckAndReservation = async () => {
-      const newCart = await checkNUpdateStock(userId, cart);
+      const newCart = await checkNUpdateStock(cart);
 
       const itemsWithUpdatedQuantity = newCart.filter((newItem) => {
         const oldItem = cart.find((item) => item.id === newItem.id);
@@ -73,7 +72,7 @@ const Form = ({ lng, userId, userEmail }: IForm) => {
     } else if (cart.length === 0) {
       setIsLoading(false);
     }
-  }, [cart, theme, clearCart, addToCart, isStockChecked, userId]);
+  }, [cart, theme, clearCart, addToCart, isStockChecked]);
 
   useEffect(() => {
     if (changesInCart) {
@@ -93,7 +92,7 @@ const Form = ({ lng, userId, userEmail }: IForm) => {
   useEffect(() => {
     const handleReservationAndPaymentIntent = async () => {
       if (updatedCart && updatedCart.length > 0 && isStockChecked) {
-        const reservations = await reserverStock(userId, updatedCart);
+        const reservations = await reserverStock(updatedCart);
 
         if (reservations.length !== updatedCart.length) {
           toast.error("An error occurred, please try again later", {
@@ -106,10 +105,7 @@ const Form = ({ lng, userId, userEmail }: IForm) => {
           return;
         }
 
-        const clientSecret = (await createPaymentIntent(
-          updatedCart,
-          userId
-        )) as string;
+        const clientSecret = (await createPaymentIntent(updatedCart)) as string;
         setClientSecret(clientSecret);
       }
     };
@@ -117,7 +113,7 @@ const Form = ({ lng, userId, userEmail }: IForm) => {
     if (isStockChecked) {
       handleReservationAndPaymentIntent();
     }
-  }, [updatedCart, isStockChecked, theme, userId]);
+  }, [updatedCart, isStockChecked, theme]);
 
   useEffect(() => {
     if (isLoading && cart.length === 0) {

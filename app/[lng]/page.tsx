@@ -1,20 +1,19 @@
-import { useTranslation } from "@/app/i18n";
+// import { useTranslation } from "@/app/i18n";
 import { Hero, RecentList } from "@/app/components";
-import { getSession } from "@/app/services/user/controller";
+import { getMe } from "@/app/services/user/controller";
 import { getAllProducts } from "@/app/services/product/controller";
-import { getListsByUserId } from "@/app/services/customList/controller";
-import type { IBaseLangPage, ICustomList, IProduct } from "@/app/interfaces";
+import { getMyLists } from "@/app/services/customList/controller";
+import type {
+  IBaseLangPage,
+  ICustomList,
+  IProduct,
+  IUser,
+} from "@/app/interfaces";
 
 export default async function Home({ params: { lng } }: IBaseLangPage) {
   // const { t } = await useTranslation(lng, "test");
-  let myLists: ICustomList[] = [];
-  const session = await getSession();
-  if (session) {
-    myLists = (await getListsByUserId({
-      userId: session.userId as string,
-    })) as ICustomList[];
-  }
-
+  const me = (await getMe()) as IUser;
+  const myLists = (await getMyLists()) as ICustomList[];
   const products = (await getAllProducts()) as IProduct[];
 
   return (
@@ -23,18 +22,18 @@ export default async function Home({ params: { lng } }: IBaseLangPage) {
       <article>
         <RecentList
           lng={lng}
-          userId={session?.userId as string}
+          userId={me?.id}
           myLists={myLists}
-          category="Electronics"
           products={products}
+          category="Electronics"
         />
       </article>
       <article>
         <RecentList
           lng={lng}
-          userId={session?.userId as string}
-          myLists={myLists}
           category="Toys"
+          userId={me?.id}
+          myLists={myLists}
           products={products}
         />
       </article>

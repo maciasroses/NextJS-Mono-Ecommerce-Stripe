@@ -5,11 +5,11 @@ import OrderReceipt from "@/app/email/OrderReceipt";
 import { NextRequest, NextResponse } from "next/server";
 import { getProductBySlug } from "@/app/services/product/controller";
 import { createOrderThroughStripeWebHook } from "@/app/services/order/controller";
-import { createInventoryTransactionThroughStripeWebHook } from "@/app/services/inventoryTrans/controller";
 import {
   readStockReservation,
   deleteStockReservation,
 } from "@/app/services/stock/model";
+import { createInventoryTransactionThroughStripeWebHook } from "@/app/services/inventoryTrans/controller";
 import type {
   IOrder,
   IStockReservation,
@@ -20,23 +20,41 @@ const resend = new Resend(process.env.RESEND_API_KEY as string);
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: NextRequest) {
-  const event = stripe.webhooks.constructEvent(
-    await req.text(),
-    req.headers.get("stripe-signature") as string,
-    process.env.STRIPE_WEBHOOK_SECRET as string
-  );
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      await req.text(),
+      req.headers.get("stripe-signature") as string,
+      process.env.STRIPE_WEBHOOK_SECRET as string
+    );
+  } catch (err) {
+    console.error("Stripe webhook signature verification failed:", err);
+    return new NextResponse("Webhook signature verification failed", {
+      status: 400,
+    });
+  }
 
   if (event.type === "charge.succeeded") {
     const charge = event.data.object;
-    const userId = charge.metadata.userId;
-    const email = charge.billing_details.email;
-    const productsIds = JSON.parse(charge.metadata.productsIds);
-    const productsNames = JSON.parse(charge.metadata.productsNames);
-    const productsFiles = JSON.parse(charge.metadata.productsFiles);
-    const productsPrices = JSON.parse(charge.metadata.productsPrices);
-    const productsQuantities = JSON.parse(charge.metadata.productsQuantities);
+    const {
+      userId,
+      productsIds,
+      productsNames,
+      productsFiles,
+      productsPrices,
+      productsQuantities,
+    } = charge.metadata;
 
-    if (email == null || userId == null || productsIds == null) {
+    if (
+      !userId ||
+      !productsIds ||
+      !productsNames ||
+      !productsFiles ||
+      !productsPrices ||
+      !productsQuantities
+    ) {
+      console.error("Missing or invalid metadata in charge");
       return new NextResponse("Bad request", { status: 400 });
     }
 
@@ -44,13 +62,13 @@ export async function POST(req: NextRequest) {
       await prisma.$transaction(async () => {
         const order = (await createOrderThroughStripeWebHook({
           userId,
-          productsIds,
-          productsPrices,
-          productsQuantities,
+          productsIds: JSON.parse(productsIds),
+          productsPrices: JSON.parse(productsPrices),
+          productsQuantities: JSON.parse(productsQuantities),
           totalInCents: charge.amount,
         })) as IOrder;
 
-        for (const productSlug of productsIds) {
+        for (const productSlug of JSON.parse(productsIds)) {
           const { id: productId } = (await getProductBySlug({
             slug: productSlug,
           })) as { id: string };
@@ -73,29 +91,36 @@ export async function POST(req: NextRequest) {
         }
 
         const orderInfoForEmail: IOrderInfoForEmail = {
-          email,
+          email: charge.billing_details.email ?? "no-reply@example.com",
           order,
-          products: productsNames.map((name: string, index: number) => ({
-            name,
-            file: productsFiles[index],
-            price: productsPrices[index],
-            quantity: productsQuantities[index],
-          })),
+          products: JSON.parse(productsNames).map(
+            (name: string, index: number) => ({
+              name,
+              file: JSON.parse(productsFiles)[index],
+              price: JSON.parse(productsPrices)[index],
+              quantity: JSON.parse(productsQuantities)[index],
+            })
+          ),
           totalInCents: charge.amount,
         };
 
-        await resend.emails.send({
-          from: `Ecommerce <${process.env.RESEND_EMAIL}>`,
-          to: email,
-          subject: "Your receipt from Ecommerce",
-          react: <OrderReceipt order={orderInfoForEmail} />,
-        });
+        try {
+          await resend.emails.send({
+            from: `Ecommerce <${process.env.RESEND_EMAIL}>`,
+            to: charge.billing_details.email ?? "no-reply@example.com",
+            subject: "Your receipt from Ecommerce",
+            react: <OrderReceipt order={orderInfoForEmail} />,
+          });
+        } catch (emailError) {
+          console.error("Error sending email receipt:", emailError);
+          throw new Error("Failed to send email receipt");
+        }
       });
     } catch (error) {
-      console.error(error);
+      console.error("Transaction failed:", error);
       return new NextResponse("Failed to create order", { status: 500 });
     }
   }
 
-  return new NextResponse();
+  return new NextResponse("Webhook handled successfully", { status: 200 });
 }
