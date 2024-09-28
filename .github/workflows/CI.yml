@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - maint
+      - main
   pull_request:
     branches:
-      - maint
+      - main
 
 jobs:
   lint-and-typecheck:
@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
