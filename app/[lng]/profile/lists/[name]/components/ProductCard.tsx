@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { TrashIcon } from "@/public/icons";
-import { Slide, toast } from "react-toastify";
 import { useResolvedTheme } from "@/app/hooks";
-import { AddToCart, Modal } from "@/app/components";
 import formatCurrency from "@/app/utils/format-currency";
+import { AddToCart, Modal, Toast } from "@/app/components";
 import { deleteProductFromCustomList } from "@/app/services/customList/controller";
 import type { IProduct } from "@/app/interfaces";
 
@@ -28,20 +27,16 @@ const ProductCard = ({ lng, product, customListId }: IProductCard) => {
     );
 
     if (response.message === "OK") {
-      toast.success("Product removed successfully", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        theme,
+        type: "success",
+        message: "Product removed successfully",
       });
     } else {
-      toast.error("Something went wrong", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        theme,
+        type: "error",
+        message: "Something went wrong",
       });
     }
     handleClose();

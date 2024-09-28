@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getSession } from "@/app/services/user/controller";
+import { getMe } from "@/app/services/user/controller";
+import type { IUser } from "@/app/interfaces";
 
 export const metadata: Metadata = {
   title: {
@@ -10,8 +11,10 @@ export const metadata: Metadata = {
 };
 
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
-  const session = await getSession();
-  if (session?.role !== "ADMIN") redirect("/");
+  const me = (await getMe()) as IUser;
+  if (!me || me.role !== "ADMIN") {
+    redirect("/");
+  }
 
   return <>{children}</>;
 };

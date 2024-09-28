@@ -2,13 +2,13 @@
 
 import Modal from "../Modal";
 import { cn } from "@/app/utils/cn";
+import { useModal, useResolvedTheme } from "@/app/hooks";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
-import { Slide, toast } from "react-toastify";
 import { GenericInput, SubmitButton } from "../Form";
-import { useModal, useResolvedTheme } from "@/app/hooks";
 import { updateExistingCustomList } from "@/app/services/customList/controller";
 import type { ICustomListState } from "@/app/interfaces";
+import Toast from "../Toast";
 
 interface IEdit {
   customList: {
@@ -33,17 +33,15 @@ const Edit = ({ customList, handleClose }: IEdit) => {
 
   useEffect(() => {
     if (error && error.message === "OK") {
-      toast.success("List updated successfully", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        theme,
+        type: "success",
+        message: "List updated successfully",
       });
       handleClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [error, handleClose]);
 
   const handleChangeIsSubmitting = (value: boolean) => {
     setIsSubmitting(value);
@@ -78,12 +76,14 @@ const Edit = ({ customList, handleClose }: IEdit) => {
                   placeholder="Favorites"
                   error={errors?.name}
                   defaultValue={customList.name}
+                  autoComplete="off"
                 />
                 <GenericInput
                   id="description"
                   ariaLabel="Description (Optional)"
                   type="text"
                   placeholder="This is my favorite list"
+                  autoComplete="off"
                   defaultValue={customList.description ?? ""}
                 />
               </div>

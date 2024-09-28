@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
 import { useFormState } from "react-dom";
-import { login } from "@/app/services/auth";
+import { login } from "@/app/services/user/controller";
 import { GenericInput, SubmitButton } from "@/app/components";
 import type { ILoginState } from "@/app/interfaces";
 

@@ -1,13 +1,13 @@
 "use server";
 
-import OrderService from "../service";
+import { read } from "../model";
 import { isAdmin } from "@/app/services/auth";
 
 export async function getOrdersByUserId({ userId }: { userId: string }) {
   try {
     await isAdmin();
 
-    return await OrderService.getOrdersByUserId({
+    return await read({
       userId,
     });
   } catch (error) {
@@ -20,7 +20,7 @@ export async function getOrderById({ id }: { id: string }) {
   try {
     await isAdmin();
 
-    return await OrderService.getOrderById({
+    return await read({
       id,
     });
   } catch (error) {

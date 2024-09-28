@@ -5,14 +5,10 @@ import { fallbackLng, languages, cookieName } from "./app/i18n/settings";
 acceptLanguage.languages(languages);
 
 export function middleware(request: NextRequest) {
-  let lng;
   const cookie = request.cookies.get(cookieName);
-  if (cookie) {
-    lng = acceptLanguage.get(cookie.value);
-  }
-  if (!lng) lng = acceptLanguage.get(request.headers.get("Accept-Language"));
-  if (!lng) lng = fallbackLng;
-
+  const lng = cookie
+    ? acceptLanguage.get(cookie.value)
+    : acceptLanguage.get(request.headers.get("Accept-Language")) || fallbackLng;
   const session = request.cookies.get("session")?.value;
   const pathname = request.nextUrl.pathname;
 
@@ -49,12 +45,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${lng}${pathname}`, request.url));
   }
 
-  if (request.headers.has("referer")) {
-    const referer = request.headers.get("referer");
-    const refererUrl = referer ? new URL(referer) : null;
-    const lngInReferer =
-      refererUrl?.pathname &&
-      languages.find((l) => refererUrl.pathname.startsWith(`/${l}`));
+  const referer = request.headers.get("referer");
+  if (referer) {
+    const refererUrl = new URL(referer);
+    const lngInReferer = languages.find((l) =>
+      refererUrl.pathname.startsWith(`/${l}`)
+    );
     const response = NextResponse.next();
     if (lngInReferer) response.cookies.set(cookieName, lngInReferer);
     return response;

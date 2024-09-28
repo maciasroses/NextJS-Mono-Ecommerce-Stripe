@@ -3,11 +3,10 @@
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useEffect, useState } from "react";
-import { toast, Slide } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
-import { GenericBackToPage, Loading } from "@/app/components";
+import { GenericBackToPage, Loading, Toast } from "@/app/components";
 import { createPaymentIntent } from "@/app/services/stripe/payment";
 import {
   reserverStock,
@@ -72,22 +71,19 @@ const Form = ({ lng, userEmail }: IForm) => {
     } else if (cart.length === 0) {
       setIsLoading(false);
     }
-  }, [cart, theme, clearCart, addToCart, isStockChecked]);
+  }, [cart, clearCart, addToCart, isStockChecked]);
 
   useEffect(() => {
     if (changesInCart) {
-      toast.warning(
-        "Some items are out of stock or updated, please review your cart",
-        {
-          transition: Slide,
-          hideProgressBar: true,
-          closeOnClick: true,
-          position: "bottom-right",
-          theme: theme === "dark" ? "dark" : "light",
-        }
-      );
+      Toast({
+        theme,
+        type: "warning",
+        message:
+          "Some items are out of stock or updated, please review your cart",
+      });
     }
-  }, [changesInCart, theme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changesInCart]);
 
   useEffect(() => {
     const handleReservationAndPaymentIntent = async () => {
@@ -95,12 +91,10 @@ const Form = ({ lng, userEmail }: IForm) => {
         const reservations = await reserverStock(updatedCart);
 
         if (reservations.length !== updatedCart.length) {
-          toast.error("An error occurred, please try again later", {
-            transition: Slide,
-            hideProgressBar: true,
-            closeOnClick: true,
-            position: "bottom-right",
-            theme: theme === "dark" ? "dark" : "light",
+          Toast({
+            theme,
+            type: "error",
+            message: "An error occurred, please try again later",
           });
           return;
         }
@@ -113,7 +107,8 @@ const Form = ({ lng, userEmail }: IForm) => {
     if (isStockChecked) {
       handleReservationAndPaymentIntent();
     }
-  }, [updatedCart, isStockChecked, theme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updatedCart, isStockChecked]);
 
   useEffect(() => {
     if (isLoading && cart.length === 0) {

@@ -1,4 +1,5 @@
 import Hero from "./Hero";
+import Toast from "./Toast";
 import Modal from "./Modal";
 import Action from "./Action";
 import Loading from "./Loading";
@@ -31,6 +32,7 @@ import {
 
 export {
   Hero,
+  Toast,
   Modal,
   Action,
   Header,

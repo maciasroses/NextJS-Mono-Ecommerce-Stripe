@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/app/utils/cn";
-import { useCallback } from "react";
 import { CATEGORIES_FILTERS } from "@/app/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -10,30 +9,29 @@ const Filters = () => {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
 
-  const updateSearchParams = useCallback(
-    (key: string, value: string | null) => {
-      const params = new URLSearchParams(searchParams);
-      params.delete("page");
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-      replace(`${pathname}?${params.toString()}`);
-    },
-    [pathname, searchParams, replace]
-  );
-
-  const handleCategory = useCallback(
-    (category: string) => updateSearchParams("category", category),
-    [updateSearchParams]
-  );
+  const handleCategory = (category: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("page");
+    params.set("category", category);
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   const handlePrice = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    updateSearchParams("priceFrom", formData.get("priceFrom") as string);
-    updateSearchParams("priceTo", formData.get("priceTo") as string);
+    const params = new URLSearchParams(searchParams);
+    params.delete("page");
+    if (formData.get("priceFrom")) {
+      params.set("priceFrom", formData.get("priceFrom") as string);
+    } else {
+      params.delete("priceFrom");
+    }
+    if (formData.get("priceTo")) {
+      params.set("priceTo", formData.get("priceTo") as string);
+    } else {
+      params.delete("priceTo");
+    }
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (

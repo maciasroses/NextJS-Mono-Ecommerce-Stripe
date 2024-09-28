@@ -3,10 +3,10 @@
 import Modal from "../Modal";
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
-import { SubmitButton } from "../Form";
-import { Slide, toast } from "react-toastify";
 import { useModal, useResolvedTheme } from "@/app/hooks";
+import { SubmitButton } from "../Form";
 import { deleteExistingCustomList } from "@/app/services/customList/controller";
+import Toast from "../Toast";
 
 interface IDelete {
   customList: {
@@ -26,20 +26,16 @@ const Delete = ({ customList, handleClose }: IDelete) => {
     e.preventDefault();
     const response = await deleteExistingCustomList(customList.id);
     if (response.message === "OK") {
-      toast.success("List deleted successfully", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        theme,
+        type: "success",
+        message: "List deleted successfully",
       });
     } else {
-      toast.error("Something went wrong", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        theme,
+        type: "error",
+        message: "Something went wrong",
       });
     }
     handleClose();
