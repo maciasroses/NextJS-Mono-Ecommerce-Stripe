@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { ProductSlugCard } from "@/app/components";
-import { getSession } from "@/app/services/user/controller";
+import { getMe } from "@/app/services/user/controller";
+import { getMyLists } from "@/app/services/customList/controller";
 import { getProductBySlug } from "@/app/services/product/controller";
-import { getListsByUserId } from "@/app/services/customList/controller";
-import type { IProduct, ICustomList } from "@/app/interfaces";
+import type { IProduct, ICustomList, IUser } from "@/app/interfaces";
 
 interface ISlugPage {
   params: {
@@ -13,14 +13,8 @@ interface ISlugPage {
 }
 
 const SlugPage = async ({ params: { lng, slug } }: ISlugPage) => {
-  let myLists: ICustomList[] = [];
-  const session = await getSession();
-  if (session) {
-    myLists = (await getListsByUserId({
-      userId: session.userId as string,
-    })) as ICustomList[];
-  }
-
+  const me = (await getMe()) as IUser;
+  const myLists = (await getMyLists()) as ICustomList[];
   const product = (await getProductBySlug({ slug })) as IProduct;
   if (!product) notFound();
 
@@ -34,7 +28,7 @@ const SlugPage = async ({ params: { lng, slug } }: ISlugPage) => {
     <div className="pt-40 md:pt-24 px-4 pb-4">
       <ProductSlugCard
         lng={lng}
-        userId={session?.userId as string}
+        userId={me?.id}
         product={product}
         myLists={myLists}
         isFavorite={isFavorite}

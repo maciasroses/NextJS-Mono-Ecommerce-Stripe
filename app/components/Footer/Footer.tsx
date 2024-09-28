@@ -3,7 +3,7 @@ const Footer = () => {
   return (
     <footer className="w-full bg-black text-white">
       <div className="max-w-[1440px] mx-auto text-center p-4">
-        <p>&copy; {currentYear} - Todos los derechos reservados.</p>
+        <p>&copy; {currentYear} - All rights reserved.</p>
       </div>
     </footer>
   );

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ProductList } from "./components";
-import { Filters, ListSkeleton, Pagination } from "@/app/components";
 import { getProducts } from "@/app/services/product/controller";
+import { Filters, ListSkeleton, Pagination } from "@/app/components";
 import type {
   IBaseLangPage,
   IProductList,

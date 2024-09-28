@@ -2,12 +2,12 @@
 
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
-import { create, read } from "./model";
-import { validateSchema } from "./schema";
 import { redirect } from "next/navigation";
-import { JWTPayload, SignJWT, jwtVerify } from "jose";
-import type { IUser, ILoginState, IRegisterState } from "@/app/interfaces";
 import { revalidatePath } from "next/cache";
+import { JWTPayload, SignJWT, jwtVerify } from "jose";
+import { create, read } from "@/app/services/user/model";
+import { validateSchema } from "@/app/services/user/schema";
+import type { IUser, ILoginState, IRegisterState } from "@/app/interfaces";
 
 const SESSION_SECRET = process.env.SESSION_SECRET;
 if (!SESSION_SECRET) throw new Error("SESSION_SECRET is not set");
@@ -131,37 +131,18 @@ export async function getSession() {
   return await decrypt(session);
 }
 
-export async function getUsers() {
-  try {
-    return await read({});
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to get users");
+export async function isAuthenticated() {
+  const session = await getSession();
+  if (!session || !session.userId) {
+    throw new Error("Unauthorized access.");
   }
+  return session;
 }
 
-export async function getUserById({ id }: { id: string }) {
-  try {
-    const user = await read({ id });
-    if (!user) {
-      return null;
-    }
-    return user;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to get user");
+export async function isAdmin() {
+  const session = await getSession();
+  if (!session || !session.role || session.role !== "ADMIN") {
+    throw new Error("Unauthorized access.");
   }
-}
-
-export async function getUserByEmail({ email }: { email: string }) {
-  try {
-    const user = await read({ email });
-    if (!user) {
-      return null;
-    }
-    return user;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to get user");
-  }
+  return session;
 }

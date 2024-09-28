@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { TrashIcon } from "@/public/icons";
-import { AddToCart, Modal } from "@/app/components";
-import formatCurrency from "@/app/utils/format-currency";
-import type { IProduct } from "@/app/interfaces";
 import { useState } from "react";
-import { deleteProductFromCustomList } from "@/app/services/customList/controller";
+import { TrashIcon } from "@/public/icons";
 import { Slide, toast } from "react-toastify";
 import { useResolvedTheme } from "@/app/hooks";
+import { AddToCart, Modal } from "@/app/components";
+import formatCurrency from "@/app/utils/format-currency";
+import { deleteProductFromCustomList } from "@/app/services/customList/controller";
+import type { IProduct } from "@/app/interfaces";
 
 interface IProductCard {
   lng: string;

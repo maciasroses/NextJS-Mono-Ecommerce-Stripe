@@ -1,6 +1,6 @@
 "use server";
 
-import { read } from "./model";
+import { read } from "../model";
 import type { IProductSearchParams } from "@/app/interfaces";
 
 export async function getProducts({
@@ -23,34 +23,6 @@ export async function getProducts({
       priceFrom,
       quantityTo,
       quantityFrom,
-    });
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
-export async function getProductsAdmin({
-  q,
-  page,
-  limit,
-  priceTo,
-  category,
-  priceFrom,
-  quantityTo,
-  quantityFrom,
-}: IProductSearchParams) {
-  try {
-    return await read({
-      q,
-      page,
-      limit,
-      priceTo,
-      category,
-      priceFrom,
-      quantityTo,
-      quantityFrom,
-      isAdminRequest: true,
     });
   } catch (error) {
     console.error(error);

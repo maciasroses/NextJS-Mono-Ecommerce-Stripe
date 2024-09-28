@@ -1,11 +1,10 @@
 import Link from "next/link";
+import { Card404 } from "@/app/components";
 import { notFound } from "next/navigation";
 import { LeftArrow } from "@/public/icons";
-import { ICustomList } from "@/app/interfaces";
-import { getSession } from "@/app/services/user/controller";
-import { getListByNameNUserId } from "@/app/services/customList/controller";
 import { ProductCard } from "./components";
-import { Card404 } from "@/app/components";
+import { getMyListByName } from "@/app/services/customList/controller";
+import type { ICustomList } from "@/app/interfaces";
 
 interface IListPage {
   params: {
@@ -15,11 +14,7 @@ interface IListPage {
 }
 
 const ListPage = async ({ params: { lng, name } }: IListPage) => {
-  const session = await getSession();
-  const customList = (await getListByNameNUserId({
-    name,
-    userId: session?.userId as string,
-  })) as ICustomList;
+  const customList = (await getMyListByName({ name })) as ICustomList;
   if (!customList) notFound();
 
   return (

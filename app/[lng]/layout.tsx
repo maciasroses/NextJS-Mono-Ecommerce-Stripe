@@ -3,8 +3,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { dir } from "i18next";
 import { languages } from "@/app/i18n/settings";
 import { ToastContainer } from "react-toastify";
+import { getMe } from "../services/user/controller";
 import { getAllProducts } from "../services/product/controller";
-import { getSession, getUserById } from "@/app/services/user/controller";
 import {
   Footer,
   Header,
@@ -35,12 +35,7 @@ export default async function RootLayout({
   children,
   params: { lng },
 }: Readonly<RootLayoutProps>) {
-  const session = await getSession();
-  let user = null;
-  if (session)
-    user =
-      ((await getUserById({ id: session.userId as string })) as IUser) || null;
-
+  const me = (await getMe()) as IUser;
   const products = (await getAllProducts()) as IProduct[];
 
   return (
@@ -53,7 +48,7 @@ export default async function RootLayout({
           <CartComponent>
             <AuthComponent>
               <ToastContainer />
-              <Header user={user} lng={lng} products={products} />
+              <Header user={me} lng={lng} products={products} />
               <main className="w-full min-h-screen max-w-[1440px] mx-auto">
                 {children}
               </main>

@@ -10,8 +10,8 @@ import { useResolvedTheme } from "@/app/hooks";
 import { GenericInput, SubmitButton } from "../Form";
 import { Heart, LeftArrow, Plus } from "@/public/icons";
 import {
-  addProductToManyCustomLists,
   createNewCustomList,
+  addProductToManyCustomLists,
 } from "@/app/services/customList/controller";
 import type {
   IAddProductToCustomList,

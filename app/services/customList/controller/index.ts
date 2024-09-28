@@ -1,28 +1,28 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { validateSchema } from "./schema";
+import { validateSchema } from "../schema";
 import { revalidatePath } from "next/cache";
-import { getSession } from "../user/controller";
+import { isAuthenticated } from "@/app/services/auth";
 import {
-  createCustomList,
-  createCustomProductsList,
-  deleteCustomList,
-  deleteCustomProductList,
   readCustomList,
-  readCustomProductsList,
+  createCustomList,
+  deleteCustomList,
   updateCustomList,
-} from "./model";
+  deleteCustomProductList,
+  createCustomProductsList,
+} from "../model";
 import type {
-  IAddProductToCustomList,
   ICustomListState,
-  // IProduct,
+  IAddProductToCustomList,
+  ICustomList,
 } from "@/app/interfaces";
 
-export async function getListsByUserId({ userId }: { userId: string }) {
+export async function getMyLists() {
   try {
+    const session = await isAuthenticated();
     return await readCustomList({
-      userId,
+      userId: session.userId as string,
     });
   } catch (error) {
     console.error(error);
@@ -30,17 +30,12 @@ export async function getListsByUserId({ userId }: { userId: string }) {
   }
 }
 
-export async function getListByNameNUserId({
-  name,
-  userId,
-}: {
-  name: string;
-  userId: string;
-}) {
+export async function getMyListByName({ name }: { name: string }) {
   try {
+    const session = await isAuthenticated();
     return await readCustomList({
       name,
-      userId,
+      userId: session.userId as string,
     });
   } catch (error) {
     console.error(error);
@@ -48,42 +43,11 @@ export async function getListByNameNUserId({
   }
 }
 
-export async function getProductsByListId({
-  customListId,
-}: {
-  customListId: string;
-}) {
-  try {
-    return await readCustomProductsList({
-      customListId,
-    });
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
-export async function getListsByProductId({
-  productId,
-}: {
-  productId: string;
-}) {
-  try {
-    return await readCustomProductsList({
-      productId,
-    });
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
 export async function createNewCustomList(
   _prevState: ICustomListState,
   formData: FormData
 ) {
-  // const lng = cookies().get("i18next")?.value ?? "en";
-  const session = await getSession().catch(() => null);
+  const session = await isAuthenticated();
   const productId = (formData.get("productId") as string) ?? "";
 
   const data = {
@@ -130,40 +94,7 @@ export async function createNewCustomList(
     console.error(error);
     return { message: "Internal server error" };
   }
-  // const { slug } = (await getProductById({ id: productId })) as IProduct;
-  // revalidatePath(`/${lng}/${slug}`);
   return { message: "OK" };
-}
-
-export async function addProductToCustomList(
-  _prevState: ICustomListState,
-  formData: FormData
-) {
-  // const lng = cookies().get("i18next")?.value ?? "en";
-
-  const data = {
-    customListId: formData.get("customListId") as string,
-    productId: formData.get("productId") as string,
-  };
-
-  const errors = validateSchema("addProduct", data);
-
-  if (Object.keys(errors).length !== 0) {
-    return {
-      errors,
-      message: "",
-    };
-  }
-
-  try {
-    await createCustomProductsList({ data });
-  } catch (error) {
-    console.error(error);
-    return { message: "Internal server error" };
-  }
-  return { message: "OK" };
-  // revalidatePath(`/${lng}/profile/lists`);
-  // redirect(`/${lng}/profile/lists`);
 }
 
 export async function addProductToManyCustomLists(
@@ -227,8 +158,6 @@ export async function updateExistingCustomList(
   _prevState: ICustomListState,
   formData: FormData
 ) {
-  const lng = cookies().get("i18next")?.value ?? "en";
-
   const data = {
     id: formData.get("id") as string,
     name: formData.get("name") as string,
@@ -263,14 +192,12 @@ export async function updateExistingCustomList(
     console.error(error);
     return { message: "Internal server error" };
   }
-
+  const lng = cookies().get("i18next")?.value ?? "en";
   revalidatePath(`/${lng}/profile/lists`);
-  // redirect(`/${lng}/profile/lists`);
   return { message: "OK" };
 }
 
 export async function deleteExistingCustomList(customListId: string) {
-  const lng = cookies().get("i18next")?.value ?? "en";
   try {
     await deleteCustomList({
       id: customListId,
@@ -279,14 +206,14 @@ export async function deleteExistingCustomList(customListId: string) {
     console.error(error);
     return { message: "Internal server error" };
   }
+  const lng = cookies().get("i18next")?.value ?? "en";
   revalidatePath(`/${lng}/profile/lists`);
-  // redirect(`/${lng}/profile/lists`);
   return { message: "OK" };
 }
 
 export async function deleteProductFromAllCustomLists(productId: string) {
-  const session = await getSession().catch(() => null);
   try {
+    const session = await isAuthenticated();
     await deleteCustomProductList({
       userId: session?.userId as string,
       productId,
@@ -301,7 +228,20 @@ export async function deleteProductFromCustomList(
   customListId: string,
   productId: string
 ) {
+  let name = "";
   try {
+    const customList = (await readCustomList({
+      id: customListId,
+    })) as ICustomList;
+    if (!customList) {
+      return {
+        errors: {
+          customListId: "List not found",
+        },
+        message: "",
+      };
+    }
+    name = customList.name;
     await deleteCustomProductList({
       customListId,
       productId,
@@ -310,7 +250,7 @@ export async function deleteProductFromCustomList(
     console.error(error);
     return { message: "Internal server error" };
   }
-  // revalidatePath(`/${lng}/profile/lists`);
-  // redirect(`/${lng}/profile/lists`);
+  const lng = cookies().get("i18next")?.value ?? "en";
+  revalidatePath(`/${lng}/profile/lists/${name}`);
   return { message: "OK" };
 }

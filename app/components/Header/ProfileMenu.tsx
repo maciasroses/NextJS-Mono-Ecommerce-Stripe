@@ -4,10 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useAuth } from "@/app/hooks";
+import { logout } from "@/app/services/auth";
 import { DownChevron } from "@/public/icons";
 import ProfilePic from "@/public/profilepic.webp";
 import { useEffect, useRef, useState } from "react";
-import { logout } from "@/app/services/user/controller";
 import type { IUser } from "@/app/interfaces";
 
 interface IProfileLink {
@@ -33,8 +33,8 @@ const ProfileLink = ({ to, onClick, text, customClass }: IProfileLink) => {
 };
 
 const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
-  const { setUser } = useAuth();
   const menuRef = useRef(null);
+  const { setUser } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
 
