@@ -4,9 +4,7 @@ import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
-import { Slide, toast } from "react-toastify";
 import DefaultPhoto from "@/public/photo.webp";
-import { useResolvedTheme } from "@/app/hooks";
 import { GenericInput, SubmitButton } from "../Form";
 import { Heart, LeftArrow, Plus } from "@/public/icons";
 import {
@@ -18,6 +16,7 @@ import type {
   ICustomList,
   ICustomListState,
 } from "@/app/interfaces";
+import Toast from "../Toast";
 
 interface IForm {
   myLists: ICustomList[];
@@ -26,7 +25,6 @@ interface IForm {
 }
 
 const Form = ({ myLists, productId, handleClose }: IForm) => {
-  const theme = useResolvedTheme();
   const [newListForm, setNewListForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -50,26 +48,20 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
 
   useEffect(() => {
     if (error && error.message === "OK") {
-      toast.success("List created and product added to it successfully", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        type: "success",
+        message: "List created and product added to it successfully",
       });
       handleClose();
     }
     if (addProductError && addProductError.message === "OK") {
-      toast.success("Product added to list(s)", {
-        transition: Slide,
-        hideProgressBar: true,
-        closeOnClick: true,
-        position: "bottom-right",
-        theme: theme === "dark" ? "dark" : "light",
+      Toast({
+        type: "success",
+        message: "Product added to list(s) successfully",
       });
       handleClose();
     }
-  }, [error, addProductError, handleClose, theme]);
+  }, [error, addProductError, handleClose]);
 
   const handleChageView = () => {
     setNewListForm(!newListForm);

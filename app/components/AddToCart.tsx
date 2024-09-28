@@ -1,8 +1,8 @@
 "use client";
 
+import Toast from "./Toast";
 import { cn } from "@/app/utils/cn";
-import { toast, Slide } from "react-toastify";
-import { useCart, useResolvedTheme } from "@/app/hooks";
+import { useCart } from "@/app/hooks";
 import type { IProduct } from "@/app/interfaces";
 
 interface IAddToCart {
@@ -10,7 +10,6 @@ interface IAddToCart {
 }
 
 const AddToCart = ({ product }: IAddToCart) => {
-  const theme = useResolvedTheme();
   const { cart, addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -21,12 +20,9 @@ const AddToCart = ({ product }: IAddToCart) => {
       price: product.priceInCents,
       quantity: 1,
     });
-    toast.success("Product added to cart", {
-      transition: Slide,
-      hideProgressBar: true,
-      closeOnClick: true,
-      position: "bottom-right",
-      theme: theme === "dark" ? "dark" : "light",
+    Toast({
+      type: "success",
+      message: "Product added to cart",
     });
   };
 

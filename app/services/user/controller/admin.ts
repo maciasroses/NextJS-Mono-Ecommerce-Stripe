@@ -1,9 +1,12 @@
 "use server";
 
+import { isAdmin } from "../../auth";
 import { read } from "../model";
 
 export async function getUsers() {
   try {
+    await isAdmin();
+
     return await read({});
   } catch (error) {
     console.error(error);
@@ -13,6 +16,8 @@ export async function getUsers() {
 
 export async function getUserById({ id }: { id: string }) {
   try {
+    await isAdmin();
+
     const user = await read({ id });
     if (!user) {
       return null;
@@ -26,6 +31,8 @@ export async function getUserById({ id }: { id: string }) {
 
 export async function getUserByEmail({ email }: { email: string }) {
   try {
+    await isAdmin();
+
     const user = await read({ email });
     if (!user) {
       return null;
