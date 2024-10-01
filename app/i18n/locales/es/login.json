@@ -1,0 +1,7 @@
+{
+  "title": "Iniciar sesión",
+  "email": "{\"label\":\"Correo electrónico\",\"placeholder\":\"usuario@gmail.com\"}",
+  "password": "{\"label\":\"Contraseña\",\"placeholder\":\"contraseña\"}",
+  "notRegistered": "¿Aún no estás registrado?",
+  "signUpLink": "Regístrate"
+}

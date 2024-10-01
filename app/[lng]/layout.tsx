@@ -52,7 +52,7 @@ export default async function RootLayout({
               <main className="w-full min-h-screen max-w-[1440px] mx-auto">
                 {children}
               </main>
-              <Footer />
+              <Footer lng={lng} />
             </AuthComponent>
           </CartComponent>
         </ThemeComponent>

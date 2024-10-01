@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cn } from "@/app/utils/cn";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/hooks/useCart";
+import { useTranslation } from "@/app/i18n/client";
 import formatCurrency from "@/app/utils/format-currency";
 import { MinusCircle, PlusCircle, ShoppingBag, XMark } from "@/public/icons";
 import type { IProduct } from "@/app/interfaces";
@@ -17,7 +18,11 @@ interface ICartMenu {
 const CartMenu = ({ lng, products }: ICartMenu) => {
   const { push } = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation(lng, "header");
   const { cart, addToCart, clearCart, removeFromCart } = useCart();
+  const { title, emptyCart, deleteBtn, checkoutBtn, clearBtn } = JSON.parse(
+    t("cartMenu")
+  );
 
   const toggleCart = () => {
     setIsOpen(!isOpen);
@@ -58,15 +63,13 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
         <div className="p-4 h-full flex flex-col justify-between gap-4">
           {cart.length === 0 ? (
             <div>
-              <h2 className="text-xl font-semibold">My cart</h2>
-              <p className="text-gray-500 dark:text-gray-200">
-                Your cart is empty
-              </p>
+              <h2 className="text-xl font-semibold">{title}</h2>
+              <p className="text-gray-500 dark:text-gray-200">{emptyCart}</p>
             </div>
           ) : (
             <>
               <div className="h-3/4 sm:h-1/2 lg:h-5/6">
-                <h2 className="text-xl font-semibold">My cart</h2>
+                <h2 className="text-xl font-semibold">{title}</h2>
                 <ul className=" max-h-full overflow-y-auto">
                   {cart.map((item) => (
                     <li
@@ -127,7 +130,7 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                           className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500"
                           onClick={() => removeFromCart(item.id)}
                         >
-                          Delete
+                          {deleteBtn}
                         </button>
                       </div>
                     </li>
@@ -151,13 +154,13 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                   onClick={handleCheckout}
                   className="w-full text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300 py-2 rounded-lg"
                 >
-                  Proceed to checkout
+                  {checkoutBtn}
                 </button>
                 <button
                   className="w-full text-white dark:text-red-300 bg-red-600 dark:bg-red-950 hover:bg-red-700 dark:hover:bg-red-900 border border-red-600 hover:border-red-700 dark:border-red-300  py-2 rounded-lg"
                   onClick={clearCart}
                 >
-                  Clear cart
+                  {clearBtn}
                 </button>
               </div>
             </>

@@ -2,6 +2,7 @@
 
 import { cn } from "@/app/utils/cn";
 import { useTheme } from "@/app/hooks";
+import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useRef, useState } from "react";
 import { Moon, Light, System } from "@/public/icons";
 
@@ -35,10 +36,12 @@ const ThemeButton = ({
   );
 };
 
-const ThemeSelector = () => {
+const ThemeSelector = ({ lng }: { lng: string }) => {
   const menuRef = useRef(null);
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation(lng, "header");
   const [menuOpen, setMenuOpen] = useState(false);
+  const { light, dark, system } = JSON.parse(t("themeSelector"));
   const [systemTheme, setSystemTheme] = useState<"light" | "dark">("light");
 
   const handleThemeChange = (theme: string) => {
@@ -104,21 +107,21 @@ const ThemeSelector = () => {
               themeColor="light"
               handleThemeChange={() => handleThemeChange("light")}
               icon={<Light theme={theme} />}
-              span="Light"
+              span={light}
             />
             <ThemeButton
               theme={theme}
               themeColor="dark"
               handleThemeChange={() => handleThemeChange("dark")}
               icon={<Moon theme={theme} />}
-              span="Dark"
+              span={dark}
             />
             <ThemeButton
               theme={theme}
               themeColor="system"
               handleThemeChange={() => handleThemeChange("system")}
               icon={<System theme={theme} />}
-              span="System"
+              span={system}
             />
           </div>
         </div>

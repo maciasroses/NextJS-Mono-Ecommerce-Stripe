@@ -4,6 +4,7 @@ import Moon from "./Moon";
 import XMark from "./XMark";
 import Heart from "./Heart";
 import Light from "./Light";
+import Photo from "./Photo";
 import MXFlag from "./MXFlag";
 import Upload from "./Upload";
 import USFlag from "./USFlag";
@@ -35,23 +36,24 @@ export {
   Moon,
   XMark,
   Heart,
+  Light,
+  Photo,
   MXFlag,
   Upload,
   USFlag,
   Puzzle,
   Dollar,
   Search,
+  System,
   SadFace,
   Filters,
   HomeIcon,
   UserIcon,
   SmileFace,
   TrashIcon,
-  Light,
   LeftArrow,
   UpChevron,
   RightArrow,
-  System,
   PencilIcon,
   PlusCircle,
   DownChevron,

@@ -1,12 +1,13 @@
 "use client";
 
+import Toast from "../Toast";
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
-import DefaultPhoto from "@/public/photo.webp";
+import { useResolvedTheme } from "@/app/hooks";
 import { GenericInput, SubmitButton } from "../Form";
-import { Heart, LeftArrow, Plus } from "@/public/icons";
+import { Heart, LeftArrow, Plus, Photo } from "@/public/icons";
 import {
   createNewCustomList,
   addProductToManyCustomLists,
@@ -16,19 +17,33 @@ import type {
   ICustomList,
   ICustomListState,
 } from "@/app/interfaces";
-import Toast from "../Toast";
-import { useResolvedTheme } from "@/app/hooks";
+import { useTranslation } from "@/app/i18n/client";
 
 interface IForm {
+  lng: string;
   myLists: ICustomList[];
   productId: string;
   handleClose: () => void;
 }
 
-const Form = ({ myLists, productId, handleClose }: IForm) => {
+const Form = ({ lng, myLists, productId, handleClose }: IForm) => {
   const theme = useResolvedTheme();
   const [newListForm, setNewListForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation(lng, "customList");
+  const {
+    title: newListTitle,
+    nameInput: nameListInputLabel,
+    namePlaceholder: nameListPlaceholder,
+    descriptionInput: descriptionListInput,
+    descriptionPlaceholder: descriptionListPlaceholder,
+    createBtn: createListBtn,
+  } = JSON.parse(t("newList"));
+  const {
+    title: addToListTitle,
+    newListBtn,
+    addBtn,
+  } = JSON.parse(t("addToList"));
 
   const initialState: ICustomListState = {
     message: "",
@@ -53,7 +68,10 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
       Toast({
         theme,
         type: "success",
-        message: "List created and product added to it successfully",
+        message:
+          lng === "en"
+            ? "List created and product added to it successfully"
+            : "Lista creada y producto añadido a ella con éxito",
       });
       handleClose();
     }
@@ -61,7 +79,10 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
       Toast({
         theme,
         type: "success",
-        message: "Product added to list(s) successfully",
+        message:
+          lng === "en"
+            ? "Product added to list(s) successfully"
+            : "Producto añadido a la(s) lista(s) con éxito",
       });
       handleClose();
     }
@@ -92,7 +113,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
               >
                 <LeftArrow size="size-6 md:size-8" />
               </button>
-              <h1 className="text-xl md:text-4xl">Create new list</h1>
+              <h1 className="text-xl md:text-4xl">{newListTitle}</h1>
             </div>
             {error?.message && error?.message !== "OK" && (
               <p className="text-red-600">{error?.message}</p>
@@ -106,22 +127,22 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
               <div className="flex flex-col gap-2">
                 <GenericInput
                   id="name"
-                  ariaLabel="Name"
+                  ariaLabel={nameListInputLabel}
                   type="text"
-                  placeholder="Favorites"
+                  placeholder={nameListPlaceholder}
                   error={errors?.name}
                 />
                 <GenericInput
                   id="description"
-                  ariaLabel="Description (Optional)"
+                  ariaLabel={descriptionListInput}
                   type="text"
-                  placeholder="This is my favorite list"
+                  placeholder={descriptionListPlaceholder}
                 />
               </div>
               <input hidden name="productId" defaultValue={productId} />
               <div className="text-center mt-4 w-full">
                 <SubmitButton
-                  title="Create"
+                  title={createListBtn}
                   handleChangeIsSearching={handleChangeIsSubmitting}
                 />
               </div>
@@ -131,7 +152,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
       ) : (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <h1 className="text-xl md:text-4xl">Add to list</h1>
+            <h1 className="text-xl md:text-4xl">{addToListTitle}</h1>
             {addProductError?.message && addProductError?.message !== "OK" && (
               <p className="text-red-600 dark:text-red-300">
                 {addProductError?.message}
@@ -156,7 +177,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
                 size="size-10"
                 customClass="border border-blue-600 dark:border-blue-300 group-hover:border-blue-700 dark:group-hover:border-blue-400 rounded-md p-1"
               />
-              <span>Create new list</span>
+              <span>{newListBtn}</span>
             </button>
             <form action={addProductAction}>
               <fieldset
@@ -182,17 +203,18 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
                             <div className="size-full flex items-center justify-center">
                               <Heart isFilled />
                             </div>
-                          ) : (
+                          ) : list.products[0]?.product.files[0] ? (
                             <Image
-                              src={
-                                list.products[0]?.product.files[0].url ??
-                                DefaultPhoto
-                              }
+                              src={list.products[0]?.product.files[0].url}
                               alt="Main list image"
                               width={50}
                               height={50}
                               className="size-full object-contain"
                             />
+                          ) : (
+                            <div className="size-full flex items-center justify-center">
+                              <Photo />
+                            </div>
                           )}
                         </div>
                         {list.name}
@@ -211,7 +233,7 @@ const Form = ({ myLists, productId, handleClose }: IForm) => {
                 <input hidden name="productId" defaultValue={productId} />
                 <div className="text-center mt-4">
                   <SubmitButton
-                    title="Add"
+                    title={addBtn}
                     handleChangeIsSearching={handleChangeIsSubmitting}
                   />
                 </div>

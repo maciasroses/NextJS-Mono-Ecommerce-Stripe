@@ -95,6 +95,8 @@ export interface IBaseLangPage {
   };
 }
 
+export type LanguageTypeForSchemas = "en" | "es";
+
 export interface IRegisterState {
   message: string;
   errors?: {
@@ -106,7 +108,10 @@ export interface IRegisterState {
 }
 
 export interface ILoginState {
-  message: string;
+  message: {
+    en: string;
+    es: string;
+  };
   errors?: {
     email?: string;
     password?: string;
@@ -141,6 +146,14 @@ export interface IProductSearchParams {
   quantityTo?: string | number;
   quantityFrom?: string | number;
   isAdminRequest?: boolean;
+}
+
+export interface IOrderSearchParams {
+  id?: string;
+  page?: string | number;
+  limit?: string | number;
+  userId?: string;
+  allData?: string;
 }
 
 export interface IGenericIcon {

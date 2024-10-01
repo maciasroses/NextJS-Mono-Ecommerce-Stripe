@@ -19,6 +19,7 @@ import { AddCustomList } from "./CustomList";
 import ThemeComponent from "./ThemeComponent";
 import { PieSkeleton, BarSkeleton } from "./Chart";
 import GenericBackToPage from "./GenericBackToPage";
+import OrdersListSkeleton from "./OrdersListSkeleton";
 import { DatatableSkeleton, Datatable } from "./Datatable";
 import { GenericInput, SubmitButton, GenericSearchInput } from "./Form";
 import {
@@ -63,5 +64,6 @@ export {
   GenericBackToPage,
   DatatableSkeleton,
   GenericSearchInput,
+  OrdersListSkeleton,
   ProductCardSkeleton,
 };

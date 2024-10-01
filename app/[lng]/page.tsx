@@ -1,4 +1,3 @@
-// import { useTranslation } from "@/app/i18n";
 import { Hero, RecentList } from "@/app/components";
 import { getMe } from "@/app/services/user/controller";
 import { getAllProducts } from "@/app/services/product/controller";
@@ -11,7 +10,6 @@ import type {
 } from "@/app/interfaces";
 
 export default async function Home({ params: { lng } }: IBaseLangPage) {
-  // const { t } = await useTranslation(lng, "test");
   const me = (await getMe()) as IUser;
   const myLists = (await getMyLists()) as ICustomList[];
   const products = (await getAllProducts()) as IProduct[];

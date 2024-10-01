@@ -40,7 +40,7 @@ const SearchPage = async ({ searchParams, params: { lng } }: ISearchPage) => {
   return (
     <div className="pt-40 md:pt-24 px-4 pb-4 flex md:gap-4">
       <aside className="hidden md:block md:w-1/4 lg:w-1/5 z-20">
-        <Filters />
+        <Filters lng={lng} />
       </aside>
       <div className="w-full md:w-3/4 lg:w-4/5">
         <Suspense
@@ -57,7 +57,7 @@ const SearchPage = async ({ searchParams, params: { lng } }: ISearchPage) => {
         >
           <ProductList lng={lng} searchParams={searchParamsForList} />
         </Suspense>
-        <Pagination totalPages={totalPages} />
+        <Pagination lng={lng} totalPages={totalPages} />
       </div>
     </div>
   );

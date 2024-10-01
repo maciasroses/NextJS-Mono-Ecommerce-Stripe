@@ -1,5 +1,6 @@
 "use server";
 
+import { IOrderSearchParams } from "@/app/interfaces";
 import prisma from "@/app/services/prisma";
 
 export async function create({
@@ -12,7 +13,13 @@ export async function create({
   });
 }
 
-export async function read({ id, userId }: { id?: string; userId?: string }) {
+export async function read({
+  id,
+  page = 1,
+  limit = 6,
+  userId,
+  allData,
+}: IOrderSearchParams) {
   const globalInclude = {
     products: {
       include: {
@@ -24,6 +31,12 @@ export async function read({ id, userId }: { id?: string; userId?: string }) {
       },
     },
   };
+
+  if (allData) {
+    return await prisma.order.findMany({
+      include: globalInclude,
+    });
+  }
 
   if (id && userId) {
     return await prisma.order.findUnique({
@@ -39,22 +52,47 @@ export async function read({ id, userId }: { id?: string; userId?: string }) {
     });
   }
 
+  const skip = (Number(page) - 1) * Number(limit);
+  const take = Number(limit);
+
   if (userId) {
-    return await prisma.order.findMany({
+    const totalCount = await prisma.order.count({
+      where: {
+        userId,
+      },
+    });
+    const totalPages = Math.ceil(totalCount / Number(limit));
+
+    const orders = await prisma.order.findMany({
       where: { userId },
+      skip,
+      take,
       include: globalInclude,
       orderBy: {
         createdAt: "desc",
       },
     });
+
+    return {
+      orders,
+      totalPages,
+    };
   }
 
-  return await prisma.order.findMany({
+  const totalCount = await prisma.order.count();
+  const totalPages = Math.ceil(totalCount / Number(limit));
+
+  const orders = await prisma.order.findMany({
     include: globalInclude,
     orderBy: {
       createdAt: "desc",
     },
   });
+
+  return {
+    orders,
+    totalPages,
+  };
 }
 
 export async function update({

@@ -1,3 +1,3 @@
-import OrderProductCard from "./OrderProductCard";
+import OrdersList from "./OrdersList";
 
-export { OrderProductCard };
+export { OrdersList };

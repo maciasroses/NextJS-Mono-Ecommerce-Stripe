@@ -6,6 +6,7 @@ import { ElipsisList } from "@/public/icons";
 import { useEffect, useRef, useState } from "react";
 
 interface IActions {
+  lng: string;
   customList: {
     id: string;
     name: string;
@@ -13,7 +14,7 @@ interface IActions {
   };
 }
 
-const Actions = ({ customList }: IActions) => {
+const Actions = ({ lng, customList }: IActions) => {
   const menuRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,8 +46,8 @@ const Actions = ({ customList }: IActions) => {
       </button>
       {isOpen && (
         <div className="w-20 origin-top-right absolute right-4 top-10 rounded-md shadow-lg bg-gray-50 dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <Edit customList={customList} handleClose={handleModal} />
-          <Delete customList={customList} handleClose={handleModal} />
+          <Edit lng={lng} customList={customList} handleClose={handleModal} />
+          <Delete lng={lng} customList={customList} handleClose={handleModal} />
         </div>
       )}
     </div>

@@ -1,16 +1,18 @@
 "use client";
 
+import Toast from "../Toast";
 import Modal from "../Modal";
 import { cn } from "@/app/utils/cn";
-import { useModal, useResolvedTheme } from "@/app/hooks";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { GenericInput, SubmitButton } from "../Form";
+import { useModal, useResolvedTheme } from "@/app/hooks";
 import { updateExistingCustomList } from "@/app/services/customList/controller";
 import type { ICustomListState } from "@/app/interfaces";
-import Toast from "../Toast";
+import { useTranslation } from "@/app/i18n/client";
 
 interface IEdit {
+  lng: string;
   customList: {
     id: string;
     name: string;
@@ -19,10 +21,23 @@ interface IEdit {
   handleClose: () => void;
 }
 
-const Edit = ({ customList, handleClose }: IEdit) => {
+const Edit = ({ lng, customList, handleClose }: IEdit) => {
   const theme = useResolvedTheme();
   const { isOpen, onOpen } = useModal();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation(lng, "profile");
+  const {
+    actions: {
+      edit: {
+        action: actionBtn,
+        title: actionTitle,
+        name: nameInput,
+        namePlaceholder: nameInputPlaceholder,
+        description: descriptionInput,
+        descriptionPlaceholder: descriptionInputPlaceholder,
+      },
+    },
+  } = JSON.parse(t("lists"));
 
   const initialState: ICustomListState = {
     message: "",
@@ -36,7 +51,10 @@ const Edit = ({ customList, handleClose }: IEdit) => {
       Toast({
         theme,
         type: "success",
-        message: "List updated successfully",
+        message:
+          lng === "en"
+            ? "List updated successfully"
+            : "Lista actualizada con éxito",
       });
       handleClose();
     }
@@ -53,12 +71,12 @@ const Edit = ({ customList, handleClose }: IEdit) => {
         className="block w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
         onClick={onOpen}
       >
-        Edit
+        {actionBtn}
       </button>
       <Modal isOpen={isOpen} onClose={handleClose} isForSideBar={false}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <h1 className="text-xl md:text-4xl">Edit list</h1>
+            <h1 className="text-xl md:text-4xl">{actionTitle}</h1>
             {error?.message && error?.message !== "OK" && (
               <p className="text-red-600">{error?.message}</p>
             )}
@@ -71,18 +89,18 @@ const Edit = ({ customList, handleClose }: IEdit) => {
               <div className="flex flex-col gap-2">
                 <GenericInput
                   id="name"
-                  ariaLabel="Name"
+                  ariaLabel={nameInput}
                   type="text"
-                  placeholder="Favorites"
+                  placeholder={nameInputPlaceholder}
                   error={errors?.name}
                   defaultValue={customList.name}
                   autoComplete="off"
                 />
                 <GenericInput
                   id="description"
-                  ariaLabel="Description (Optional)"
+                  ariaLabel={descriptionInput}
                   type="text"
-                  placeholder="This is my favorite list"
+                  placeholder={descriptionInputPlaceholder}
                   autoComplete="off"
                   defaultValue={customList.description ?? ""}
                 />
@@ -90,7 +108,7 @@ const Edit = ({ customList, handleClose }: IEdit) => {
               <input hidden name="id" defaultValue={customList.id} />
               <div className="text-center mt-4 w-full">
                 <SubmitButton
-                  title="Edit"
+                  title={actionBtn}
                   handleChangeIsSearching={handleChangeIsSubmitting}
                 />
               </div>

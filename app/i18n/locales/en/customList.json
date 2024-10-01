@@ -1,0 +1,4 @@
+{
+  "newList": "{\"title\":\"Create new list\",\"nameInput\":\"Name\",\"namePlaceholder\":\"Favorites\",\"descriptionInput\":\"Description (optional)\",\"descriptionPlaceholder\":\"This is my favorite list\",\"createBtn\":\"Create\"}",
+  "addToList": "{\"title\":\"Add to list\",\"newListBtn\":\"Create new list\",\"addBtn\":\"Add\"}"
+}

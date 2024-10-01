@@ -1,39 +1,67 @@
-import z, { UnknownKeysParam, ZodRawShape } from "zod";
+import type { LanguageTypeForSchemas } from "@/app/interfaces";
+import z, { type UnknownKeysParam, type ZodRawShape } from "zod";
 
-const baseSchema = z.object({
-  email: z.string().email({
-    message: "Introduce una dirección de correo electrónico válida",
-  }),
-  password: z.string().min(1, {
-    message: "Introduce una contraseña válida",
-  }),
-});
-
-const userLoginSchema = baseSchema.extend({});
-
-const userRegisterSchema = baseSchema.extend({
-  username: z.string().min(2, {
-    message: "El nombre debe tener al menos 2 caracteres",
-  }),
-  confirmPassword: z.string().min(8, {
-    message:
+const messages = {
+  en: {
+    email: "Please enter a valid email address",
+    password: "Please enter a valid password",
+    username: "Username must be at least 2 characters long",
+    confirmPassword:
+      "The confirmation password must match the length of the password",
+  },
+  es: {
+    email: "Introduce una dirección de correo electrónico válida",
+    password: "Introduce una contraseña válida",
+    username: "El nombre debe tener al menos 2 caracteres",
+    confirmPassword:
       "La contraseña de confirmación debe tener la misma longitud que la contraseña",
-  }),
-});
+  },
+};
 
-const schemas: { [key: string]: z.ZodObject<ZodRawShape, UnknownKeysParam> } = {
+const baseSchema = (lng: LanguageTypeForSchemas) =>
+  z.object({
+    email: z.string().email({
+      message: messages[lng].email,
+    }),
+    password: z.string().min(1, {
+      message: messages[lng].password,
+    }),
+  });
+
+const userLoginSchema = (lng: LanguageTypeForSchemas) =>
+  baseSchema(lng).extend({});
+
+const userRegisterSchema = (lng: LanguageTypeForSchemas) =>
+  baseSchema(lng).extend({
+    username: z.string().min(2, {
+      message: messages[lng].username,
+    }),
+    confirmPassword: z.string().min(8, {
+      message: messages[lng].confirmPassword,
+    }),
+  });
+
+const schemas: {
+  [key: string]: (
+    lng: LanguageTypeForSchemas
+  ) => z.ZodObject<ZodRawShape, UnknownKeysParam>;
+} = {
   login: userLoginSchema,
   register: userRegisterSchema,
 };
 
-export function validateSchema(action: string, data: unknown) {
+export function validateSchema(
+  lng: LanguageTypeForSchemas,
+  action: string,
+  data: unknown
+) {
   const schema = schemas[action];
 
   if (!schema) {
     throw new Error("Invalid action");
   }
 
-  const result = schema.safeParse(data);
+  const result = schema(lng).safeParse(data);
 
   if (result.success) {
     return {};

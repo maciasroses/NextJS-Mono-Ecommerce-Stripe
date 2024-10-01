@@ -21,9 +21,15 @@ const CheckoutSuccessPage = async ({
     return (
       <GenericBackToPage
         link={`/${lng}/checkout`}
-        title="Payment failed"
-        linkText="Back to checkout"
-        description="The payment was not successful"
+        title={lng === "en" ? "Payment failed" : "Pago fallido"}
+        linkText={
+          lng === "en" ? "Back to checkout" : "Volver al proceso de pago"
+        }
+        description={
+          lng === "en"
+            ? "The payment was not successful"
+            : "El pago no fue exitoso"
+        }
       />
     );
   }
@@ -35,9 +41,15 @@ const CheckoutSuccessPage = async ({
       return (
         <GenericBackToPage
           link={`/${lng}/checkout`}
-          title="Payment failed"
-          linkText="Back to checkout"
-          description="The payment was not successful"
+          title={lng === "en" ? "Payment failed" : "Pago fallido"}
+          linkText={
+            lng === "en" ? "Back to checkout" : "Volver al proceso de pago"
+          }
+          description={
+            lng === "en"
+              ? "The payment was not successful"
+              : "El pago no fue exitoso"
+          }
         />
       );
     }
@@ -51,9 +63,13 @@ const CheckoutSuccessPage = async ({
         ) : (
           <GenericBackToPage
             link={`/${lng}/checkout`}
-            title="Payment failed"
-            linkText="Try again"
-            description="The payment was not successful"
+            title={lng === "en" ? "Payment failed" : "Pago fallido"}
+            linkText={lng === "en" ? "Try again" : "Intentar de nuevo"}
+            description={
+              lng === "en"
+                ? "The payment was not successful"
+                : "El pago no fue exitoso"
+            }
           />
         )}
       </>
@@ -63,9 +79,15 @@ const CheckoutSuccessPage = async ({
     return (
       <GenericBackToPage
         link={`/${lng}/checkout`}
-        title="Payment failed"
-        linkText="Back to checkout"
-        description="The payment was not successful"
+        title={lng === "en" ? "Payment failed" : "Pago fallido"}
+        linkText={
+          lng === "en" ? "Back to checkout" : "Volver al proceso de pago"
+        }
+        description={
+          lng === "en"
+            ? "The payment was not successful"
+            : "El pago no fue exitoso"
+        }
       />
     );
   }

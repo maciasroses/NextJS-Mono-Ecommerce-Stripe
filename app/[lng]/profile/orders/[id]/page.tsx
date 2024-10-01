@@ -6,6 +6,7 @@ import formatCurrency from "@/app/utils/format-currency";
 import formatDateForHumans from "@/app/utils/formatdate-human";
 import { getMyOrderById } from "@/app/services/order/controller";
 import type { IOrder } from "@/app/interfaces";
+import { useTranslation } from "@/app/i18n";
 
 interface IOrderPage {
   params: {
@@ -18,6 +19,18 @@ const OrderPage = async ({ params: { id, lng } }: IOrderPage) => {
   const order = (await getMyOrderById({ id })) as IOrder;
   if (!order) notFound();
 
+  const { t } = await useTranslation(lng, "profile");
+  const {
+    details: {
+      title: orderDetailsTitle,
+      orderId,
+      orderedOn,
+      summary,
+      shipping,
+      statusOn,
+    },
+  } = JSON.parse(t("orders"));
+
   return (
     <>
       <div className="flex items-start gap-2">
@@ -29,21 +42,25 @@ const OrderPage = async ({ params: { id, lng } }: IOrderPage) => {
         </Link>
         <div className="w-full">
           <div className="flex flex-col lg:flex-row gap-1 justify-between ">
-            <h1 className="text-xl md:text-4xl">Order details</h1>
+            <h1 className="text-xl md:text-4xl">{orderDetailsTitle}</h1>
             <p className="text-base md:text-2xl text-gray-500">
-              Order id: {order.id}
+              {orderId}: {order.id}
             </p>
           </div>
           <p className="text-base md:text-2xl text-gray-500">
-            Ordered on {formatDateForHumans(order.createdAt, "en-US")}
+            {orderedOn}{" "}
+            {formatDateForHumans(
+              order.createdAt,
+              lng === "en" ? "en-US" : "es-ES"
+            )}
           </p>
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-4 mt-2">
         <div className="w-full h-full md:w-1/3 md:sticky md:top-24">
-          <h1 className="text-2xl font-bold">Summary</h1>
+          <h1 className="text-2xl font-bold">{summary}</h1>
           <p className="text-sm sm:text-lg mt-2">
-            Shipping: <span className="font-bold">$99.00</span>
+            {shipping}: <span className="font-bold">$99.00</span>
           </p>
           <p className="text-sm sm:text-lg">
             Subtotal:{" "}
@@ -60,9 +77,9 @@ const OrderPage = async ({ params: { id, lng } }: IOrderPage) => {
         </div>
         <div className="w-full md:w-2/3">
           <h2 className="text-4xl font-bold">
-            {`${order.shippingStatus} on ${formatDateForHumans(
+            {`${statusOn[order.shippingStatus]} ${formatDateForHumans(
               order.updatedAt,
-              "en-US"
+              lng === "en" ? "en-US" : "es-ES"
             )}`}
           </h2>
           <ul className="flex flex-col gap-2 mt-4">

@@ -1,0 +1,7 @@
+{
+  "title": "Log in",
+  "email": "{\"label\":\"Email\",\"placeholder\":\"user@mail.com\"}",
+  "password": "{\"label\":\"Password\",\"placeholder\":\"password\"}",
+  "notRegistered": "Not registered yet?",
+  "signUpLink": "Sign up"
+}

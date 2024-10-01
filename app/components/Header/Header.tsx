@@ -34,7 +34,7 @@ const Header = ({ lng, user, products }: IHeader) => {
               </div>
             )}
           <div className="flex items-center gap-2">
-            <ThemeSelector />
+            <ThemeSelector lng={lng} />
             <LangSelector lng={lng} />
             {pathname !== `/${lng}/login` &&
               pathname !== `/${lng}/signup` &&
@@ -52,7 +52,7 @@ const Header = ({ lng, user, products }: IHeader) => {
                       href={`/${lng}/login`}
                       className="px-4 py-2 text-sm rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
                     >
-                      Ingresa
+                      {lng === "en" ? "Log in" : "Ingresa"}
                     </Link>
                   )}
               </>
@@ -71,7 +71,7 @@ const Header = ({ lng, user, products }: IHeader) => {
               <div className="w-full">
                 <MainSearch id="mobile-search-bar" lng={lng} />
               </div>
-              {pathname === `/${lng}/search` && <FiltersMenu />}
+              {pathname === `/${lng}/search` && <FiltersMenu lng={lng} />}
             </div>
           )}
       </div>

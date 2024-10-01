@@ -2,12 +2,15 @@
 
 import { create, read } from "../model";
 import { isAuthenticated } from "@/app/services/auth";
+import type { IOrderSearchParams } from "@/app/interfaces";
 
-export async function getMyOrders() {
+export async function getMyOrders({ page, limit }: IOrderSearchParams) {
   try {
     const session = await isAuthenticated();
 
     return await read({
+      page,
+      limit,
       userId: session.userId as string,
     });
   } catch (error) {
