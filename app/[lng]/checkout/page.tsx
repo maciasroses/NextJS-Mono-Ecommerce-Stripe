@@ -1,6 +1,6 @@
 import { Form } from "./components";
-import { IUser } from "@/app/interfaces";
 import { getMe } from "@/app/services/user/controller";
+import type { IUser } from "@/app/interfaces";
 
 const CheckoutPage = async ({
   params: { lng },

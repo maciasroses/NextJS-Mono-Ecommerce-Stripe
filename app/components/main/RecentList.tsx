@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslation } from "../i18n/client";
-import { ProductCard } from "./Card";
+import { ProductCard } from "@/app/components";
+import { useTranslation } from "@/app/i18n/client";
 import type { ICustomList, IProduct } from "@/app/interfaces";
 
 interface IRecentList {
@@ -26,7 +26,7 @@ const RecentList = ({
     (product) => product.category === category.toUpperCase()
   );
   return (
-    <>
+    <section>
       <h1 className="text-2xl sm:text-4xl md:text-6xl text-center lg:text-left mb-2 md:mb-4">
         {categoryLabel}
       </h1>
@@ -41,7 +41,7 @@ const RecentList = ({
           />
         ))}
       </div>
-    </>
+    </section>
   );
 };
 

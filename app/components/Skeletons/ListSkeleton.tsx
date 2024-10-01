@@ -1,5 +1,5 @@
 import { randomInt } from "crypto";
-import { ProductCardSkeleton } from "./Card";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
 const ListSkeleton = () => {
   return (

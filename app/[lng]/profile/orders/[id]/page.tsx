@@ -2,11 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { LeftArrow } from "@/public/icons";
+import { useTranslation } from "@/app/i18n";
 import formatCurrency from "@/app/utils/format-currency";
 import formatDateForHumans from "@/app/utils/formatdate-human";
 import { getMyOrderById } from "@/app/services/order/controller";
 import type { IOrder } from "@/app/interfaces";
-import { useTranslation } from "@/app/i18n";
 
 interface IOrderPage {
   params: {

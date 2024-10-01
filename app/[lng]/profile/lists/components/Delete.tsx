@@ -1,13 +1,11 @@
 "use client";
 
-import Modal from "../Modal";
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
-import { useModal, useResolvedTheme } from "@/app/hooks";
-import { SubmitButton } from "../Form";
-import { deleteExistingCustomList } from "@/app/services/customList/controller";
-import Toast from "../Toast";
 import { useTranslation } from "@/app/i18n/client";
+import { useModal, useResolvedTheme } from "@/app/hooks";
+import { Toast, Modal, SubmitButton } from "@/app/components";
+import { deleteExistingCustomList } from "@/app/services/customList/controller";
 
 interface IDelete {
   lng: string;

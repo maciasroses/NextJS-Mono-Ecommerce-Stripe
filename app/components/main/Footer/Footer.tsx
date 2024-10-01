@@ -9,11 +9,11 @@ const Footer = ({ lng }: { lng: string }) => {
 
   return (
     <footer className="w-full bg-black text-white">
-      <div className="max-w-[1440px] mx-auto text-center p-4">
+      <section className="max-w-[1440px] mx-auto text-center p-4">
         <p>
           &copy; {currentYear} - {rights}
         </p>
-      </div>
+      </section>
     </footer>
   );
 };

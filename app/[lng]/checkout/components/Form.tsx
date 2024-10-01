@@ -7,8 +7,8 @@ import { useTranslation } from "@/app/i18n/client";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
 import { loadStripe, StripeElementLocale } from "@stripe/stripe-js";
-import { GenericBackToPage, Loading, Toast } from "@/app/components";
 import { createPaymentIntent } from "@/app/services/stripe/payment";
+import { GenericBackToPage, Loading, Toast } from "@/app/components";
 import {
   reserverStock,
   checkNUpdateStock,

@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from "@/app/utils/cn";
-import { useTranslation } from "../i18n/client";
+import { useTranslation } from "@/app/i18n/client";
 import { CATEGORIES_FILTERS } from "@/app/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { LanguageTypeForSchemas } from "../interfaces";
+import type { LanguageTypeForSchemas } from "@/app/interfaces";
 
 interface IFiltersComp {
   lng: string;
@@ -49,9 +49,9 @@ const Filters = ({ lng }: IFiltersComp) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <p className="font-medium text-lg">{categoriesTitle}</p>
+    <ul className="flex flex-col gap-4">
+      <li>
+        <h1 className="font-medium text-lg">{categoriesTitle}</h1>
         <ul className="flex flex-col">
           {CATEGORIES_FILTERS[lng as LanguageTypeForSchemas].map(
             ({ label, category }) => (
@@ -66,9 +66,9 @@ const Filters = ({ lng }: IFiltersComp) => {
             )
           )}
         </ul>
-      </div>
-      <div>
-        <p className="font-medium text-lg">{priceTitle}</p>
+      </li>
+      <li>
+        <h2 className="font-medium text-lg">{priceTitle}</h2>
         <form onSubmit={handlePrice} className="flex gap-2 flex-col ml-5 mt-2">
           <div className="flex gap-2 items-center">
             <InputField
@@ -90,8 +90,8 @@ const Filters = ({ lng }: IFiltersComp) => {
             {applyBtn}
           </button>
         </form>
-      </div>
-    </div>
+      </li>
+    </ul>
   );
 };
 

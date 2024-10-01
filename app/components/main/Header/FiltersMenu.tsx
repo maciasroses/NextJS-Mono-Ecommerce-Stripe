@@ -1,6 +1,6 @@
 "use client";
 
-import Filters from "../Filters";
+import Filters from "./Filters";
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
 import { Filters as FiltersIcon, XMark } from "@/public/icons";
@@ -12,7 +12,7 @@ const FiltersMenu = ({ lng }: { lng: string }) => {
     setIsOpen(!isOpen);
   };
   return (
-    <div>
+    <>
       <button
         aria-label="Filters"
         onClick={toggleMenu}
@@ -43,7 +43,7 @@ const FiltersMenu = ({ lng }: { lng: string }) => {
           onClick={toggleMenu}
         ></div>
       )}
-    </div>
+    </>
   );
 };
 

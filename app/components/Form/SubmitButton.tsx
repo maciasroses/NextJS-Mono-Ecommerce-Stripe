@@ -1,9 +1,9 @@
 "use client";
 
-import Loading from "../Loading";
 import { useEffect } from "react";
 import { cn } from "@/app/utils/cn";
 import { useFormStatus } from "react-dom";
+import { Loading } from "@/app/components";
 
 const colorMap: { [key: string]: string } = {
   red: "text-white dark:tex-red-300 bg-red-600 dark:bg-red-950 hover:bg-red-700 dark:hover:bg-red-900 focus:ring-red-600 dark:focus:ring-red-300 border border-red-600 hover:border-red-700 dark:border-red-300",
