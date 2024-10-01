@@ -1,9 +1,8 @@
 "use client";
 
 import Form from "./Form";
-import Modal from "../Modal";
-import Toast from "../Toast";
 import { Heart } from "@/public/icons";
+import { Modal, Toast } from "@/app/components";
 import { useModal, useResolvedTheme } from "@/app/hooks";
 import { deleteProductFromAllCustomLists } from "@/app/services/customList/controller";
 import type { ICustomList } from "@/app/interfaces";

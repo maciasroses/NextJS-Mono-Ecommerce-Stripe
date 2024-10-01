@@ -1,56 +1,48 @@
-import Hero from "./Hero";
 import Toast from "./Toast";
 import Modal from "./Modal";
-import Action from "./Action";
 import Loading from "./Loading";
-import Filters from "./Filters";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import AddToCart from "./AddToCart";
-import { Sidebar } from "./Sidebar";
+import Datatable from "./Datatable";
 import Pagination from "./Pagination";
-import RecentList from "./RecentList";
-import ListSkeleton from "./ListSkeleton";
-import AuthComponent from "./AuthComponent";
-import CartComponent from "./CartComponent";
 import ErrorBoundary from "./ErrorBoundary";
-import MainSearch from "./Header/MainSearch";
-import { AddCustomList } from "./CustomList";
-import ThemeComponent from "./ThemeComponent";
-import { PieSkeleton, BarSkeleton } from "./Chart";
 import GenericBackToPage from "./GenericBackToPage";
-import OrdersListSkeleton from "./OrdersListSkeleton";
-import { DatatableSkeleton, Datatable } from "./Datatable";
+import { Card404, ErrorCard, ProductCard } from "./Card";
 import { GenericInput, SubmitButton, GenericSearchInput } from "./Form";
+import { AuthComponent, CartComponent, ThemeComponent } from "./Providers";
 import {
-  Card404,
+  Hero,
+  Footer,
+  Header,
+  Filters,
+  AddToCart,
+  RecentList,
+  AddCustomList,
+} from "./main";
+import {
+  BarChartSkeleton,
   CardSkeleton,
-  ErrorCard,
+  DatatableSkeleton,
+  ListSkeleton,
+  OrderCardSkeleton,
+  OrdersListSkeleton,
+  PieChartSkeleton,
   ProductCardSkeleton,
-  ProductSlugCard,
-  ProductCard,
-} from "./Card";
+} from "./Skeletons";
 
 export {
   Hero,
   Toast,
   Modal,
-  Action,
   Header,
   Footer,
-  Sidebar,
   Card404,
-  Loading,
   Filters,
+  Loading,
   AddToCart,
   ErrorCard,
   Datatable,
   Pagination,
   RecentList,
-  MainSearch,
   ProductCard,
-  BarSkeleton,
-  PieSkeleton,
   CardSkeleton,
   ListSkeleton,
   GenericInput,
@@ -60,7 +52,9 @@ export {
   AddCustomList,
   CartComponent,
   ThemeComponent,
-  ProductSlugCard,
+  BarChartSkeleton,
+  PieChartSkeleton,
+  OrderCardSkeleton,
   GenericBackToPage,
   DatatableSkeleton,
   GenericSearchInput,

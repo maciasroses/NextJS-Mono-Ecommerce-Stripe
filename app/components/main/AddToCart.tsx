@@ -1,8 +1,8 @@
 "use client";
 
-import Toast from "./Toast";
+import Toast from "../Toast";
 import { cn } from "@/app/utils/cn";
-import { useTranslation } from "../i18n/client";
+import { useTranslation } from "@/app/i18n/client";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import type { IProduct } from "@/app/interfaces";
 

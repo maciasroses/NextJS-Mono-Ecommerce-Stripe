@@ -1,15 +1,13 @@
 "use client";
 
-import Toast from "../Toast";
-import Modal from "../Modal";
 import { cn } from "@/app/utils/cn";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
-import { GenericInput, SubmitButton } from "../Form";
+import { useTranslation } from "@/app/i18n/client";
 import { useModal, useResolvedTheme } from "@/app/hooks";
+import { Toast, Modal, GenericInput, SubmitButton } from "@/app/components";
 import { updateExistingCustomList } from "@/app/services/customList/controller";
 import type { ICustomListState } from "@/app/interfaces";
-import { useTranslation } from "@/app/i18n/client";
 
 interface IEdit {
   lng: string;

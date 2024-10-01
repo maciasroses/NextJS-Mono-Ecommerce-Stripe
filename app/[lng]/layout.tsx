@@ -3,8 +3,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { dir } from "i18next";
 import { languages } from "@/app/i18n/settings";
 import { ToastContainer } from "react-toastify";
-import { getMe } from "../services/user/controller";
-import { getAllProducts } from "../services/product/controller";
+import { getMe } from "@/app/services/user/controller";
+import { getAllProducts } from "@/app/services/product/controller";
 import {
   Footer,
   Header,

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ProductSlugCard } from "@/app/components";
+import { ProductSlugCard } from "./components";
 import { getMe } from "@/app/services/user/controller";
 import { getMyLists } from "@/app/services/customList/controller";
 import { getProductBySlug } from "@/app/services/product/controller";

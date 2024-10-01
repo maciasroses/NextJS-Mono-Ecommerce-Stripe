@@ -1,13 +1,13 @@
 "use client";
 
-import Toast from "../Toast";
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { useResolvedTheme } from "@/app/hooks";
-import { GenericInput, SubmitButton } from "../Form";
+import { useTranslation } from "@/app/i18n/client";
 import { Heart, LeftArrow, Plus, Photo } from "@/public/icons";
+import { Toast, GenericInput, SubmitButton } from "@/app/components";
 import {
   createNewCustomList,
   addProductToManyCustomLists,
@@ -17,7 +17,6 @@ import type {
   ICustomList,
   ICustomListState,
 } from "@/app/interfaces";
-import { useTranslation } from "@/app/i18n/client";
 
 interface IForm {
   lng: string;

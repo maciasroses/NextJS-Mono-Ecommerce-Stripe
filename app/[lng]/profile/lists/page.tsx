@@ -1,5 +1,5 @@
+import { ListCard } from "./components";
 import { useTranslation } from "@/app/i18n";
-import { ListCard } from "@/app/components/CustomList";
 import { getMyLists } from "@/app/services/customList/controller";
 import type { IBaseLangPage, ICustomList } from "@/app/interfaces";
 

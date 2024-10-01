@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslation } from "../i18n/client";
+import { useTranslation } from "@/app/i18n/client";
 import HeroPic from "@/public/products/electronics/apple-watch/apple-watch-0.webp";
 
 const Hero = ({ lng }: { lng: string }) => {
@@ -15,7 +15,7 @@ const Hero = ({ lng }: { lng: string }) => {
     callToActionBtn,
   } = JSON.parse(t("hero"));
   return (
-    <article className="w-full flex justify-between">
+    <section className="w-full flex justify-between">
       <div className="w-1/2 md:w-2/5 flex flex-col items-start justify-center">
         <small className="text-sm sm:text-lg md:text-xl lg:text-4xl tracking-widest">
           {title}
@@ -37,7 +37,7 @@ const Hero = ({ lng }: { lng: string }) => {
       <Link href={`/${lng}/apple-watch`} className="w-1/2 md:w-3/5">
         <Image alt="Hero" src={HeroPic} className="size-full" priority />
       </Link>
-    </article>
+    </section>
   );
 };
 

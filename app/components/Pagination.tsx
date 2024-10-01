@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslation } from "../i18n/client";
+import { useTranslation } from "@/app/i18n/client";
 import { usePathname, useSearchParams } from "next/navigation";
 
 interface IPagination {

@@ -1,4 +1,4 @@
-const BarSkeleton = () => {
+const BarChartSkeleton = () => {
   return (
     <div
       role="status"
@@ -20,4 +20,4 @@ const BarSkeleton = () => {
   );
 };
 
-export default BarSkeleton;
+export default BarChartSkeleton;

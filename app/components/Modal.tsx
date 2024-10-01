@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "../utils/cn";
+import { cn } from "@/app/utils/cn";
 import { XMark } from "@/public/icons";
 import { useCallback, useEffect, useRef } from "react";
 
