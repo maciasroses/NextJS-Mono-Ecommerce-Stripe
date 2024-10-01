@@ -5,22 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BulletList from "@/public/icons/BulletList";
 import { ShoppingBag, UserIcon } from "@/public/icons";
+import { useTranslation } from "@/app/i18n/client";
 
 const Sidebar = ({ lng }: { lng: string }) => {
+  const { t } = useTranslation(lng, "profile");
+  const { profile, lists, orders } = JSON.parse(t("sidebar"));
   return (
     <aside className="fixed top-0 w-48 h-screen transition-transform -translate-x-full sm:translate-x-0">
       <div className="h-full px-4 md:pt-24 pt-40 pb-4 overflow-y-auto">
         <ul className="space-y-2">
           <li>
-            <LinkComp to={`/${lng}/profile/home`} span="Home" icon="home" />
+            <LinkComp to={`/${lng}/profile/home`} span={profile} icon="home" />
           </li>
           <li>
-            <LinkComp to={`/${lng}/profile/lists`} span="Lists" icon="lists" />
+            <LinkComp to={`/${lng}/profile/lists`} span={lists} icon="lists" />
           </li>
           <li>
             <LinkComp
               to={`/${lng}/profile/orders`}
-              span="Orders"
+              span={orders}
               icon="orders"
             />
           </li>

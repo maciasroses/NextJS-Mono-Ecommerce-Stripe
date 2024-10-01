@@ -1,12 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "../i18n/client";
 import { usePathname, useSearchParams } from "next/navigation";
 
-const Pagination = ({ totalPages }: { totalPages: number }) => {
+interface IPagination {
+  lng: string;
+  totalPages: number;
+}
+
+const Pagination = ({ lng, totalPages }: IPagination) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
+  const { t } = useTranslation(lng, "pagination");
+  const previousBtn = t("previousBtn");
+  const nextBtn = t("nextBtn");
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
@@ -24,14 +33,14 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
               passHref
               className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              Previous
+              {previousBtn}
             </Link>
           ) : (
             <span
               className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-300 bg-gray-100 border border-e-0 border-gray-300 rounded-s-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500 cursor-not-allowed select-none"
               aria-disabled="true"
             >
-              Previous
+              {previousBtn}
             </span>
           )}
         </li>
@@ -57,14 +66,14 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
               passHref
               className="flex items-center justify-center px-3 h-8 leading-tight border rounded-e-lg text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              Next
+              {nextBtn}
             </Link>
           ) : (
             <span
               className="flex items-center justify-center px-3 h-8 leading-tight text-gray-300 bg-gray-100 border rounded-e-lg border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500 cursor-not-allowed select-none"
               aria-disabled="true"
             >
-              Next
+              {nextBtn}
             </span>
           )}
         </li>

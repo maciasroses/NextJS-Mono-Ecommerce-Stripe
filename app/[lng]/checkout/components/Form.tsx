@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import { useTranslation } from "@/app/i18n/client";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import formatCurrency from "@/app/utils/format-currency";
+import { loadStripe, StripeElementLocale } from "@stripe/stripe-js";
 import { GenericBackToPage, Loading, Toast } from "@/app/components";
 import { createPaymentIntent } from "@/app/services/stripe/payment";
 import {
@@ -38,6 +39,11 @@ const Form = ({ lng, userEmail }: IForm) => {
   const [changesInCart, setChangesInCart] = useState(false);
   const [isStockChecked, setIsStockChecked] = useState(false);
   const [updatedCart, setUpdatedCart] = useState<ICartItem[]>();
+  const { t } = useTranslation(lng, "checkout");
+  const title = t("title");
+  const shipping = t("shipping");
+  const confirmBtn = t("confirmBtn");
+  const processing = t("processing");
 
   useEffect(() => {
     const handleStockCheckAndReservation = async () => {
@@ -79,7 +85,9 @@ const Form = ({ lng, userEmail }: IForm) => {
         theme,
         type: "warning",
         message:
-          "Some items are out of stock or updated, please review your cart",
+          lng === "en"
+            ? "Some items are out of stock or updated, please review your cart"
+            : "Algunos artículos están agotados o actualizados, por favor revisa tu carrito",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,7 +102,10 @@ const Form = ({ lng, userEmail }: IForm) => {
           Toast({
             theme,
             type: "error",
-            message: "An error occurred, please try again later",
+            message:
+              lng === "en"
+                ? "An error occurred, please try again later"
+                : "Ocurrió un error, por favor intenta de nuevo más tarde",
           });
           return;
         }
@@ -128,9 +139,13 @@ const Form = ({ lng, userEmail }: IForm) => {
     return (
       <GenericBackToPage
         link={`/${lng}`}
-        title="Your cart is empty"
-        linkText="Back to home"
-        description="Add some items to your cart"
+        title={lng === "en" ? "Your cart is empty" : "Tu carrito está vacío"}
+        linkText={lng === "en" ? "Go back to shop" : "Regresar a la tienda"}
+        description={
+          lng === "en"
+            ? "Add some items to your cart"
+            : "Agrega algunos artículos a tu carrito"
+        }
       />
     );
   }
@@ -144,12 +159,13 @@ const Form = ({ lng, userEmail }: IForm) => {
   const options = {
     appearance,
     clientSecret,
+    locale: lng as StripeElementLocale,
   };
 
   return (
     <section className="pt-24 px-4 pb-4 flex flex-col md:flex-row gap-4">
       <div className="w-full md:w-2/3">
-        <h1 className="text-2xl font-bold">Checkout</h1>
+        <h1 className="text-2xl font-bold">{title}</h1>
         <ul className="flex flex-col gap-4 mt-4">
           {cart.map((item) => (
             <li
@@ -178,7 +194,7 @@ const Form = ({ lng, userEmail }: IForm) => {
           ))}
         </ul>
         <p className="text-sm sm:text-lg text-right mt-4">
-          Shipping: <span className="font-bold">$99.00</span>
+          {shipping}: <span className="font-bold">$99.00</span>
         </p>
         <p className="text-sm sm:text-lg text-right">
           Subtotal:{" "}
@@ -204,7 +220,12 @@ const Form = ({ lng, userEmail }: IForm) => {
       </div>
       {clientSecret.length > 0 && (
         <Elements options={options} stripe={stripePromise}>
-          <StripeForm lng={lng} userEmail={userEmail} />
+          <StripeForm
+            lng={lng}
+            userEmail={userEmail}
+            confirmBtn={confirmBtn}
+            processing={processing}
+          />
         </Elements>
       )}
     </section>
@@ -216,9 +237,16 @@ export default Form;
 interface IStripeForm {
   lng: string;
   userEmail: string;
+  confirmBtn: string;
+  processing: string;
 }
 
-const StripeForm = ({ lng, userEmail }: IStripeForm) => {
+const StripeForm = ({
+  lng,
+  userEmail,
+  confirmBtn,
+  processing,
+}: IStripeForm) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -242,7 +270,11 @@ const StripeForm = ({ lng, userEmail }: IStripeForm) => {
         if (error.type === "card_error" || error.type === "validation_error") {
           setErrorMessage(error.message);
         } else {
-          setErrorMessage("An error occurred, please try again later");
+          setErrorMessage(
+            lng === "en"
+              ? "Something went wrong, please try again"
+              : "Algo salió mal, por favor intenta de nuevo"
+          );
         }
       })
       .finally(() => setIsLoading(false));
@@ -284,7 +316,7 @@ const StripeForm = ({ lng, userEmail }: IStripeForm) => {
               : "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
           )}
         >
-          {isLoading ? "Processing..." : "Confirm payment"}
+          {isLoading ? processing : confirmBtn}
         </button>
       </fieldset>
     </form>

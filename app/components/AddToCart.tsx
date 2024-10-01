@@ -2,16 +2,22 @@
 
 import Toast from "./Toast";
 import { cn } from "@/app/utils/cn";
+import { useTranslation } from "../i18n/client";
 import { useCart, useResolvedTheme } from "@/app/hooks";
 import type { IProduct } from "@/app/interfaces";
 
 interface IAddToCart {
+  lng: string;
   product: IProduct;
 }
 
-const AddToCart = ({ product }: IAddToCart) => {
+const AddToCart = ({ lng, product }: IAddToCart) => {
   const theme = useResolvedTheme();
   const { cart, addToCart } = useCart();
+  const { t } = useTranslation(lng, "addToCart");
+  const toastMessage = t("toast");
+  const enoughStock = t("enoughStockBtn");
+  const outOfStock = t("notEnoughStockBtn");
 
   const handleAddToCart = () => {
     addToCart({
@@ -24,7 +30,7 @@ const AddToCart = ({ product }: IAddToCart) => {
     Toast({
       theme,
       type: "success",
-      message: "Product added to cart",
+      message: toastMessage,
     });
   };
 
@@ -49,8 +55,8 @@ const AddToCart = ({ product }: IAddToCart) => {
     >
       {currentQuantityProduct < product.maximumQuantityPerOrder &&
       product.quantity > 0
-        ? "Add to cart"
-        : "Out of stock"}
+        ? enoughStock
+        : outOfStock}
     </button>
   );
 };

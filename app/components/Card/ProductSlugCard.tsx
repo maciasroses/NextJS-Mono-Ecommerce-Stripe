@@ -226,7 +226,7 @@ const ProductSlugCard = ({
                 isFavorite={isFavorite}
               />
             </div>
-            <AddToCart product={product} />
+            <AddToCart lng={lng} product={product} />
           </div>
           <div
             className="hidden md:block absolute top-0 right-0 size-full max-h-[600px] pointer-events-none"

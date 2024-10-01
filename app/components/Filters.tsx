@@ -1,13 +1,27 @@
 "use client";
 
 import { cn } from "@/app/utils/cn";
+import { useTranslation } from "../i18n/client";
 import { CATEGORIES_FILTERS } from "@/app/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { LanguageTypeForSchemas } from "../interfaces";
 
-const Filters = () => {
+interface IFiltersComp {
+  lng: string;
+}
+
+const Filters = ({ lng }: IFiltersComp) => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation(lng, "filters");
+  const categoriesTitle = t("categories");
+  const {
+    title: priceTitle,
+    fromInput,
+    toInput,
+    applyBtn,
+  } = JSON.parse(t("price"));
 
   const handleCategory = (category: string) => {
     const params = new URLSearchParams(searchParams);
@@ -37,33 +51,35 @@ const Filters = () => {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <p className="font-medium text-lg">Categories</p>
+        <p className="font-medium text-lg">{categoriesTitle}</p>
         <ul className="flex flex-col">
-          {CATEGORIES_FILTERS.map(({ label, category }) => (
-            <li key={category}>
-              <ButtonCategoryComponent
-                label={label}
-                category={category}
-                searchParams={searchParams}
-                handleCategory={handleCategory}
-              />
-            </li>
-          ))}
+          {CATEGORIES_FILTERS[lng as LanguageTypeForSchemas].map(
+            ({ label, category }) => (
+              <li key={category}>
+                <ButtonCategoryComponent
+                  label={label}
+                  category={category}
+                  searchParams={searchParams}
+                  handleCategory={handleCategory}
+                />
+              </li>
+            )
+          )}
         </ul>
       </div>
       <div>
-        <p className="font-medium text-lg">Price</p>
+        <p className="font-medium text-lg">{priceTitle}</p>
         <form onSubmit={handlePrice} className="flex gap-2 flex-col ml-5 mt-2">
           <div className="flex gap-2 items-center">
             <InputField
               name="priceFrom"
-              placeholder="From"
+              placeholder={fromInput}
               defaultValue={searchParams.get("priceFrom")}
             />
             {" - "}
             <InputField
               name="priceTo"
-              placeholder="To"
+              placeholder={toInput}
               defaultValue={searchParams.get("priceTo")}
             />
           </div>
@@ -71,7 +87,7 @@ const Filters = () => {
             type="submit"
             className="w-full px-4 py-2 rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
           >
-            Apply
+            {applyBtn}
           </button>
         </form>
       </div>

@@ -1,5 +1,4 @@
 {
-  "title": "Futuro Ecommerce",
-  "description": "Este es un proyecto de ecommerce desarrollado con NextJS",
-  "link": "Inicio"
+  "hero": "{\"title\":\"EL MEJOR\",\"subtitle\":\"Apple Watch\",\"description\":\"No es solo un accesorio,\",\"secondaryDescription\":\"es todo lo que necesitas.\",\"callToActionBtn\":\"Cómpralo ahora\"}",
+  "categories": "{\"toys\":\"Juguetes\",\"books\":\"Libros\",\"clothing\":\"Ropa\",\"electronics\":\"Electrónicos\"}"
 }

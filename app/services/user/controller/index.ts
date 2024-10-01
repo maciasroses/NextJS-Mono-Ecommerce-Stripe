@@ -11,7 +11,12 @@ import {
   getSession,
   isAuthenticated,
 } from "@/app/services/auth";
-import type { ILoginState, IRegisterState, IUser } from "@/app/interfaces";
+import type {
+  IUser,
+  ILoginState,
+  IRegisterState,
+  LanguageTypeForSchemas,
+} from "@/app/interfaces";
 
 export async function login(_prevState: ILoginState, formData: FormData) {
   const lng = cookies().get("i18next")?.value ?? "en";
@@ -21,12 +26,19 @@ export async function login(_prevState: ILoginState, formData: FormData) {
     password: formData.get("password"),
   };
 
-  const errors = validateSchema("login", dataToValidate);
+  const errors = validateSchema(
+    lng as LanguageTypeForSchemas,
+    "login",
+    dataToValidate
+  );
 
   if (Object.keys(errors).length !== 0) {
     return {
       errors,
-      message: "",
+      message: {
+        en: "",
+        es: "",
+      },
     };
   }
 
@@ -41,14 +53,22 @@ export async function login(_prevState: ILoginState, formData: FormData) {
       ))
     ) {
       return {
-        message: "Correo electrónico o contraseña incorrecta.",
+        message: {
+          en: "Incorrect email or password.",
+          es: "Correo electrónico o contraseña incorrecta.",
+        },
       };
     }
 
     await createUserSession((user as IUser).id, (user as IUser).role);
   } catch (error) {
     console.error(error);
-    return { message: "Ocurrió un error interno." };
+    return {
+      message: {
+        en: "An internal error occurred.",
+        es: "Ocurrió un error interno.",
+      },
+    };
   }
   const session = await getSession();
   revalidatePath(session?.role === "ADMIN" ? `/${lng}/admin/home` : `/${lng}`);
@@ -65,7 +85,11 @@ export async function register(_prevState: IRegisterState, formData: FormData) {
     confirmPassword: formData.get("confirmPassword"),
   };
 
-  const errors = validateSchema("register", dataToValidate);
+  const errors = validateSchema(
+    lng as LanguageTypeForSchemas,
+    "register",
+    dataToValidate
+  );
 
   if (Object.keys(errors).length !== 0) {
     return {

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { cn } from "@/app/utils/cn";
 import { Filters as FiltersIcon, XMark } from "@/public/icons";
 
-const FiltersMenu = () => {
+const FiltersMenu = ({ lng }: { lng: string }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -34,7 +34,7 @@ const FiltersMenu = () => {
           <XMark />
         </button>
         <div className="p-4">
-          <Filters />
+          <Filters lng={lng} />
         </div>
       </div>
       {isOpen && (

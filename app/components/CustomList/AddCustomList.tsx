@@ -33,7 +33,10 @@ const AddCustomList = ({
         Toast({
           theme,
           type: "success",
-          message: "Product removed from all lists",
+          message:
+            lng === "en"
+              ? "Product removed from all lists"
+              : "Producto eliminado de todas las listas",
         });
       } else {
         onOpen();
@@ -53,7 +56,12 @@ const AddCustomList = ({
         )}
       </button>
       <Modal isOpen={isOpen} onClose={onClose} isForSideBar={false}>
-        <Form myLists={myLists} productId={productId} handleClose={onClose} />
+        <Form
+          lng={lng}
+          myLists={myLists}
+          productId={productId}
+          handleClose={onClose}
+        />
       </Modal>
     </>
   );

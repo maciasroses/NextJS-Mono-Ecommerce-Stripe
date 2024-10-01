@@ -1,5 +1,7 @@
 {
   "themeSelector": "{\"light\":\"Claro\",\"dark\":\"Oscuro\",\"system\":\"Sistema\"}",
   "languageSelector": "{\"en\":\"Inglés\",\"es\":\"Español\"}",
-  "profileMenu": "{\"dashboard\":\"Tablero\",\"products\":\"Productos\",\"orders\":\"Pedidos\",\"profile\":\"Perfil\",\"settings\":\"Configuración\",\"logout\":\"Cerrar sesión\"}"
+  "cartMenu": "{\"title\":\"Mi carrito\",\"emptyCart\":\"Tu carrito está vacío\",\"deleteBtn\":\"Eliminar\",\"checkoutBtn\":\"Proceder al pago\",\"clearBtn\":\"Vaciar carrito\"}",
+  "profileMenu": "{\"home\":\"Inicio\",\"profile\":{\"title\":\"Perfil\",\"home\":\"Inicio\",\"lists\":\"Listas\",\"orders\":\"Pedidos\"},\"logout\":\"Cerrar sesión\"}",
+  "mainSearch": "{\"placeholder\":\"Busca cualquier producto...\",\"searchBtn\":\"Buscar\",\"filters\":{\"categories\":{\"title\":\"Categorías\",\"electronics\":\"Electrónica\",\"books\":\"Libros\",\"clothing\":\"Ropa\",\"toys\":\"Juguetes\"},\"price\":{\"fromInputPlaceholder\":\"Desde\",\"toInputPlaceholder\":\"Hasta\",\"applyBtn\":\"Aplicar\"}}}"
 }

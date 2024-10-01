@@ -1,5 +1,7 @@
 {
   "themeSelector": "{\"light\":\"Light\",\"dark\":\"Dark\",\"system\":\"System\"}",
   "languageSelector": "{\"en\":\"English\",\"es\":\"Spanish\"}",
-  "profileMenu": "{\"dashboard\":\"Dashboard\",\"products\":\"Products\",\"orders\":\"Orders\",\"profile\":\"Profile\",\"settings\":\"Settings\",\"logout\":\"Logout\"}"
+  "cartMenu": "{\"title\":\"My cart\",\"emptyCart\":\"Your cart is empty\",\"deleteBtn\":\"Delete\",\"checkoutBtn\":\"Proceed to checkout\",\"clearBtn\":\"Clear cart\"}",
+  "profileMenu": "{\"home\":\"Home\",\"profile\":{\"title\":\"Profile\",\"home\":\"Home\",\"lists\":\"Lists\",\"orders\":\"Orders\"},\"logout\":\"Log out\"}",
+  "mainSearch": "{\"placeholder\":\"Search for any product...\",\"searchBtn\":\"Search\",\"filters\":{\"categories\":{\"title\":\"Categories\",\"electronics\":\"Electronics\",\"books\":\"Books\",\"clothing\":\"Clothing\",\"toys\":\"Toys\"},\"price\":{\"fromInputPlaceholder\":\"From\",\"toInputPlaceholder\":\"To\",\"applyBtn\":\"Apply\"}}}"
 }

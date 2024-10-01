@@ -1,0 +1,4 @@
+{
+  "newList": "{\"title\":\"Crear nueva lista\",\"nameInput\":\"Nombre\",\"namePlaceholder\":\"Favoritos\",\"descriptionInput\":\"Descripción (opcional)\",\"descriptionPlaceholder\":\"Esta es mi lista favorita\",\"createBtn\":\"Crear\"}",
+  "addToList": "{\"title\":\"Agregar a la lista\",\"newListBtn\":\"Crear nueva lista\",\"addBtn\":\"Agregar\"}"
+}

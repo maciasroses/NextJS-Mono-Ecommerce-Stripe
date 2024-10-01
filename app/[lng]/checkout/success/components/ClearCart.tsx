@@ -14,9 +14,11 @@ const ClearCart = ({ lng }: { lng: string }) => {
   return (
     <GenericBackToPage
       link={`/${lng}/profile/orders`}
-      title="Payment succeeded"
-      linkText="Go to my orders"
-      description="The payment was successful"
+      title={lng === "en" ? "Payment succeeded" : "Pago exitoso"}
+      linkText={lng === "en" ? "Go to my orders" : "Ir a mis pedidos"}
+      description={
+        lng === "en" ? "The payment was successful" : "El pago fue exitoso"
+      }
     />
   );
 };

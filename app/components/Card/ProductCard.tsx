@@ -51,7 +51,7 @@ const ProductCard = ({ lng, userId, myLists, product }: IProductCard) => {
             {formatCurrency(product.priceInCents / 100, "MXN")}
           </span>
         </Link>
-        <AddToCart product={product} />
+        <AddToCart lng={lng} product={product} />
       </div>
     </div>
   );

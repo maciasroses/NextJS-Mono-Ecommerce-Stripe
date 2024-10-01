@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { TrashIcon } from "@/public/icons";
 import { useResolvedTheme } from "@/app/hooks";
+import { useTranslation } from "@/app/i18n/client";
 import formatCurrency from "@/app/utils/format-currency";
 import { AddToCart, Modal, Toast } from "@/app/components";
 import { deleteProductFromCustomList } from "@/app/services/customList/controller";
@@ -19,6 +20,15 @@ interface IProductCard {
 const ProductCard = ({ lng, product, customListId }: IProductCard) => {
   const theme = useResolvedTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation(lng, "profile");
+  const {
+    remove: {
+      title: removeTitle,
+      descriptionPartOne,
+      descriptionPartTwo,
+      removeBtn,
+    },
+  } = JSON.parse(t("lists"));
 
   const handleConfirm = async () => {
     const response = await deleteProductFromCustomList(
@@ -30,13 +40,16 @@ const ProductCard = ({ lng, product, customListId }: IProductCard) => {
       Toast({
         theme,
         type: "success",
-        message: "Product removed successfully",
+        message:
+          lng === "en"
+            ? "Product removed successfully"
+            : "Producto eliminado con éxito",
       });
     } else {
       Toast({
         theme,
         type: "error",
-        message: "Something went wrong",
+        message: lng === "en" ? "Something went wrong" : "Algo salió mal",
       });
     }
     handleClose();
@@ -50,19 +63,19 @@ const ProductCard = ({ lng, product, customListId }: IProductCard) => {
     <>
       <Modal isOpen={isOpen} isForSideBar={false} onClose={handleClose}>
         <div className="flex flex-col gap-4">
-          <h1 className="text-xl md:text-4xl">Removing from list</h1>
+          <h1 className="text-xl md:text-4xl">{removeTitle}</h1>
           <div className="text-center">
             <p className="text-2xl">
-              Are you sure you want to remove the product{" "}
-              <span className="font-semibold">{product.name}</span> from the
-              list?
+              {descriptionPartOne}{" "}
+              <span className="font-semibold">{product.name}</span>{" "}
+              {descriptionPartTwo}
             </p>
             <button
               type="button"
               onClick={handleConfirm}
               className="mt-4 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 text-white dark:tex-red-300 bg-red-600 dark:bg-red-950 hover:bg-red-700 dark:hover:bg-red-900 focus:ring-red-600 dark:focus:ring-red-300 border border-red-600 hover:border-red-700 dark:border-red-300"
             >
-              Remove
+              {removeBtn}
             </button>
           </div>
         </div>
@@ -98,7 +111,7 @@ const ProductCard = ({ lng, product, customListId }: IProductCard) => {
               {formatCurrency(product.priceInCents / 100, "MXN")}
             </span>
           </Link>
-          <AddToCart product={product} />
+          <AddToCart lng={lng} product={product} />
         </div>
       </div>
     </>

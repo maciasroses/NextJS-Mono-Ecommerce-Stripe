@@ -6,6 +6,7 @@ import { cn } from "@/app/utils/cn";
 import { useAuth } from "@/app/hooks";
 import { DownChevron } from "@/public/icons";
 import ProfilePic from "@/public/profilepic.webp";
+import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useRef, useState } from "react";
 import { logout } from "@/app/services/user/controller";
 import type { IUser } from "@/app/interfaces";
@@ -35,8 +36,19 @@ const ProfileLink = ({ to, onClick, text, customClass }: IProfileLink) => {
 const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
   const menuRef = useRef(null);
   const { setUser } = useAuth();
+  const { t } = useTranslation(lng, "header");
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
+  const {
+    home,
+    logout: logoutBtn,
+    profile: {
+      title: profileTitle,
+      home: profileHome,
+      lists: profileLists,
+      orders: profileOrders,
+    },
+  } = JSON.parse(t("profileMenu"));
 
   const handleProfileMenu = () => {
     setProfileMenu(!profileMenu);
@@ -100,7 +112,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
             <ProfileLink
               to={user.role === "ADMIN" ? `/${lng}/admin` : `/${lng}`}
               onClick={closeMenu}
-              text="Home"
+              text={home}
             />
             {user.role === "ADMIN" && (
               <ProfileLink
@@ -113,7 +125,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
               onClick={handleProfileMenu}
               className="relative block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white cursor-pointer"
             >
-              Profile
+              {profileTitle}
               <span
                 className={cn(
                   "absolute right-4 top-2.5 transform transition-all duration-300",
@@ -130,7 +142,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
             >
               <li>
                 <ProfileLink
-                  text="Home"
+                  text={profileHome}
                   customClass="pl-8"
                   onClick={closeMenu}
                   to={`/${lng}/profile`}
@@ -138,7 +150,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
               </li>
               <li>
                 <ProfileLink
-                  text="Lists"
+                  text={profileLists}
                   customClass="pl-8"
                   onClick={closeMenu}
                   to={`/${lng}/profile/lists`}
@@ -146,7 +158,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
               </li>
               <li>
                 <ProfileLink
-                  text="Orders"
+                  text={profileOrders}
                   customClass="pl-8"
                   onClick={closeMenu}
                   to={`/${lng}/profile/orders`}
@@ -173,7 +185,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-left"
                 type="submit"
               >
-                Log out
+                {logoutBtn}
               </button>
             </form>
           </div>
