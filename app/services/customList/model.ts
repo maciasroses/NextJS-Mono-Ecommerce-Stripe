@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/app/services/prisma";
+import type { ICustomListSearchParams } from "@/app/interfaces";
 
 export async function createCustomList({
   data,
@@ -38,9 +39,12 @@ export async function readCustomList({
   id,
   name,
   userId,
-}: IReadNDeleteCustomList) {
+  page = 1,
+  limit = 6,
+  allData,
+  isForFav,
+}: ICustomListSearchParams) {
   const globalInclude = {
-    // products: true,
     products: {
       include: {
         product: {
@@ -51,6 +55,12 @@ export async function readCustomList({
       },
     },
   };
+
+  if (allData) {
+    return await prisma.customList.findMany({
+      include: globalInclude,
+    });
+  }
 
   if (id) {
     return await prisma.customList.findUnique({
@@ -71,16 +81,60 @@ export async function readCustomList({
     });
   }
 
-  if (userId) {
+  if (userId && isForFav) {
     return await prisma.customList.findMany({
       where: { userId },
       include: globalInclude,
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 
-  return await prisma.customList.findMany({
+  const skip = (Number(page) - 1) * Number(limit);
+  const take = Number(limit);
+
+  if (userId) {
+    const totalCount = await prisma.customList.count({
+      where: {
+        userId,
+      },
+    });
+
+    const totalPages = Math.ceil(totalCount / Number(limit));
+
+    const customLists = await prisma.customList.findMany({
+      where: { userId },
+      skip,
+      take,
+      include: globalInclude,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return {
+      customLists,
+      totalPages,
+    };
+  }
+
+  const totalCount = await prisma.customList.count();
+  const totalPages = Math.ceil(totalCount / Number(limit));
+
+  const customLists = await prisma.customList.findMany({
+    skip,
+    take,
     include: globalInclude,
+    orderBy: {
+      createdAt: "desc",
+    },
   });
+
+  return {
+    customLists,
+    totalPages,
+  };
 }
 
 export async function readCustomProductsList({

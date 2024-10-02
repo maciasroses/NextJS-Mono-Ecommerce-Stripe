@@ -21,6 +21,11 @@ export interface ICustomList extends CustomList {
   products: ICustomProductsList[];
 }
 
+export interface ICustomListList {
+  customLists: ICustomList[];
+  totalPages: number;
+}
+
 export interface ICustomProductsList extends CustomProductsList {
   product: IProduct;
   customList: ICustomList;
@@ -153,7 +158,17 @@ export interface IOrderSearchParams {
   page?: string | number;
   limit?: string | number;
   userId?: string;
-  allData?: string;
+  allData?: boolean;
+}
+
+export interface ICustomListSearchParams {
+  id?: string;
+  name?: string;
+  userId?: string;
+  page?: string | number;
+  limit?: string | number;
+  allData?: boolean;
+  isForFav?: boolean;
 }
 
 export interface IGenericIcon {

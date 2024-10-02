@@ -13,15 +13,23 @@ import {
   createCustomProductsList,
 } from "../model";
 import type {
+  ICustomList,
   ICustomListState,
   IAddProductToCustomList,
-  ICustomList,
+  ICustomListSearchParams,
 } from "@/app/interfaces";
 
-export async function getMyLists() {
+export async function getMyLists({
+  page,
+  limit,
+  isForFav,
+}: ICustomListSearchParams) {
   try {
     const session = await isAuthenticated();
     return await readCustomList({
+      page,
+      limit,
+      isForFav,
       userId: session.userId as string,
     });
   } catch (error) {

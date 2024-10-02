@@ -11,7 +11,7 @@ import type {
 
 export default async function Home({ params: { lng } }: IBaseLangPage) {
   const me = (await getMe()) as IUser;
-  const myLists = (await getMyLists()) as ICustomList[];
+  const myLists = (await getMyLists({ isForFav: true })) as ICustomList[];
   const products = (await getAllProducts()) as IProduct[];
 
   return (

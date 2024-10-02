@@ -1,7 +1,7 @@
 "use server";
 
-import { IOrderSearchParams } from "@/app/interfaces";
 import prisma from "@/app/services/prisma";
+import type { IOrderSearchParams } from "@/app/interfaces";
 
 export async function create({
   data,
@@ -83,6 +83,8 @@ export async function read({
   const totalPages = Math.ceil(totalCount / Number(limit));
 
   const orders = await prisma.order.findMany({
+    skip,
+    take,
     include: globalInclude,
     orderBy: {
       createdAt: "desc",

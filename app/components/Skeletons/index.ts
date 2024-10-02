@@ -6,6 +6,7 @@ import DatatableSkeleton from "./DatatableSkeleton";
 import OrderCardSkeleton from "./OrderCardSkeleton";
 import OrdersListSkeleton from "./OrdersListSkeleton";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import CustomListsListSkeleton from "./CustomListsListSkeleton";
 
 export {
   CardSkeleton,
@@ -16,4 +17,5 @@ export {
   OrderCardSkeleton,
   OrdersListSkeleton,
   ProductCardSkeleton,
+  CustomListsListSkeleton,
 };
