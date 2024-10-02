@@ -50,8 +50,8 @@ const Header = ({ lng, user, products }: IHeader) => {
                     <CartMenu lng={lng} products={products} />
                   </li>
                 )}
-              {user && pathname !== `/${lng}/checkout` ? (
-                <li>
+              {user && !pathname.startsWith(`/${lng}/checkout`) ? (
+                <li className="flex items-center">
                   <ProfileMenu lng={lng} user={user} />
                 </li>
               ) : (

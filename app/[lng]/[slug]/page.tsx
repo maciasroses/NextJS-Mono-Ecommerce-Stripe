@@ -14,7 +14,7 @@ interface ISlugPage {
 
 const SlugPage = async ({ params: { lng, slug } }: ISlugPage) => {
   const me = (await getMe()) as IUser;
-  const myLists = (await getMyLists()) as ICustomList[];
+  const myLists = (await getMyLists({ isForFav: true })) as ICustomList[];
   const product = (await getProductBySlug({ slug })) as IProduct;
   if (!product) notFound();
 

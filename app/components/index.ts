@@ -26,6 +26,7 @@ import {
   OrdersListSkeleton,
   PieChartSkeleton,
   ProductCardSkeleton,
+  CustomListsListSkeleton,
 } from "./Skeletons";
 
 export {
@@ -60,4 +61,5 @@ export {
   GenericSearchInput,
   OrdersListSkeleton,
   ProductCardSkeleton,
+  CustomListsListSkeleton,
 };

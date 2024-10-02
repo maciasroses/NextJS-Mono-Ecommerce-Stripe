@@ -16,7 +16,7 @@ interface IProductListComp {
 
 const ProductList = async ({ lng, searchParams }: IProductListComp) => {
   const me = (await getMe()) as IUser;
-  const myLists = (await getMyLists()) as ICustomList[];
+  const myLists = (await getMyLists({ isForFav: true })) as ICustomList[];
   const { products } = (await getProducts(searchParams)) as IProductList;
 
   return (
