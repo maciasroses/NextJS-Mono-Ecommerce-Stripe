@@ -62,7 +62,10 @@ const OrdersList = async ({ lng, searchParams }: IOrderListComp) => {
           ))}
         </>
       ) : (
-        <Card404 title="No orders found" description="Try another page" />
+        <Card404
+          title="No orders found"
+          description="You have not ordered anything yet."
+        />
       )}
     </>
   );
