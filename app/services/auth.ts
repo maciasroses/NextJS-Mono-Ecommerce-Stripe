@@ -11,9 +11,8 @@ async function encrypt(payload: JWTPayload) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    // This commented below is for production
-    // .setIssuer("http://localhost:3000")
-    // .setAudience("http://localhost:3000")
+    .setIssuer("http://localhost:3000")
+    .setAudience("http://localhost:3000")
     .setExpirationTime("7d")
     .setJti(crypto.randomUUID())
     .sign(SESSION_SECRET_ENCODED);
