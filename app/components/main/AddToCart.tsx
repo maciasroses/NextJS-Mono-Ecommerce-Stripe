@@ -46,11 +46,11 @@ const AddToCart = ({ lng, product }: IAddToCart) => {
           : () => {}
       }
       className={cn(
-        "font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:outline-none",
+        "font-medium rounded-lg text-sm",
         currentQuantityProduct < product.maximumQuantityPerOrder &&
           product.quantity > 0
-          ? "text-white dark:text-blue-300 bg-blue-600 hover:bg-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
-          : "text-gray-600 dark:text-gray-200 bg-gray-300 cursor-not-allowed  dark:bg-gray-700 "
+          ? "link-button-blue"
+          : "px-4 py-2 text-gray-600 dark:text-gray-200 bg-gray-300 cursor-not-allowed  dark:bg-gray-700"
       )}
     >
       {currentQuantityProduct < product.maximumQuantityPerOrder &&

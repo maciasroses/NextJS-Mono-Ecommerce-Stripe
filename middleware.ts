@@ -68,6 +68,6 @@ export const config = {
     "/checkout/:path*",
     "/admin/:path*",
     "/profile/:path*",
-    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|sw.js|site.webmanifest|fonts|images|assets|invoices|products|icons|webhooks/stripe).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|profilepic.webp|robots.txt|sitemap.xml|sw.js|site.webmanifest|fonts|images|assets|invoices|products|icons|webhooks/stripe).*)",
   ],
 };

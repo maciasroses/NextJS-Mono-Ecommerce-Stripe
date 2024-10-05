@@ -41,6 +41,16 @@ const userRegisterSchema = (lng: LanguageTypeForSchemas) =>
     }),
   });
 
+const updateMainInfoSchema = (lng: LanguageTypeForSchemas) =>
+  z.object({
+    username: z.string().min(2, {
+      message: messages[lng].username,
+    }),
+    email: z.string().email({
+      message: messages[lng].email,
+    }),
+  });
+
 const schemas: {
   [key: string]: (
     lng: LanguageTypeForSchemas
@@ -48,6 +58,7 @@ const schemas: {
 } = {
   login: userLoginSchema,
   register: userRegisterSchema,
+  updateMainInfo: updateMainInfoSchema,
 };
 
 export function validateSchema(

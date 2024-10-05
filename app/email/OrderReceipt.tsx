@@ -19,6 +19,7 @@ OrderReceipt.PreviewProps = {
       user: {
         id: "",
         email: "",
+        image: "",
         username: "",
         password: "",
         role: "USER",

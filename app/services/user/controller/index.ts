@@ -2,19 +2,20 @@
 
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
-import { create, read } from "../model";
 import { redirect } from "next/navigation";
 import { validateSchema } from "../schema";
 import { revalidatePath } from "next/cache";
+import { create, read, update } from "../model";
 import {
-  createUserSession,
   getSession,
   isAuthenticated,
+  createUserSession,
 } from "@/app/services/auth";
 import type {
   IUser,
   ILoginState,
   IRegisterState,
+  IUpdateMyMainInfo,
   LanguageTypeForSchemas,
 } from "@/app/interfaces";
 
@@ -138,4 +139,88 @@ export async function getMe() {
     console.error(error);
     return null;
   }
+}
+
+export async function updateMyMainInfo(
+  _prevState: IUpdateMyMainInfo,
+  formData: FormData
+) {
+  const session = await getSession();
+  const lng = cookies().get("i18next")?.value ?? "en";
+
+  const dataToValidate = {
+    username: formData.get("username"),
+    email: formData.get("email"),
+  };
+
+  const errors = validateSchema(
+    lng as LanguageTypeForSchemas,
+    "updateMainInfo",
+    dataToValidate
+  );
+
+  if (Object.keys(errors).length !== 0) {
+    return {
+      errors,
+      message: {
+        en: "",
+        es: "",
+      },
+    };
+  }
+
+  try {
+    const me = (await read({ id: session?.userId as string })) as IUser;
+
+    const usernameAlreadyTaken = (await read({
+      username: dataToValidate.username as string,
+    })) as IUser;
+
+    if (usernameAlreadyTaken && usernameAlreadyTaken.username !== me.username) {
+      return {
+        message: {
+          en: "Username already taken",
+          es: "Nombre de usuario ya tomado",
+        },
+      };
+    }
+
+    const emailAlreadyTaken = (await read({
+      email: dataToValidate.email as string,
+    })) as IUser;
+
+    if (emailAlreadyTaken && emailAlreadyTaken.email !== me.email) {
+      return {
+        message: {
+          en: "Email already taken",
+          es: "Correo electrónico ya tomado",
+        },
+      };
+    }
+
+    await update({
+      id: session?.userId as string,
+      data: dataToValidate,
+    });
+  } catch (error) {
+    console.error(error);
+    return {
+      message: {
+        en: "An internal error occurred",
+        es: "Ocurrió un error interno",
+      },
+    };
+  }
+
+  revalidatePath(
+    session?.role === "ADMIN"
+      ? `/${lng}/admin/profile/home`
+      : `/${lng}/profile/home`
+  );
+  return {
+    message: {
+      en: "OK",
+      es: "OK",
+    },
+  };
 }

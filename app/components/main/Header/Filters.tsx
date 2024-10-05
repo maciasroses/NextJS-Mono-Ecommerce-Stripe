@@ -83,10 +83,7 @@ const Filters = ({ lng }: IFiltersComp) => {
               defaultValue={searchParams.get("priceTo")}
             />
           </div>
-          <button
-            type="submit"
-            className="w-full px-4 py-2 rounded-lg text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
-          >
+          <button type="submit" className="link-button-blue">
             {applyBtn}
           </button>
         </form>

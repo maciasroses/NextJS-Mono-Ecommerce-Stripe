@@ -310,10 +310,10 @@ const StripeForm = ({
           type="submit"
           disabled={stripe == null || elements == null || isLoading}
           className={cn(
-            "w-full py-2 rounded-lg mt-4",
+            "w-full mt-4",
             stripe == null || elements == null || isLoading
-              ? "bg-gray-300 dark:bg-gray-800 cursor-not-allowed"
-              : "text-white dark:text-blue-300 bg-blue-600 dark:bg-blue-950 hover:bg-blue-700 dark:hover:bg-blue-900 border border-blue-600 hover:border-blue-700 dark:border-blue-300"
+              ? "py-2 bg-gray-300 dark:bg-gray-800 cursor-not-allowed"
+              : "link-button-blue"
           )}
         >
           {isLoading ? processing : confirmBtn}
