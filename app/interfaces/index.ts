@@ -123,6 +123,17 @@ export interface ILoginState {
   };
 }
 
+export interface IUpdateMyMainInfo {
+  message: {
+    en: string;
+    es: string;
+  };
+  errors?: {
+    username?: string;
+    email?: string;
+  };
+}
+
 export interface ICustomListState {
   message: string;
   errors?: {

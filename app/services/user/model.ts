@@ -15,7 +15,13 @@ export async function create({
   });
 }
 
-export async function read({ id, email }: { id?: string; email?: string }) {
+interface IRead {
+  id?: string;
+  email?: string;
+  username?: string;
+}
+
+export async function read({ id, email, username }: IRead) {
   const globalInclude = {
     orders: true,
     customLists: true,
@@ -31,6 +37,13 @@ export async function read({ id, email }: { id?: string; email?: string }) {
   if (email) {
     return await prisma.user.findUnique({
       where: { email },
+      include: globalInclude,
+    });
+  }
+
+  if (username) {
+    return await prisma.user.findUnique({
+      where: { username },
       include: globalInclude,
     });
   }

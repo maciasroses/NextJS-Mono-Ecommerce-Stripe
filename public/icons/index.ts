@@ -5,6 +5,7 @@ import XMark from "./XMark";
 import Heart from "./Heart";
 import Light from "./Light";
 import Photo from "./Photo";
+import Check from "./Check";
 import MXFlag from "./MXFlag";
 import Upload from "./Upload";
 import USFlag from "./USFlag";
@@ -38,6 +39,7 @@ export {
   Heart,
   Light,
   Photo,
+  Check,
   MXFlag,
   Upload,
   USFlag,

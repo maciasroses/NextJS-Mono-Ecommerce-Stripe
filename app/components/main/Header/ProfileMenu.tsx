@@ -5,7 +5,6 @@ import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useAuth } from "@/app/hooks";
 import { DownChevron } from "@/public/icons";
-import ProfilePic from "@/public/profilepic.webp";
 import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useRef, useState } from "react";
 import { logout } from "@/app/services/user/controller";
@@ -87,11 +86,17 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
 
   return (
     <div className="relative inline-block text-left" ref={menuRef}>
-      <button type="button" className="flex items-center" onClick={toggleMenu}>
+      <button
+        type="button"
+        onClick={toggleMenu}
+        className="size-10 rounded-full flex items-center"
+      >
         <Image
           alt="Profile"
-          src={ProfilePic}
-          className="size-10 min-w-10 rounded-full"
+          src={user.image}
+          width={40}
+          height={40}
+          className="size-full object-cover rounded-full"
         />
       </button>
       {menuOpen && (
