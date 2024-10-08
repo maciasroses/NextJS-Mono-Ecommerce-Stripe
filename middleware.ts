@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const protectedRoutes = [
-    "checkout",
+    "/checkout",
     `/${lng}/checkout`,
     "/admin",
     `/${lng}/admin`,
