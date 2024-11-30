@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from "react";
-import type { IUser } from "@/app/interfaces";
+import type { IUser } from "@/app/shared/interfaces";
 
 export interface IAuthContext {
   user: IUser | null;

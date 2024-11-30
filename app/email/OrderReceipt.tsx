@@ -7,7 +7,7 @@ import {
   Tailwind,
   Container,
 } from "@react-email/components";
-import type { IOrderInfoForEmail } from "@/app/interfaces";
+import type { IOrderInfoForEmail } from "@/app/shared/interfaces";
 
 OrderReceipt.PreviewProps = {
   order: {
