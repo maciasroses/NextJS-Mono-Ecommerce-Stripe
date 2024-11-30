@@ -1,19 +1,19 @@
-import "./globals.css";
+import "@/app/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { dir } from "i18next";
 import { languages } from "@/app/i18n/settings";
 import { ToastContainer } from "react-toastify";
-import { getMe } from "@/app/services/user/controller";
-import { getAllProducts } from "@/app/services/product/controller";
+import { getMe } from "@/app/shared/services/user/controller";
+import { getAllProducts } from "@/app/shared/services/product/controller";
 import {
   Footer,
   Header,
   AuthComponent,
   CartComponent,
   ThemeComponent,
-} from "@/app/components";
+} from "@/app/shared/components";
 import type { Metadata } from "next";
-import type { IBaseLangPage, IProduct, IUser } from "@/app/interfaces";
+import type { IBaseLangPage, IProduct, IUser } from "@/app/shared/interfaces";
 
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));

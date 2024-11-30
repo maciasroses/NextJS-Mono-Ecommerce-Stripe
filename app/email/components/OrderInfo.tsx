@@ -1,7 +1,7 @@
-import formatCurrency from "@/app/utils/format-currency";
-import formatDateForHumans from "@/app/utils/formatdate-human";
+import formatCurrency from "@/app/shared/utils/format-currency";
+import formatDateForHumans from "@/app/shared/utils/formatdate-human";
 import { Img, Row, Column, Section, Text } from "@react-email/components";
-import type { IOrderInfoForEmail } from "@/app/interfaces";
+import type { IOrderInfoForEmail } from "@/app/shared/interfaces";
 
 const OrderInfo = ({ order }: { order: IOrderInfoForEmail }) => {
   return (

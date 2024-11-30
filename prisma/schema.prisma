@@ -18,7 +18,7 @@ model User {
   password String
   username String   @unique
   role     UserRole @default(USER)
-  image    String   @default("/profilepic.webp")
+  image    String   @default("/assets/images/profilepic.webp")
 
   orders            Order[]
   customLists       CustomList[]

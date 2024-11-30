@@ -1,20 +1,20 @@
 import Stripe from "stripe";
 import { Resend } from "resend";
-import prisma from "@/app/services/prisma";
+import prisma from "@/app/shared/services/prisma";
 import OrderReceipt from "@/app/email/OrderReceipt";
 import { NextRequest, NextResponse } from "next/server";
-import { getProductBySlug } from "@/app/services/product/controller";
-import { createOrderThroughStripeWebHook } from "@/app/services/order/controller";
+import { getProductBySlug } from "@/app/shared/services/product/controller";
+import { createOrderThroughStripeWebHook } from "@/app/shared/services/order/controller";
 import {
   readStockReservation,
   deleteStockReservation,
-} from "@/app/services/stock/model";
-import { createInventoryTransactionThroughStripeWebHook } from "@/app/services/inventoryTrans/controller";
+} from "@/app/shared/services/stock/model";
+import { createInventoryTransactionThroughStripeWebHook } from "@/app/shared/services/inventoryTrans/controller";
 import type {
   IOrder,
   IStockReservation,
   IOrderInfoForEmail,
-} from "@/app/interfaces";
+} from "@/app/shared/interfaces";
 
 const resend = new Resend(process.env.RESEND_API_KEY as string);
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);

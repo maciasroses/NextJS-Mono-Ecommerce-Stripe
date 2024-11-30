@@ -5,7 +5,7 @@ import {
   createContext,
   useCallback,
 } from "react";
-import type { ICartItem } from "@/app/interfaces";
+import type { ICartItem } from "@/app/shared/interfaces";
 
 export interface ICartContext {
   cart: ICartItem[];

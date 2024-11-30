@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getMe } from "@/app/services/user/controller";
-import type { IUser } from "@/app/interfaces";
+import { getMe } from "@/app/shared/services/user/controller";
+import type { IUser } from "@/app/shared/interfaces";
 
 export const metadata: Metadata = {
   title: {

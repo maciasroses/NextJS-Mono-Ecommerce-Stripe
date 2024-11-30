@@ -1,13 +1,13 @@
-import { Hero, RecentList } from "@/app/components";
-import { getMe } from "@/app/services/user/controller";
-import { getMyLists } from "@/app/services/customList/controller";
-import { getAllProducts } from "@/app/services/product/controller";
+import { Hero, RecentList } from "@/app/shared/components";
+import { getMe } from "@/app/shared/services/user/controller";
+import { getMyLists } from "@/app/shared/services/customList/controller";
+import { getAllProducts } from "@/app/shared/services/product/controller";
 import type {
   IBaseLangPage,
   ICustomList,
   IProduct,
   IUser,
-} from "@/app/interfaces";
+} from "@/app/shared/interfaces";
 
 export default async function Home({ params: { lng } }: IBaseLangPage) {
   const me = (await getMe()) as IUser;
