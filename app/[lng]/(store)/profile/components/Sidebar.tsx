@@ -3,9 +3,14 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import BulletList from "@/app/shared/icons/BulletList";
-import { ShoppingBag, UserIcon } from "@/app/shared/icons";
 import { useTranslation } from "@/app/i18n/client";
+import {
+  ShoppingBag,
+  UserIcon,
+  BulletList,
+  MapPin,
+  CreditCard,
+} from "@/app/shared/icons";
 
 const Sidebar = ({ lng }: { lng: string }) => {
   const { t } = useTranslation(lng, "profile");
@@ -25,6 +30,20 @@ const Sidebar = ({ lng }: { lng: string }) => {
               to={`/${lng}/profile/orders`}
               span={orders}
               icon="orders"
+            />
+          </li>
+          <li>
+            <LinkComp
+              to={`/${lng}/profile/addresses`}
+              span="Addresses"
+              icon="addresses"
+            />
+          </li>
+          <li>
+            <LinkComp
+              to={`/${lng}/profile/payment-methods`}
+              span="Payments"
+              icon="credit-card"
             />
           </li>
         </ul>
@@ -58,9 +77,13 @@ const LinkComp = ({ to, span, icon }: ILinkComp) => {
         <UserIcon />
       ) : icon === "lists" ? (
         <BulletList />
-      ) : (
-        <ShoppingBag strokeWidth={1} />
-      )}
+      ) : icon === "orders" ? (
+        <ShoppingBag />
+      ) : icon === "addresses" ? (
+        <MapPin />
+      ) : icon === "credit-card" ? (
+        <CreditCard />
+      ) : null}
       <span className="ms-3">{span}</span>
     </Link>
   );

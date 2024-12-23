@@ -26,6 +26,7 @@ const AddToCart = ({ lng, product }: IAddToCart) => {
       file: product.files[0].url,
       price: product.priceInCents,
       quantity: 1,
+      maximumQuantityPerOrder: product.maximumQuantityPerOrder,
     });
     Toast({
       theme,

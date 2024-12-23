@@ -36,6 +36,11 @@ async function main() {
     ELECTRONICS = "ELECTRONICS",
   }
 
+  enum FileType {
+    IMAGE = "IMAGE",
+    VIDEO = "VIDEO",
+  }
+
   const productsEntries = [
     {
       name: "Book",
@@ -46,9 +51,18 @@ async function main() {
       quantity: 10,
       maximumQuantityPerOrder: 3,
       files: [
-        { url: "/assets/products/books/book/book-0.webp" },
-        { url: "/assets/products/books/book/book-1.webp" },
-        { url: "/assets/products/books/book/book-2.webp" },
+        {
+          url: "/assets/products/books/book/book-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/books/book/book-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/books/book/book-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -60,9 +74,18 @@ async function main() {
       quantity: 5,
       maximumQuantityPerOrder: 5,
       files: [
-        { url: "/assets/products/clothing/coat/coat-0.webp" },
-        { url: "/assets/products/clothing/coat/coat-1.webp" },
-        { url: "/assets/products/clothing/coat/coat-2.webp" },
+        {
+          url: "/assets/products/clothing/coat/coat-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/clothing/coat/coat-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/clothing/coat/coat-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -74,9 +97,18 @@ async function main() {
       quantity: 7,
       maximumQuantityPerOrder: 5,
       files: [
-        { url: "/assets/products/clothing/jeans/jeans-0.webp" },
-        { url: "/assets/products/clothing/jeans/jeans-1.webp" },
-        { url: "/assets/products/clothing/jeans/jeans-2.webp" },
+        {
+          url: "/assets/products/clothing/jeans/jeans-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/clothing/jeans/jeans-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/clothing/jeans/jeans-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -88,9 +120,18 @@ async function main() {
       quantity: 7,
       maximumQuantityPerOrder: 5,
       files: [
-        { url: "/assets/products/toys/house/house-0.webp" },
-        { url: "/assets/products/toys/house/house-1.webp" },
-        { url: "/assets/products/toys/house/house-2.webp" },
+        {
+          url: "/assets/products/toys/house/house-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/toys/house/house-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/toys/house/house-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -102,9 +143,9 @@ async function main() {
       quantity: 7,
       maximumQuantityPerOrder: 5,
       files: [
-        { url: "/assets/products/toys/car/car-0.webp" },
-        { url: "/assets/products/toys/car/car-1.webp" },
-        { url: "/assets/products/toys/car/car-2.webp" },
+        { url: "/assets/products/toys/car/car-0.webp", type: FileType.IMAGE },
+        { url: "/assets/products/toys/car/car-1.webp", type: FileType.IMAGE },
+        { url: "/assets/products/toys/car/car-2.webp", type: FileType.IMAGE },
       ],
     },
     {
@@ -116,9 +157,9 @@ async function main() {
       quantity: 2,
       maximumQuantityPerOrder: 5,
       files: [
-        { url: "/assets/products/toys/lego/lego-0.webp" },
-        { url: "/assets/products/toys/lego/lego-1.webp" },
-        { url: "/assets/products/toys/lego/lego-2.webp" },
+        { url: "/assets/products/toys/lego/lego-0.webp", type: FileType.IMAGE },
+        { url: "/assets/products/toys/lego/lego-1.webp", type: FileType.IMAGE },
+        { url: "/assets/products/toys/lego/lego-2.webp", type: FileType.IMAGE },
       ],
     },
     {
@@ -130,9 +171,9 @@ async function main() {
       quantity: 10,
       maximumQuantityPerOrder: 3,
       files: [
-        { url: "/assets/products/toys/ship/ship-0.webp" },
-        { url: "/assets/products/toys/ship/ship-1.webp" },
-        { url: "/assets/products/toys/ship/ship-2.webp" },
+        { url: "/assets/products/toys/ship/ship-0.webp", type: FileType.IMAGE },
+        { url: "/assets/products/toys/ship/ship-1.webp", type: FileType.IMAGE },
+        { url: "/assets/products/toys/ship/ship-2.webp", type: FileType.IMAGE },
       ],
     },
     {
@@ -144,9 +185,18 @@ async function main() {
       quantity: 2,
       maximumQuantityPerOrder: 2,
       files: [
-        { url: "/assets/products/electronics/airpods/airpods-0.webp" },
-        { url: "/assets/products/electronics/airpods/airpods-1.webp" },
-        { url: "/assets/products/electronics/airpods/airpods-2.webp" },
+        {
+          url: "/assets/products/electronics/airpods/airpods-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/airpods/airpods-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/airpods/airpods-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -158,9 +208,18 @@ async function main() {
       quantity: 8,
       maximumQuantityPerOrder: 2,
       files: [
-        { url: "/assets/products/electronics/iphone/iphone-0.webp" },
-        { url: "/assets/products/electronics/iphone/iphone-1.webp" },
-        { url: "/assets/products/electronics/iphone/iphone-2.webp" },
+        {
+          url: "/assets/products/electronics/iphone/iphone-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/iphone/iphone-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/iphone/iphone-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -172,9 +231,18 @@ async function main() {
       quantity: 5,
       maximumQuantityPerOrder: 2,
       files: [
-        { url: "/assets/products/electronics/ipad/ipad-0.webp" },
-        { url: "/assets/products/electronics/ipad/ipad-1.webp" },
-        { url: "/assets/products/electronics/ipad/ipad-2.webp" },
+        {
+          url: "/assets/products/electronics/ipad/ipad-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/ipad/ipad-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/ipad/ipad-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -186,9 +254,18 @@ async function main() {
       quantity: 3,
       maximumQuantityPerOrder: 1,
       files: [
-        { url: "/assets/products/electronics/macbook/macbook-0.webp" },
-        { url: "/assets/products/electronics/macbook/macbook-1.webp" },
-        { url: "/assets/products/electronics/macbook/macbook-2.webp" },
+        {
+          url: "/assets/products/electronics/macbook/macbook-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/macbook/macbook-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/macbook/macbook-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
     {
@@ -200,9 +277,18 @@ async function main() {
       quantity: 6,
       maximumQuantityPerOrder: 2,
       files: [
-        { url: "/assets/products/electronics/apple-watch/apple-watch-0.webp" },
-        { url: "/assets/products/electronics/apple-watch/apple-watch-1.webp" },
-        { url: "/assets/products/electronics/apple-watch/apple-watch-2.webp" },
+        {
+          url: "/assets/products/electronics/apple-watch/apple-watch-0.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/apple-watch/apple-watch-1.webp",
+          type: FileType.IMAGE,
+        },
+        {
+          url: "/assets/products/electronics/apple-watch/apple-watch-2.webp",
+          type: FileType.IMAGE,
+        },
       ],
     },
   ];

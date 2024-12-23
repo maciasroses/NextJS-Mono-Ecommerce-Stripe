@@ -11,10 +11,11 @@ import Upload from "./Upload";
 import USFlag from "./USFlag";
 import Puzzle from "./Puzzle";
 import Dollar from "./Dollar";
-import HomeIcon from "./Home";
-import UserIcon from "./User";
 import Search from "./Search";
 import System from "./System";
+import MapPin from "./MapPin";
+import UserIcon from "./User";
+import HomeIcon from "./Home";
 import Filters from "./Filters";
 import SadFace from "./SadFace";
 import TrashIcon from "./Trash";
@@ -22,8 +23,10 @@ import PencilIcon from "./Pencil";
 import UpChevron from "./UpChevron";
 import SmileFace from "./SmileFace";
 import LeftArrow from "./LeftArrow";
+import CreditCard from "./CreditCard";
 import RightArrow from "./RightArrow";
 import PlusCircle from "./PlusCircle";
+import BulletList from "./BulletList";
 import DownChevron from "./DownChevron";
 import MinusCircle from "./MinusCircle";
 import ShoppingBag from "./ShoppingBag";
@@ -47,6 +50,7 @@ export {
   Dollar,
   Search,
   System,
+  MapPin,
   SadFace,
   Filters,
   HomeIcon,
@@ -55,9 +59,11 @@ export {
   TrashIcon,
   LeftArrow,
   UpChevron,
+  BulletList,
   RightArrow,
   PencilIcon,
   PlusCircle,
+  CreditCard,
   DownChevron,
   MinusCircle,
   ShoppingBag,

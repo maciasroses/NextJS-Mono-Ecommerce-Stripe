@@ -1,13 +1,13 @@
+import { Suspense } from "react";
 import { ListsList } from "./components";
 import { useTranslation } from "@/app/i18n";
-import { CustomListsListSkeleton, Pagination } from "@/app/shared/components";
 import { getMyLists } from "@/app/shared/services/customList/controller";
+import { CustomListsListSkeleton, Pagination } from "@/app/shared/components";
 import type {
   IBaseLangPage,
   ICustomListList,
   ICustomListSearchParams,
 } from "@/app/shared/interfaces";
-import { Suspense } from "react";
 
 interface IProfileListsPage extends IBaseLangPage {
   searchParams?: ICustomListSearchParams;

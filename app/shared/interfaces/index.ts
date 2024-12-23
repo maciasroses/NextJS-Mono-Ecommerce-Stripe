@@ -1,19 +1,36 @@
 import type {
-  CustomList,
-  CustomProductsList,
-  InventoryTransaction,
+  User,
+  Cart,
   Order,
+  Address,
   Product,
+  CartItem,
+  CustomList,
   ProductFile,
+  CommentFile,
+  Notification,
+  PaymentMethod,
   ProductOnOrder,
   StockReservation,
-  User,
+  CustomProductsList,
+  InventoryTransaction,
+  Promotion,
+  DiscountCode,
 } from "@prisma/client";
 
 export interface IUser extends User {
+  cart?: ICart;
   orders: IOrder[];
+  comments: IComment[];
+  addresses: IAddress[];
   customLists: ICustomList[];
+  notifications: INotification[];
+  paymentMethods: IPaymentMethod[];
   stockReservations: IStockReservation[];
+}
+
+export interface INotification extends Notification {
+  user: IUser;
 }
 
 export interface ICustomList extends CustomList {
@@ -21,22 +38,14 @@ export interface ICustomList extends CustomList {
   products: ICustomProductsList[];
 }
 
-export interface ICustomListList {
-  customLists: ICustomList[];
-  totalPages: number;
-}
-
 export interface ICustomProductsList extends CustomProductsList {
   product: IProduct;
   customList: ICustomList;
 }
 
-export interface IStockReservation extends StockReservation {
-  user: IUser;
-  product: IProduct;
-}
-
 export interface IProduct extends Product {
+  comments: IComment[];
+  cartItems: ICartItemPrisma[];
   files: IProductFile[];
   orders: IProductOnOrder[];
   stockReservations: IStockReservation[];
@@ -44,23 +53,8 @@ export interface IProduct extends Product {
   inventoryTransactions: IInventoryTransaction[];
 }
 
-export interface IProductList {
-  products: IProduct[];
-  totalPages: number;
-}
-
 export interface IProductFile extends ProductFile {
   product: IProduct;
-}
-
-export interface IOrder extends Order {
-  user: IUser;
-  products: IProductOnOrder[];
-}
-
-export interface IOrderList {
-  orders: IOrder[];
-  totalPages: number;
 }
 
 export interface IProductOnOrder extends ProductOnOrder {
@@ -68,9 +62,66 @@ export interface IProductOnOrder extends ProductOnOrder {
   product: IProduct;
 }
 
+export interface IStockReservation extends StockReservation {
+  user: IUser;
+  product: IProduct;
+}
+
+export interface IOrder extends Order {
+  products: IProductOnOrder[];
+  user: IUser;
+  address?: IAddress;
+  payment?: IPaymentMethod;
+  promotion?: IPromotion;
+  discountCode?: IDiscountCode;
+}
+
 export interface IInventoryTransaction extends InventoryTransaction {
   product: IProduct;
 }
+
+export interface IPaymentMethod extends PaymentMethod {
+  user: IUser;
+  orders: IOrder[];
+}
+
+export interface IAddress extends Address {
+  user: IUser;
+  orders: IOrder[];
+}
+
+export interface IComment extends Comment {
+  user: IUser;
+  product: IProduct;
+  files: ICommentFile[];
+}
+
+export interface ICommentFile extends CommentFile {
+  comment: IComment;
+}
+
+export interface IPromotion extends Promotion {
+  orders: IOrder[];
+  discountCodes: IDiscountCode[];
+}
+
+export interface IDiscountCode extends DiscountCode {
+  orders: IOrder[];
+  promotion: IPromotion;
+}
+
+export interface ICart extends Cart {
+  user: IUser;
+  items: ICartItemPrisma[];
+}
+
+export interface ICartItemPrisma extends CartItem {
+  product: IProduct;
+  cart: ICart;
+}
+// END OF MODELS FROM PRISMA
+
+export type LanguageTypeForSchemas = "en" | "es";
 
 export interface ICartItem {
   id: string;
@@ -78,6 +129,7 @@ export interface ICartItem {
   file: string;
   price: number;
   quantity: number;
+  maximumQuantityPerOrder: number;
 }
 
 export interface IProductForEmail {
@@ -99,8 +151,6 @@ export interface IBaseLangPage {
     lng: string;
   };
 }
-
-export type LanguageTypeForSchemas = "en" | "es";
 
 export interface IRegisterState {
   message: string;
@@ -139,6 +189,21 @@ export interface ICustomListState {
   errors?: {
     name?: string;
   };
+}
+
+export interface ICustomListList {
+  customLists: ICustomList[];
+  totalPages: number;
+}
+
+export interface IProductList {
+  products: IProduct[];
+  totalPages: number;
+}
+
+export interface IOrderList {
+  orders: IOrder[];
+  totalPages: number;
 }
 
 export interface IAddProductToCustomList {
@@ -186,4 +251,57 @@ export interface IGenericIcon {
   size?: string;
   customClass?: string;
   strokeWidth?: number;
+}
+
+export interface IAddressState {
+  message: string;
+  errors?: {
+    fullName?: string;
+    address1?: string;
+    address2?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+    phoneNumber?: string;
+    additionalInfo?: string;
+  };
+}
+
+export interface IAddressesList {
+  addresses: IAddress[];
+  totalPages: number;
+}
+
+export interface IAddressSearchParams {
+  id?: string;
+  userId?: string;
+  page?: string | number;
+  limit?: string | number;
+  allData?: boolean;
+}
+
+export interface IPaymentMethodState {
+  message: string;
+  errors?: {
+    stripePaymentMethodId?: string;
+    last4Digits?: string;
+    brand?: string;
+    expiryMonth?: string;
+    expiryYear?: string;
+  };
+}
+
+export interface IPaymentMethodList {
+  paymentMethods: IPaymentMethod[];
+  totalPages: number;
+}
+
+export interface IPaymentMethodSearchParams {
+  id?: string;
+  userId?: string;
+  isActive?: boolean;
+  page?: string | number;
+  limit?: string | number;
+  allData?: boolean;
 }
