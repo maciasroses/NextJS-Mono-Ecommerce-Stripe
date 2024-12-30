@@ -101,7 +101,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
       </button>
       {menuOpen && (
         <div
-          className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow list-none bg-red-white bg-gray-50 dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+          className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow list-none bg-gray-50 dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
           aria-roledescription="menu"
         >
           <div className="py-1" aria-roledescription="none">
@@ -114,6 +114,7 @@ const ProfileMenu = ({ lng, user }: { lng: string; user: IUser }) => {
               </p>
             </div>
             <div className="border-t border-gray-300 dark:border-gray-800"></div>
+
             <ProfileLink
               to={user.role === "ADMIN" ? `/${lng}/admin` : `/${lng}`}
               onClick={closeMenu}

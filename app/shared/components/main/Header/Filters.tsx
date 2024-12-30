@@ -35,15 +35,18 @@ const Filters = ({ lng }: IFiltersComp) => {
     const formData = new FormData(e.currentTarget);
     const params = new URLSearchParams(searchParams);
     params.delete("page");
-    if (formData.get("priceFrom")) {
-      params.set("priceFrom", formData.get("priceFrom") as string);
+    if (formData.get("priceInCentsFrom")) {
+      params.set(
+        "priceInCentsFrom",
+        formData.get("priceInCentsFrom") as string
+      );
     } else {
-      params.delete("priceFrom");
+      params.delete("priceInCentsFrom");
     }
-    if (formData.get("priceTo")) {
-      params.set("priceTo", formData.get("priceTo") as string);
+    if (formData.get("priceInCentsTo")) {
+      params.set("priceInCentsTo", formData.get("priceInCentsTo") as string);
     } else {
-      params.delete("priceTo");
+      params.delete("priceInCentsTo");
     }
     replace(`${pathname}?${params.toString()}`);
   };
@@ -72,15 +75,15 @@ const Filters = ({ lng }: IFiltersComp) => {
         <form onSubmit={handlePrice} className="flex gap-2 flex-col ml-5 mt-2">
           <div className="flex gap-2 items-center">
             <InputField
-              name="priceFrom"
+              name="priceInCentsFrom"
               placeholder={fromInput}
-              defaultValue={searchParams.get("priceFrom")}
+              defaultValue={searchParams.get("priceInCentsFrom")}
             />
             {" - "}
             <InputField
-              name="priceTo"
+              name="priceInCentsTo"
               placeholder={toInput}
-              defaultValue={searchParams.get("priceTo")}
+              defaultValue={searchParams.get("priceInCentsTo")}
             />
           </div>
           <button type="submit" className="link-button-blue">

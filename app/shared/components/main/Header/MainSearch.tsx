@@ -46,9 +46,6 @@ const MainSearch = ({ id, lng }: IMainSearch) => {
         {searchBtn}
       </label>
       <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3">
-          <Search size="size-4 text-gray-400" />
-        </div>
         <input
           type="search"
           id={id}
@@ -56,14 +53,14 @@ const MainSearch = ({ id, lng }: IMainSearch) => {
           onChange={handleQChange}
           onKeyDown={handleEnter}
           defaultValue={searchParams.get("q") || ""}
-          className="block w-full p-4 ps-10 text-sm focus:outline-none text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 focus:border-gray-500 dark:focus:border-gray-400 dark:text-white"
+          className="block w-full p-4 text-sm focus:outline-none text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 focus:border-gray-500 dark:focus:border-gray-400 dark:text-white"
           placeholder={placeholder}
         />
         <button
           onClick={handleSearch}
-          className="link-button-blue absolute end-2 bottom-2 font-medium text-sm"
+          className="link-button-blue absolute top-2 end-2 font-medium text-sm"
         >
-          {searchBtn}
+          <Search size="size-5" />
         </button>
       </div>
     </search>

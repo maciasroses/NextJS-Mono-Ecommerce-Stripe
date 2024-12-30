@@ -35,7 +35,7 @@ const Form = ({ lng }: { lng: string }) => {
   return (
     <>
       <div className="flex flex-col items-center gap-2">
-        <h1 className=" text-6xl">{title}</h1>
+        <h1 className="text-6xl">{title}</h1>
         {error?.message && (
           <p className="text-red-600 dark:text-red-300">
             {(error?.message as Record<string, string>)[lng]}

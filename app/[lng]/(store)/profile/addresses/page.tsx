@@ -4,16 +4,18 @@ import { getMyAddresses } from "@/app/shared/services/address/controller";
 import type {
   IAddressesList,
   IAddressSearchParams,
+  IBaseLangPage,
 } from "@/app/shared/interfaces";
 import AddressesList from "./components/AddressesList";
 import Create from "./components/Create";
 
-interface IProfileAddressesPage {
+interface IProfileAddressesPage extends IBaseLangPage {
   searchParams?: IAddressSearchParams;
 }
 
 const ProfileAddressesPage = async ({
   searchParams,
+  params: { lng },
 }: IProfileAddressesPage) => {
   const { page = "1" } = searchParams || {};
 
@@ -34,7 +36,7 @@ const ProfileAddressesPage = async ({
       <Suspense key={page} fallback={<h2>LOADING...</h2>}>
         <AddressesList searchParams={searchParamsForList} />
       </Suspense>
-      <Pagination lng="en" totalPages={totalPages} />
+      <Pagination lng={lng} totalPages={totalPages} />
     </>
   );
 };

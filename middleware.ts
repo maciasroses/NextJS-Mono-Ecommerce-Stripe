@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   const lng = cookie
     ? acceptLanguage.get(cookie.value)
     : acceptLanguage.get(request.headers.get("Accept-Language")) || fallbackLng;
-  const session = request.cookies.get("session")?.value;
+  const session = request.cookies.get("my-e-commerce-session")?.value;
   const pathname = request.nextUrl.pathname;
 
   const protectedRoutes = [

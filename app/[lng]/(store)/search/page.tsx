@@ -1,41 +1,45 @@
 import { Suspense } from "react";
 import { ProductList } from "./components";
-import { getProducts } from "@/app/shared/services/product/controller";
 import { Filters, ListSkeleton, Pagination } from "@/app/shared/components";
+import { getProductVariants } from "@/app/shared/services/product/controller";
 import type {
   IBaseLangPage,
-  IProductList,
-  IProductSearchParams,
+  IProductVariantList,
+  IProductVariantSearchParams,
 } from "@/app/shared/interfaces";
 
 interface ISearchPage extends IBaseLangPage {
-  searchParams?: IProductSearchParams;
+  searchParams?: IProductVariantSearchParams;
 }
 
 const SearchPage = async ({ searchParams, params: { lng } }: ISearchPage) => {
   const {
     q = "",
+    size = "",
     page = "1",
-    priceTo = "",
+    color = "",
     category = "",
-    priceFrom = "",
     quantityTo = "",
     quantityFrom = "",
+    priceInCentsTo = "",
+    priceInCentsFrom = "",
   } = searchParams || {};
 
   const searchParamsForList = {
     q,
+    size,
     page,
-    priceTo,
+    color,
     category,
-    priceFrom,
     quantityTo,
     quantityFrom,
+    priceInCentsTo,
+    priceInCentsFrom,
   };
 
-  const { totalPages } = (await getProducts(
+  const { totalPages } = (await getProductVariants(
     searchParamsForList
-  )) as IProductList;
+  )) as IProductVariantList;
 
   return (
     <article className="pt-40 md:pt-24 px-4 pb-4 flex md:gap-4">
@@ -46,12 +50,14 @@ const SearchPage = async ({ searchParams, params: { lng } }: ISearchPage) => {
         <Suspense
           key={
             q +
+            size +
             page +
-            priceTo +
+            color +
             category +
-            priceFrom +
             quantityTo +
-            quantityFrom
+            quantityFrom +
+            priceInCentsTo +
+            priceInCentsFrom
           }
           fallback={<ListSkeleton />}
         >

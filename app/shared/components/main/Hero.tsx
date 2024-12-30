@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "@/app/i18n/client";
-import HeroPic from "@/public/assets/products/electronics/apple-watch/apple-watch-0.webp";
+import HeroPic from "@/public/assets/products/electronics/apple-watch-series-10-gps/black_0.webp";
 
 const Hero = ({ lng }: { lng: string }) => {
   const { t } = useTranslation(lng, "root");
@@ -28,13 +28,16 @@ const Hero = ({ lng }: { lng: string }) => {
           {secondaryDescription}
         </p>
         <Link
-          href={`/${lng}/apple-watch`}
+          href={`/${lng}/apple-watch-series-10-gps`}
           className="link-button-blue mt-4 md:mt-10 text-sm sm:text-base md:text-lg lg:text-xl"
         >
           {callToActionBtn}
         </Link>
       </div>
-      <Link href={`/${lng}/apple-watch`} className="w-1/2 md:w-3/5">
+      <Link
+        href={`/${lng}/apple-watch-series-10-gps`}
+        className="w-1/2 md:w-3/5"
+      >
         <Image alt="Hero" src={HeroPic} className="size-full" priority />
       </Link>
     </section>

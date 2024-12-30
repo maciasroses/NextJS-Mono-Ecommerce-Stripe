@@ -1,7 +1,10 @@
 "use server";
 
-import { read } from "../model";
-import type { IProductSearchParams } from "@/app/shared/interfaces";
+import { read, readProductVariant } from "../model";
+import type {
+  IProductSearchParams,
+  IProductVariantSearchParams,
+} from "@/app/shared/interfaces";
 
 export async function getProducts({
   q,
@@ -23,6 +26,37 @@ export async function getProducts({
       priceFrom,
       quantityTo,
       quantityFrom,
+    });
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getProductVariants({
+  q,
+  size,
+  page,
+  color,
+  limit,
+  category,
+  quantityTo,
+  quantityFrom,
+  priceInCentsTo,
+  priceInCentsFrom,
+}: IProductVariantSearchParams) {
+  try {
+    return await readProductVariant({
+      q,
+      size,
+      page,
+      color,
+      limit,
+      category,
+      quantityTo,
+      quantityFrom,
+      priceInCentsTo,
+      priceInCentsFrom,
     });
   } catch (error) {
     console.error(error);

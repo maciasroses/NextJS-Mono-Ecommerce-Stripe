@@ -3,10 +3,10 @@ import { getMe } from "@/app/shared/services/user/controller";
 import { getMyLists } from "@/app/shared/services/customList/controller";
 import { getAllProducts } from "@/app/shared/services/product/controller";
 import type {
-  IBaseLangPage,
-  ICustomList,
-  IProduct,
   IUser,
+  IProduct,
+  ICustomList,
+  IBaseLangPage,
 } from "@/app/shared/interfaces";
 
 export default async function Home({ params: { lng } }: IBaseLangPage) {
@@ -24,13 +24,13 @@ export default async function Home({ params: { lng } }: IBaseLangPage) {
         products={products}
         category="Electronics"
       />
-      <RecentList
+      {/* <RecentList
         lng={lng}
         category="Toys"
         userId={me?.id}
         myLists={myLists}
         products={products}
-      />
+      /> */}
     </article>
   );
 }

@@ -31,15 +31,22 @@ const RecentList = ({
         {categoryLabel}
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <ProductCard
-            lng={lng}
-            key={index}
-            userId={userId}
-            myLists={myLists}
-            product={productsFilteredByCategory[index]}
-          />
-        ))}
+        {Array.from({ length: productsFilteredByCategory.length }).map(
+          (_, index) => (
+            <ProductCard
+              lng={lng}
+              key={index}
+              userId={userId}
+              myLists={myLists}
+              product={{
+                files: productsFilteredByCategory[index]?.files,
+                name: productsFilteredByCategory[index]?.name,
+                slug: productsFilteredByCategory[index]?.slug,
+                variant: productsFilteredByCategory[index]?.variants[0],
+              }}
+            />
+          )
+        )}
       </div>
     </section>
   );

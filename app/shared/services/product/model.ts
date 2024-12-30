@@ -1,7 +1,10 @@
 "use server";
 
 import prisma from "@/app/shared/services/prisma";
-import type { IProductSearchParams } from "@/app/shared/interfaces";
+import type {
+  IProductSearchParams,
+  IProductVariantSearchParams,
+} from "@/app/shared/interfaces";
 
 export async function create({
   data,
@@ -10,6 +13,21 @@ export async function create({
 }) {
   return await prisma.product.create({
     data,
+  });
+}
+
+export async function createProductVariant({
+  productId,
+  data,
+}: {
+  productId: string;
+  data: (typeof prisma.productVariant.create)["arguments"]["data"];
+}) {
+  return await prisma.productVariant.create({
+    data: {
+      ...data,
+      product: { connect: { id: productId } },
+    },
   });
 }
 
@@ -29,9 +47,14 @@ export async function read({
 }: IProductSearchParams) {
   const globalInclude = {
     files: true,
-    customProductsList: true,
-    orders: isAdminRequest ? true : false,
-    inventoryTransactions: isAdminRequest ? true : false,
+    reviews: true,
+    variants: {
+      include: {
+        customProductsList: true,
+        orders: isAdminRequest ? true : false,
+        inventoryTransactions: isAdminRequest ? true : false,
+      },
+    },
   };
 
   if (allData) {
@@ -57,9 +80,8 @@ export async function read({
       OR?: {
         [key: string]: { contains: string; mode: "insensitive" };
       }[];
-      quantity?: object;
       category?: object;
-      priceInCents?: object;
+      variants?: object;
     }
 
     const where: Where = {};
@@ -77,9 +99,141 @@ export async function read({
     }
 
     if (priceFrom || priceTo) {
+      where.variants = {
+        some: {
+          priceInCents: {
+            gte: priceFrom ? Number(priceFrom) : undefined,
+            lte: priceTo ? Number(priceTo) : undefined,
+          },
+        },
+      };
+    }
+
+    if (quantityFrom || quantityTo) {
+      where.variants = {
+        some: {
+          quantity: {
+            gte: quantityFrom ? Number(quantityFrom) : undefined,
+            lte: quantityTo ? Number(quantityTo) : undefined,
+          },
+        },
+      };
+    }
+
+    const totalCount = await prisma.product.count({ where });
+    const totalPages = Math.ceil(totalCount / Number(limit));
+    const skip = (Number(page) - 1) * Number(limit);
+    const take = Number(limit);
+
+    const products = await prisma.product.findMany({
+      where,
+      skip,
+      take,
+      include: globalInclude,
+      orderBy: { updatedAt: "desc" },
+    });
+
+    return {
+      products,
+      totalPages,
+    };
+  }
+}
+
+export async function readProductVariant({
+  q,
+  id,
+  sku,
+  slug,
+  size,
+  page = 1,
+  color,
+  limit = 6,
+  allData = false,
+  category,
+  quantityTo = undefined,
+  quantityFrom = undefined,
+  priceInCentsTo = undefined,
+  priceInCentsFrom = undefined,
+  isAdminRequest = false,
+}: IProductVariantSearchParams) {
+  const globalInclude = {
+    product: {
+      include: {
+        files: true,
+        reviews: true,
+      },
+    },
+    customProductsList: true,
+    orders: isAdminRequest ? true : false,
+    inventoryTransactions: isAdminRequest ? true : false,
+  };
+
+  if (allData) {
+    return await prisma.productVariant.findMany({
+      include: globalInclude,
+    });
+  } else {
+    if (id) {
+      return await prisma.productVariant.findUnique({
+        where: { id },
+        include: globalInclude,
+      });
+    }
+
+    if (sku) {
+      return await prisma.productVariant.findUnique({
+        where: { sku },
+        include: globalInclude,
+      });
+    }
+
+    interface Where {
+      OR?: {
+        [key: string]: {
+          [key: string]: { contains: string; mode: "insensitive" };
+        };
+      }[];
+      // slug?: object;
+      size?: object;
+      color?: object;
+      quantity?: object;
+      // category?: object;
+      priceInCents?: object;
+      product?: object;
+    }
+
+    const where: Where = {};
+
+    if (q) {
+      where.OR = [
+        { product: { name: { contains: q, mode: "insensitive" } } },
+        { product: { slug: { contains: q, mode: "insensitive" } } },
+        { product: { description: { contains: q, mode: "insensitive" } } },
+      ];
+    }
+
+    if (slug) {
+      where.product = { slug: { contains: slug, mode: "insensitive" } };
+    }
+
+    if (size) {
+      where.size = { equals: size };
+    }
+
+    if (color) {
+      where.color = { equals: color };
+    }
+
+    if (category) {
+      where.product = { category: { equals: category } };
+    }
+
+    if (priceInCentsFrom || priceInCentsTo) {
+      console.log(priceInCentsFrom, priceInCentsTo);
       where.priceInCents = {
-        gte: priceFrom ? Number((priceFrom as number) * 100) : undefined,
-        lte: priceTo ? Number((priceTo as number) * 100) : undefined,
+        gte: priceInCentsFrom ? Number(priceInCentsFrom) * 100 : undefined,
+        lte: priceInCentsTo ? Number(priceInCentsTo) * 100 : undefined,
       };
     }
 
@@ -90,12 +244,12 @@ export async function read({
       };
     }
 
-    const totalCount = await prisma.product.count({ where });
+    const totalCount = await prisma.productVariant.count({ where });
     const totalPages = Math.ceil(totalCount / Number(limit));
     const skip = (Number(page) - 1) * Number(limit);
     const take = Number(limit);
 
-    const products = await prisma.product.findMany({
+    const products = await prisma.productVariant.findMany({
       where,
       skip,
       take,
@@ -120,6 +274,20 @@ export async function update({
   return await prisma.product.update({ where: { id }, data });
 }
 
+export async function updateProductVariant({
+  id,
+  data,
+}: {
+  id: string;
+  data: (typeof prisma.productVariant.update)["arguments"]["data"];
+}) {
+  return await prisma.productVariant.update({ where: { id }, data });
+}
+
 export async function deleteById({ id }: { id: string }) {
   return await prisma.product.delete({ where: { id } });
+}
+
+export async function deleteProductVariantById({ id }: { id: string }) {
+  return await prisma.productVariant.delete({ where: { id } });
 }

@@ -3,8 +3,8 @@
 import prisma from "@/app/shared/services/prisma";
 import { isAuthenticated } from "@/app/shared/services/auth";
 import {
-  read as readProduct,
-  update as updateProduct,
+  readProductVariant,
+  updateProductVariant,
 } from "@/app/shared/services/product/model";
 import {
   readStockReservation,
@@ -14,7 +14,7 @@ import {
 } from "../model";
 import type {
   ICartItem,
-  IProduct,
+  IProductVariant,
   IStockReservation,
 } from "@/app/shared/interfaces";
 
@@ -27,7 +27,7 @@ export async function checkNUpdateStock(cart: ICartItem[]) {
 
     for (const reservation of expiredReservations) {
       await deleteStockReservation(reservation.id);
-      await updateProduct({
+      await updateProductVariant({
         id: reservation.productId,
         data: {
           quantity: {
@@ -40,7 +40,9 @@ export async function checkNUpdateStock(cart: ICartItem[]) {
     const session = await isAuthenticated();
 
     for (const item of cart) {
-      const product = (await readProduct({ slug: item.id })) as IProduct;
+      const product = (await readProductVariant({
+        id: item.id,
+      })) as IProductVariant;
 
       const reservation = (await readStockReservation({
         userId: session.userId as string,
@@ -73,7 +75,9 @@ export async function reserverStock(cart: ICartItem[]) {
       const stockReservations = [];
 
       for (const item of cart) {
-        const { id } = (await readProduct({ slug: item.id })) as IProduct;
+        const { id } = (await readProductVariant({
+          id: item.id,
+        })) as IProductVariant;
 
         const existingReservation = (await readStockReservation({
           userId: session.userId as string,
@@ -89,7 +93,7 @@ export async function reserverStock(cart: ICartItem[]) {
             },
           });
 
-          await updateProduct({
+          await updateProductVariant({
             id,
             data: {
               quantity: {
@@ -106,7 +110,7 @@ export async function reserverStock(cart: ICartItem[]) {
             quantity: item.quantity,
           });
 
-          await updateProduct({
+          await updateProductVariant({
             id,
             data: {
               quantity: {

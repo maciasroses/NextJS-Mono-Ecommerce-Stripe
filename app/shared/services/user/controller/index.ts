@@ -124,7 +124,7 @@ export async function register(_prevState: IRegisterState, formData: FormData) {
 
 export async function logout() {
   const lng = cookies().get("i18next")?.value ?? "en";
-  cookies().set("session", "", { expires: new Date(0) });
+  cookies().set("my-e-commerce-session", "", { expires: new Date(0) });
   revalidatePath(`/${lng}`);
   redirect(`/${lng}`);
 }

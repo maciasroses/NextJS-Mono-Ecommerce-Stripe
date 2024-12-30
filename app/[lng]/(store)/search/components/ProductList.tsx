@@ -1,23 +1,25 @@
 import { getMe } from "@/app/shared/services/user/controller";
 import { Card404, ProductCard } from "@/app/shared/components";
-import { getProducts } from "@/app/shared/services/product/controller";
 import { getMyLists } from "@/app/shared/services/customList/controller";
+import { getProductVariants } from "@/app/shared/services/product/controller";
 import type {
-  ICustomList,
-  IProductList,
-  IProductSearchParams,
   IUser,
+  ICustomList,
+  IProductVariantList,
+  IProductVariantSearchParams,
 } from "@/app/shared/interfaces";
 
 interface IProductListComp {
   lng: string;
-  searchParams: IProductSearchParams;
+  searchParams: IProductVariantSearchParams;
 }
 
 const ProductList = async ({ lng, searchParams }: IProductListComp) => {
   const me = (await getMe()) as IUser;
   const myLists = (await getMyLists({ isForFav: true })) as ICustomList[];
-  const { products } = (await getProducts(searchParams)) as IProductList;
+  const { products } = (await getProductVariants(
+    searchParams
+  )) as IProductVariantList;
 
   return (
     <>
@@ -26,10 +28,15 @@ const ProductList = async ({ lng, searchParams }: IProductListComp) => {
           {products.map((product) => (
             <ProductCard
               lng={lng}
-              key={product.id}
-              product={product}
-              myLists={myLists}
               userId={me?.id}
+              key={product.id}
+              myLists={myLists}
+              product={{
+                files: product.product.files,
+                name: product.product.name,
+                slug: product.product.slug,
+                variant: product,
+              }}
             />
           ))}
         </div>

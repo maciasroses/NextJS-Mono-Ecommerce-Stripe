@@ -92,7 +92,48 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                       </div>
                       <div className="w-2/3">
                         <div className="flex justify-end">
-                          {(products.find((product) => product.slug === item.id)
+                          {products.map(
+                            (product) =>
+                              (product.variants.find(
+                                (variant) => variant.id === item.id
+                              )?.quantity ?? 0) > 0 &&
+                              (product.variants.find(
+                                (variant) => variant.id === item.id
+                              )?.maximumQuantityPerOrder ?? 0) >
+                                item.quantity && (
+                                <button
+                                  key={product.slug}
+                                  aria-label="Add one more"
+                                  className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-500"
+                                  onClick={() =>
+                                    addToCart({
+                                      ...item,
+                                      quantity: 1,
+                                    })
+                                  }
+                                >
+                                  <PlusCircle />
+                                </button>
+                              )
+                          )}
+                          {/* 
+                          {(variants.find((variant) => variant.id === item.id)
+                            ?.quantity ?? 0) > 0 &&
+                            (variants.find((variant) => variant.id === item.id)
+                              ?.maximumQuantityPerOrder ?? 0) >
+                              item.quantity && (
+                              <button
+                                aria-label="Add one more"
+                                className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-500"
+                                onClick={() =>
+                                  addToCart({ ...item, quantity: 1 })
+                                }
+                              >
+                                <PlusCircle />
+                              </button>
+                            )} */}
+
+                          {/* {(products.find((product) => product.slug === item.id)
                             ?.quantity ?? 0) > 0 &&
                             (products.find(
                               (product) => product.slug === item.id
@@ -110,7 +151,8 @@ const CartMenu = ({ lng, products }: ICartMenu) => {
                               >
                                 <PlusCircle />
                               </button>
-                            )}
+                            )} */}
+
                           {item.quantity > 1 && (
                             <button
                               aria-label="Remove one"

@@ -2,26 +2,28 @@ import type {
   User,
   Cart,
   Order,
+  Review,
   Address,
   Product,
   CartItem,
+  Promotion,
   CustomList,
+  ReviewFile,
   ProductFile,
-  CommentFile,
   Notification,
+  DiscountCode,
   PaymentMethod,
   ProductOnOrder,
+  ProductVariant,
   StockReservation,
   CustomProductsList,
   InventoryTransaction,
-  Promotion,
-  DiscountCode,
 } from "@prisma/client";
 
 export interface IUser extends User {
   cart?: ICart;
   orders: IOrder[];
-  comments: IComment[];
+  reviews: IReview[];
   addresses: IAddress[];
   customLists: ICustomList[];
   notifications: INotification[];
@@ -39,15 +41,20 @@ export interface ICustomList extends CustomList {
 }
 
 export interface ICustomProductsList extends CustomProductsList {
-  product: IProduct;
+  product: IProductVariant;
   customList: ICustomList;
 }
 
 export interface IProduct extends Product {
-  comments: IComment[];
-  cartItems: ICartItemPrisma[];
+  reviews: IReview[];
   files: IProductFile[];
+  variants: IProductVariant[];
+}
+
+export interface IProductVariant extends ProductVariant {
+  product: IProduct;
   orders: IProductOnOrder[];
+  cartItems: ICartItemPrisma[];
   stockReservations: IStockReservation[];
   customProductsList: ICustomProductsList[];
   inventoryTransactions: IInventoryTransaction[];
@@ -59,25 +66,25 @@ export interface IProductFile extends ProductFile {
 
 export interface IProductOnOrder extends ProductOnOrder {
   order: IOrder;
-  product: IProduct;
+  product: IProductVariant;
 }
 
 export interface IStockReservation extends StockReservation {
   user: IUser;
-  product: IProduct;
+  product: IProductVariant;
 }
 
 export interface IOrder extends Order {
-  products: IProductOnOrder[];
   user: IUser;
   address?: IAddress;
-  payment?: IPaymentMethod;
   promotion?: IPromotion;
+  payment?: IPaymentMethod;
+  products: IProductOnOrder[];
   discountCode?: IDiscountCode;
 }
 
 export interface IInventoryTransaction extends InventoryTransaction {
-  product: IProduct;
+  product: IProductVariant;
 }
 
 export interface IPaymentMethod extends PaymentMethod {
@@ -90,14 +97,14 @@ export interface IAddress extends Address {
   orders: IOrder[];
 }
 
-export interface IComment extends Comment {
+export interface IReview extends Review {
   user: IUser;
   product: IProduct;
-  files: ICommentFile[];
+  files: IReviewFile[];
 }
 
-export interface ICommentFile extends CommentFile {
-  comment: IComment;
+export interface IReviewFile extends ReviewFile {
+  comment: IReview;
 }
 
 export interface IPromotion extends Promotion {
@@ -116,7 +123,7 @@ export interface ICart extends Cart {
 }
 
 export interface ICartItemPrisma extends CartItem {
-  product: IProduct;
+  product: IProductVariant;
   cart: ICart;
 }
 // END OF MODELS FROM PRISMA
@@ -201,6 +208,11 @@ export interface IProductList {
   totalPages: number;
 }
 
+export interface IProductVariantList {
+  products: IProductVariant[];
+  totalPages: number;
+}
+
 export interface IOrderList {
   orders: IOrder[];
   totalPages: number;
@@ -227,6 +239,24 @@ export interface IProductSearchParams {
   quantityTo?: string | number;
   quantityFrom?: string | number;
   isAdminRequest?: boolean;
+}
+
+export interface IProductVariantSearchParams {
+  q?: string;
+  id?: string;
+  sku?: string;
+  slug?: string;
+  size?: string;
+  page?: string | number;
+  color?: string;
+  limit?: string | number;
+  allData?: boolean;
+  category?: string;
+  quantityTo?: string | number;
+  quantityFrom?: string | number;
+  isAdminRequest?: boolean;
+  priceInCentsTo?: string | number;
+  priceInCentsFrom?: string | number;
 }
 
 export interface IOrderSearchParams {

@@ -3,27 +3,34 @@
 import Image from "next/image";
 import { cn } from "@/app/shared/utils/cn";
 import { useModal } from "@/app/shared/hooks";
-import formatCurrency from "@/app/shared/utils/format-currency";
-import { AddToCart, AddCustomList } from "@/app/shared/components";
+// import formatCurrency from "@/app/shared/utils/format-currency";
+// import { AddToCart, AddCustomList } from "@/app/shared/components";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftChevron, RightChevron, XMark } from "@/app/shared/icons";
-import type { ICustomList, IProduct } from "@/app/shared/interfaces";
+import type {
+  ICustomList,
+  IProduct,
+  IProductFile,
+} from "@/app/shared/interfaces";
+import { useSearchParams } from "next/navigation";
+import { formatToSnakeCase } from "@/app/shared/utils/formatToSnakeCase";
 
 interface IProductSlugCard {
   lng: string;
   userId: string;
   myLists: ICustomList[];
   product: IProduct;
-  isFavorite: boolean;
+  // isFavorite: boolean;
 }
 
 const ProductSlugCard = ({
-  lng,
-  userId,
+  // lng,
+  // userId,
   product,
-  myLists,
-  isFavorite,
-}: IProductSlugCard) => {
+}: // myLists,
+// isFavorite,
+IProductSlugCard) => {
+  console.log(product);
   const zoomRef = useRef(null);
   const leftArrowRef = useRef(null);
   const rightArrowRef = useRef(null);
@@ -31,6 +38,60 @@ const ProductSlugCard = ({
   const [selectedImage, setSelectedImage] = useState("");
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const [zoomBoxPosition, setZoomBoxPosition] = useState({ x: 0, y: 0 });
+
+  const searchParams = useSearchParams();
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<IProductFile[]>([]);
+
+  useEffect(() => {
+    const color = searchParams.get("color");
+    const size = searchParams.get("size");
+    setSelectedColor(color || (product.variants[0].color as string));
+    setSelectedSize(size || (product.variants[0].size as string));
+
+    const filteredFiles = [
+      ...product.files.filter((file) => file.url.includes("generic")),
+      ...product.files.filter((file) =>
+        file.url.includes(formatToSnakeCase(selectedColor).toLowerCase())
+      ),
+    ];
+    setSelectedFiles(filteredFiles);
+  }, [searchParams, selectedColor, product]);
+
+  console.log(selectedColor, selectedSize, selectedFiles);
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    const params = new URLSearchParams(searchParams);
+    params.set("color", color);
+  };
+
+  const handleSizeSelect = (size: string) => {
+    setSelectedSize(size);
+    const params = new URLSearchParams(searchParams);
+    params.set("size", size);
+  };
+
+  const availableColors = Array.from(
+    new Set(
+      product.variants
+        .filter((variant) => variant.color === selectedColor || !selectedColor)
+        .map((variant) => variant.color)
+    )
+  );
+
+  console.log(availableColors);
+
+  const availableSizes = Array.from(
+    new Set(
+      product.variants
+        .filter((variant) => variant.size === selectedSize || !selectedSize)
+        .map((variant) => variant.size)
+    )
+  );
+
+  console.log(availableSizes);
 
   useEffect(() => {
     setSelectedImage(product.files[0].url);
@@ -208,24 +269,48 @@ const ProductSlugCard = ({
             <div className="flex justify-between items-start gap-2">
               <div className="flex flex-col md:gap-4">
                 <h1 className="text-2xl md:text-5xl lg:text-9xl font-bold">
-                  {product.name}
+                  {/* {product.name} */}
+                  {`${product.name} (${selectedSize}) ${
+                    selectedColor !== "" ? `- ${selectedColor}` : ""
+                  }`}
                 </h1>
-                <p className="text-lg md:text-2xl lg:text-5xl">
+                {/* <p className="text-lg md:text-2xl lg:text-5xl">
                   {formatCurrency(product.priceInCents / 100, "MXN")}
-                </p>
+                </p> */}
                 <p className="text-base md:text-xl lg:text-4xl">
                   {product.description}
                 </p>
+                <div>
+                  <h2>Select Color</h2>
+                  {availableColors.map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => handleColorSelect(color)}
+                      style={{
+                        border:
+                          selectedColor === color
+                            ? "2px solid blue"
+                            : "1px solid gray",
+                        outline:
+                          selectedSize === "512 GB" && color === "Black"
+                            ? "2px dashed red"
+                            : "none",
+                      }}
+                    >
+                      {color}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <AddCustomList
+              {/* <AddCustomList
                 lng={lng}
                 userId={userId}
                 myLists={myLists}
                 productId={product.id}
                 isFavorite={isFavorite}
-              />
+              /> */}
             </div>
-            <AddToCart lng={lng} product={product} />
+            {/* <AddToCart lng={lng} product={product} /> */}
           </div>
           <div
             className="hidden md:block absolute top-0 right-0 size-full max-h-[600px] pointer-events-none"

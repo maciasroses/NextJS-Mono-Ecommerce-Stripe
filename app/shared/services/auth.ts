@@ -28,7 +28,7 @@ async function decrypt(token: string): Promise<JWTPayload> {
 export async function createUserSession(userId: string, role: string) {
   const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
   const session = await encrypt({ userId, role, expires });
-  cookies().set("session", session, {
+  cookies().set("my-e-commerce-session", session, {
     expires,
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -37,7 +37,7 @@ export async function createUserSession(userId: string, role: string) {
 }
 
 export async function getSession() {
-  const session = cookies().get("session")?.value;
+  const session = cookies().get("my-e-commerce-session")?.value;
   if (!session) return null;
   return await decrypt(session);
 }

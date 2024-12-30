@@ -14,19 +14,20 @@ enum UserRole {
 
 model User {
   id                       String    @id @default(uuid())
+  role                     UserRole  @default(USER)
   email                    String    @unique
+  image                    String    @default("/assets/images/profilepic.webp")
   password                 String
   username                 String    @unique
-  firstName                String?
   lastName                 String?
-  role                     UserRole  @default(USER)
-  image                    String    @default("/assets/images/profilepic.webp")
+  firstName                String?
+  wantsNewsletter          Boolean   @default(false)
   resetPasswordToken       String?
   resetPasswordTokenExpiry DateTime?
 
   cart              Cart?
   orders            Order[]
-  comments          Comment[]
+  reviews           Review[]
   addresses         Address[]
   customLists       CustomList[]
   notifications     Notification[]
@@ -46,10 +47,10 @@ enum NotificationType {
 
 model Notification {
   id      String           @id @default(uuid())
-  title   String
-  message String
   type    NotificationType
+  title   String
   isRead  Boolean          @default(false)
+  message String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
@@ -63,9 +64,10 @@ model CustomList {
   name        String
   description String?
 
-  user     User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String
   products CustomProductsList[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -74,9 +76,9 @@ model CustomList {
 }
 
 model CustomProductsList {
-  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product      ProductVariant @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId    String
-  customList   CustomList @relation(fields: [customListId], references: [id], onDelete: Cascade)
+  customList   CustomList     @relation(fields: [customListId], references: [id], onDelete: Cascade)
   customListId String
 
   createdAt DateTime @default(now())
@@ -93,22 +95,64 @@ enum ProductCategory {
 }
 
 model Product {
-  id                      String          @id @default(uuid())
-  name                    String
-  slug                    String          @unique
-  quantity                Int
-  category                ProductCategory
-  description             String
-  priceInCents            Int
-  maximumQuantityPerOrder Int
+  id            String          @id @default(uuid())
+  name          String
+  slug          String          @unique
+  category      ProductCategory
+  description   String
+  esDescription String
 
-  comments              Comment[]
+  reviews  Review[]
+  files    ProductFile[]
+  variants ProductVariant[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductVariant {
+  id                      String  @id @default(uuid())
+  sku                     String  @unique
+  size                    String?
+  color                   String?
+  esColor                 String?
+  quantity                Int
+  priceInCents            Int
+  maximumQuantityPerOrder Int // Afterwards delete this field and edit the logic in the service
+
   cartItems             CartItem[]
-  files                 ProductFile[]
   orders                ProductOnOrder[]
   stockReservations     StockReservation[]
   customProductsList    CustomProductsList[]
+  collections           ProductOnCollection[]
   inventoryTransactions InventoryTransaction[]
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductOnCollection {
+  product      ProductVariant @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId    String
+  collection   Collection     @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collectionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([productId, collectionId])
+}
+
+model Collection {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  imageUrl    String?
+  description String?
+
+  products ProductOnCollection[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -135,9 +179,9 @@ model ProductOnOrder {
   quantity         Int
   unitPriceInCents Int
 
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   ProductVariant @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   createdAt DateTime @default(now())
@@ -150,9 +194,9 @@ model StockReservation {
   id       String @id @default(uuid())
   quantity Int
 
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   ProductVariant @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   createdAt DateTime @default(now())
@@ -173,30 +217,31 @@ enum ShippingStatus {
 }
 
 enum PaymentStatus {
-  PENDING
   PAID
+  PENDING
   REFUNDED
 }
 
 model Order {
   id                String         @id @default(uuid())
   totalInCents      Int
-  discountInCents   Int?
-  finalTotalInCents Int
   shippingType      ShippingType   @default(STANDARD)
   paymentStatus     PaymentStatus  @default(PENDING)
   shippingStatus    ShippingStatus @default(PENDING)
+  discountInCents   Int?
+  finalTotalInCents Int
 
-  products       ProductOnOrder[]
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products ProductOnOrder[]
+
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
-  address        Address?         @relation(fields: [addressId], references: [id], onDelete: SetNull)
-  addressId      String?
-  payment        PaymentMethod?   @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  payment        PaymentMethod? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
   paymentId      String?
-  promotion      Promotion?       @relation(fields: [promotionId], references: [id])
+  address        Address?       @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  addressId      String?
+  promotion      Promotion?     @relation(fields: [promotionId], references: [id])
   promotionId    String?
-  discountCode   DiscountCode?    @relation(fields: [discountCodeId], references: [id])
+  discountCode   DiscountCode?  @relation(fields: [discountCodeId], references: [id])
   discountCodeId String?
 
   createdAt DateTime @default(now())
@@ -214,7 +259,7 @@ model InventoryTransaction {
   quantity    Int
   description String
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   ProductVariant @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   createdAt DateTime @default(now())
@@ -222,17 +267,18 @@ model InventoryTransaction {
 
 model PaymentMethod {
   id                    String    @id @default(uuid())
-  stripePaymentMethodId String    @unique
-  last4Digits           String
   brand                 String
-  expiryMonth           Int
-  expiryYear            Int
-  isDefault             Boolean   @default(false)
   isActive              Boolean   @default(true) // Soft delete
+  isDefault             Boolean   @default(false)
   deletedAt             DateTime?
+  expiryYear            Int
+  expiryMonth           Int
+  last4Digits           String
+  stripePaymentMethodId String    @unique
 
   orders Order[]
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   createdAt DateTime @default(now())
@@ -241,53 +287,52 @@ model PaymentMethod {
 
 model Address {
   id             String    @id @default(uuid())
-  fullName       String
-  address1       String
-  address2       String?
   city           String
   state          String
   zipCode        String
   country        String
-  phoneNumber    String?
-  additionalInfo String?
-  isDefault      Boolean   @default(false)
+  fullName       String
+  address1       String
+  address2       String?
   isActive       Boolean   @default(true) // Soft delete
   deletedAt      DateTime?
+  isDefault      Boolean   @default(false)
+  phoneNumber    String?
+  additionalInfo String?
 
   orders Order[]
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Comment {
-  id       String    @id @default(uuid())
-  content  String?
-  rating   Int // 1-5
-  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
-  parentId String?
-  replies  Comment[] @relation("CommentReplies")
+model Review {
+  id         String  @id @default(uuid())
+  rating     Int // 1-5
+  content    String?
+  likesCount Int?    @default(0)
+
+  files ReviewFile[]
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  files CommentFile[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model CommentFile {
+model ReviewFile {
   id   String   @id @default(uuid())
   url  String
   type FileType
 
-  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  commentId String
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -301,12 +346,12 @@ enum DiscountType {
 model Promotion {
   id            String       @id @default(uuid())
   title         String
+  endDate       DateTime
+  isActive      Boolean      @default(true)
+  startDate     DateTime
   description   String
   discountType  DiscountType
   discountValue Float
-  startDate     DateTime
-  endDate       DateTime
-  isActive      Boolean      @default(true)
 
   orders        Order[]
   discountCodes DiscountCode[]
@@ -318,11 +363,12 @@ model Promotion {
 model DiscountCode {
   id         String  @id @default(uuid())
   code       String  @unique
-  usageLimit Int?
-  timesUsed  Int     @default(0)
   isActive   Boolean @default(true)
+  timesUsed  Int     @default(0)
+  usageLimit Int?
 
-  orders      Order[]
+  orders Order[]
+
   promotion   Promotion @relation(fields: [promotionId], references: [id])
   promotionId String
 
@@ -333,9 +379,10 @@ model DiscountCode {
 model Cart {
   id String @id @default(uuid())
 
-  items  CartItem[]
-  user   User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
+  items CartItem[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -348,13 +395,26 @@ model CartItem {
   quantity     Int
   priceInCents Int
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String
+  product   ProductVariant @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([productId, cartId])
+}
+
+model Hero {
+  id          String  @id @default(uuid())
+  title       String?
+  subtitle    String?
+  description String?
+  imageUrl    String
+  link        String
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

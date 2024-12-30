@@ -18,11 +18,11 @@ const SlugPage = async ({ params: { lng, slug } }: ISlugPage) => {
   const product = (await getProductBySlug({ slug })) as IProduct;
   if (!product) notFound();
 
-  const isFavorite = myLists.some((list) => {
-    return list.products.some(
-      (listProduct) => listProduct.productId === product.id
-    );
-  });
+  // const isFavorite = myLists.some((list) => {
+  //   return list.products.some(
+  //     (listProduct) => listProduct.productId === product.id
+  //   );
+  // });
 
   return (
     <div className="pt-40 md:pt-24 px-4 pb-4">
@@ -31,7 +31,7 @@ const SlugPage = async ({ params: { lng, slug } }: ISlugPage) => {
         userId={me?.id}
         product={product}
         myLists={myLists}
-        isFavorite={isFavorite}
+        // isFavorite={isFavorite}
       />
     </div>
   );
